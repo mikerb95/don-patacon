@@ -1,0 +1,39 @@
+---
+import type { FoodItemEntry, FoodItemEntryMetaItem, MealTypeEntry, MealTypeEntryMetaItem, MenuPageEntry, MenuPageEntryMetaItem } from "../../../bcms/types/ts";
+import MenuMeals from "../../components/menu-page/Meals";
+import Layout from "../../layouts/Layout.astro";
+import { bcmsPrivate } from '../../bcms-private';
+import { bcmsPublic } from '../../bcms-public';
+
+const menuPageEntries = (await bcmsPrivate.entry.getBySlug(
+    'menu',
+    'menu-page',
+)) as MenuPageEntry;
+
+if (!menuPageEntries) {
+    return notFound();
+}
+
+const menuPageMeta = menuPageEntries.meta.en as MenuPageEntryMetaItem;
+
+const mealTypes = (
+    (await bcmsPrivate.entry.getAll('meal-type')) as MealTypeEntry[]
+).map((e) => e.meta.en as MealTypeEntryMetaItem);
+const foodItems = (
+    (await bcmsPrivate.entry.getAll('food-item')) as FoodItemEntry[]
+).map((e) => e.meta.en as FoodItemEntryMetaItem);
+
+const bcmsConfig = bcmsPublic.getConfig();
+---
+
+<Layout title={`${menuPageMeta.seo?.title || menuPageMeta.title} - Tastyyy`}>
+    <div>
+        <MenuMeals
+            meta={menuPageMeta}
+            meals={mealTypes}
+            foodItems={foodItems}
+            client:load
+            bcmsConfig={bcmsConfig}
+        />
+    </div>
+</Layout>

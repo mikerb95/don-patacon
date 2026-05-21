@@ -1,0 +1,39 @@
+---
+import type { AboutPageEntry, AboutPageEntryMetaItem } from "../../../bcms/types/ts";
+import AboutHero from "../../components/about-page/Hero";
+import AboutTextImage from "../../components/about-page/TextImage";
+import Layout from "../../layouts/Layout.astro";
+import { bcmsPrivate } from '../../bcms-private';
+import { bcmsPublic } from '../../bcms-public';
+
+const aboutPageEntry = (await bcmsPrivate.entry.getBySlug(
+    'about-us',
+    'about-page',
+)) as AboutPageEntry;
+
+if (!aboutPageEntry) {
+    return notFound();
+}
+
+const aboutPageMeta = aboutPageEntry.meta.en as AboutPageEntryMetaItem;
+
+const bcmsConfig = bcmsPublic.getConfig();
+---
+
+<Layout title={`${aboutPageMeta.seo?.title || aboutPageMeta.title} - Tastyyy`}>
+    <div>
+        <AboutHero
+            title={aboutPageMeta.hero_title}
+            subtitle={aboutPageMeta.hero_subtitle}
+            description={aboutPageMeta.hero_description}
+            cover={aboutPageMeta.hero_cover}
+            client:load
+            bcmsConfig={bcmsConfig}
+        />
+        <AboutTextImage
+            data={aboutPageMeta.text_image_cols}
+            client:load
+            bcmsConfig={bcmsConfig}
+        />
+    </div>
+</Layout>
