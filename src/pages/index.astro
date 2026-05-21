@@ -46,42 +46,42 @@ const bcmsConfig = bcmsPublic.getConfig();
                 title={homePageMeta.menu_title}
                 description={homePageMeta.menu_description}
                 meals={homePageMeta.menu_meals}
-                client:load
+                client:visible
                 bcmsConfig={bcmsConfig}
             />
             <HomeSeasons
                 title={homePageMeta.seasons_title}
                 description={homePageMeta.seasons_description}
                 seasons={homePageMeta.seasons}
-                client:load
+                client:visible
                 bcmsConfig={bcmsConfig}
             />
             <HomeAmbience
                 title={homePageMeta.ambience_title}
                 description={homePageMeta.ambience_description}
                 items={homePageMeta.ambience_items}
-                client:load
+                client:visible
                 bcmsConfig={bcmsConfig}
             />
             <HomeSpecials
                 title={homePageMeta.specials_title}
                 description={homePageMeta.specials_description}
                 items={foodItems.map((e) => e.meta.en as FoodItemEntryMetaItem)}
-                client:load
+                client:visible
                 bcmsConfig={bcmsConfig}
             />
             <HomeEvents
                 title={homePageMeta.events_title}
                 description={homePageMeta.events_description}
                 events={homePageMeta.events}
-                client:load
+                client:visible
                 bcmsConfig={bcmsConfig}
             />
             <HomeTestimonials
                 title={homePageMeta.testimonials_title}
                 description={homePageMeta.testimonials_description}
                 testimonials={homePageMeta.testimonials}
-                client:load
+                client:visible
                 bcmsConfig={bcmsConfig}
             />
     </div>
