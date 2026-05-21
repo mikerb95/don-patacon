@@ -197,7 +197,7 @@ const ReservationForm: React.FC<Props> = ({ title }) => {
                             </div>
                             <div className="text-xs leading-[1.2] tracking-[-0.41px] text-[#665E5E] lg:text-base lg:leading-[1.2]">
                                 By submitting this form, you confirm you have
-                                read and understood how Tastyyy processes your
+                                read and understood how DON PATACÓN processes your
                                 personal data for the purpose of making a
                                 reservation and in accordance with the terms of
                                 the
