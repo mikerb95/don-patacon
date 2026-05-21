@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MenuIcon from '../../assets/icons/menu.svg?raw';
 import XIcon from '../../assets/icons/x.svg?raw';
 import Logo from '../../assets/icons/logo.svg?raw';
@@ -6,47 +6,29 @@ import classNames from 'classnames';
 import Btn from '../Btn';
 
 const Header: React.FC = () => {
-    const navItemsDOM = useRef<HTMLDivElement | null>(null);
     const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
 
     const nav = [
-        {
-            label: 'Home',
-            href: '/',
-        },
-        {
-            label: 'Menu',
-            href: '/menu',
-        },
-        {
-            label: 'Events',
-            href: '/events',
-        },
-        {
-            label: 'Reservation',
-            href: '/reservation',
-        },
+        { label: 'Inicio', href: '/' },
+        { label: 'Carta', href: '/menu' },
+        { label: 'Eventos', href: '/events' },
+        { label: 'Reservas', href: '/reservation' },
     ];
 
     useEffect(() => {
-        const handleMobileNavClickOutside = (event: MouseEvent) => {
-            const navItemsEl = navItemsDOM.current;
-
-            if (navItemsEl && !navItemsEl.contains(event.target as Node)) {
-                setShowMobileMenu(false);
-            }
+        if (!showMobileMenu) return;
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setShowMobileMenu(false);
         };
-
-        if (showMobileMenu) {
-            document.addEventListener('click', handleMobileNavClickOutside);
-        } else {
-            document.removeEventListener('click', handleMobileNavClickOutside);
-        }
-
+        document.addEventListener('keydown', onKey);
+        document.body.style.overflow = 'hidden';
         return () => {
-            document.removeEventListener('click', handleMobileNavClickOutside);
+            document.removeEventListener('keydown', onKey);
+            document.body.style.overflow = '';
         };
     }, [showMobileMenu]);
+
+    const closeMenu = () => setShowMobileMenu(false);
 
     return (
         <header className="relative z-50">
@@ -55,21 +37,20 @@ const Header: React.FC = () => {
                     <a
                         href="/"
                         className="flex md:flex-1"
-                        aria-label="Home page"
+                        aria-label="Página principal"
                     >
                         <div
                             dangerouslySetInnerHTML={{ __html: Logo }}
                             className={classNames('w-[60px] md:w-[101px]', {
-                                'max-md:grayscale-0 max-md:brightness-[0.2] max-md:invert-0':
-                                    showMobileMenu,
+                                'max-md:invert': showMobileMenu,
                             })}
+                            aria-hidden="true"
                         />
                     </a>
                     <ul
                         className={classNames(
-                            'flex flex-col gap-4 max-md:absolute max-md:left-0 max-md:-bottom-9 max-md:translate-y-full max-md:w-full md:flex-row md:flex-1 md:justify-center lg:gap-8',
+                            'flex flex-col gap-4 max-md:absolute max-md:left-0 max-md:-bottom-9 max-md:translate-y-full max-md:w-full max-md:px-4 md:flex-row md:flex-1 md:justify-center lg:gap-8',
                             {
-                                'flex flex-co': showMobileMenu,
                                 'max-md:hidden': !showMobileMenu,
                             },
                         )}
@@ -78,6 +59,7 @@ const Header: React.FC = () => {
                             <li key={index}>
                                 <a
                                     href={item.href}
+                                    onClick={closeMenu}
                                     className="text-lg leading-none tracking-[-0.41px] uppercase md:text-sm"
                                 >
                                     {item.label}
@@ -86,39 +68,51 @@ const Header: React.FC = () => {
                         ))}
                         <li>
                             <a
-                                href="/"
+                                href="/contact"
+                                onClick={closeMenu}
                                 className="text-lg leading-none tracking-[-0.41px] uppercase md:hidden"
                             >
-                                Contact us
+                                Contacto
                             </a>
                         </li>
                     </ul>
                     <div className="flex justify-end max-md:hidden md:flex-1">
                         <Btn to="/contact" className="uppercase">
-                            <span>Contact us</span>
+                            <span>Contacto</span>
                         </Btn>
                     </div>
                     <button
+                        type="button"
                         className="flex md:hidden"
-                        aria-label="Toggle mobile menu"
+                        aria-label={
+                            showMobileMenu ? 'Cerrar menú' : 'Abrir menú'
+                        }
+                        aria-expanded={showMobileMenu}
                         onClick={() => setShowMobileMenu((prev) => !prev)}
                     >
                         {showMobileMenu ? (
                             <div
                                 dangerouslySetInnerHTML={{ __html: XIcon }}
                                 className="w-6 h-6"
+                                aria-hidden="true"
                             />
                         ) : (
                             <div
                                 dangerouslySetInnerHTML={{ __html: MenuIcon }}
                                 className="w-6 h-6"
+                                aria-hidden="true"
                             />
                         )}
                     </button>
                 </nav>
             </div>
             {showMobileMenu && (
-                <div className="fixed top-0 left-0 w-screen h-screen bg-appAccent md:hidden" />
+                <button
+                    type="button"
+                    aria-label="Cerrar menú"
+                    onClick={closeMenu}
+                    className="fixed top-0 left-0 w-screen h-screen bg-appAccent md:hidden -z-0"
+                />
             )}
         </header>
     );
