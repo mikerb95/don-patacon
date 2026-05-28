@@ -10,6 +10,7 @@ interface ButtonLinkProps {
     size?: 'sm' | 'regular' | 'lg';
     className?: string;
     onClick?: () => void;
+    type?: 'button' | 'submit';
 }
 
 const Btn: React.FC<PropsWithChildren<ButtonLinkProps>> = ({
@@ -20,6 +21,7 @@ const Btn: React.FC<PropsWithChildren<ButtonLinkProps>> = ({
     children,
     className,
     onClick,
+    type = 'button',
 }) => {
     const [isArrowVisible, setIsArrowVisible] = useState(false);
     const transitionRef = useRef(null);
@@ -76,6 +78,7 @@ const Btn: React.FC<PropsWithChildren<ButtonLinkProps>> = ({
                 </a>
             ) : (
                 <button
+                    type={type}
                     className={classnames(
                         linkClasses,
                         'flex justify-center w-full',

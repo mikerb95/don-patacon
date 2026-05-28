@@ -5,6 +5,7 @@ import { BCMSImage } from '@thebcms/components-react';
 import type { PropMediaDataParsed } from '@thebcms/types';
 import type { ClientConfig } from '@thebcms/client';
 import Btn from '../Btn';
+import { siteConfig } from '../../config/site';
 
 interface Props {
     map: PropMediaDataParsed;
@@ -47,7 +48,7 @@ const HomeMap: React.FC<Props> = ({ map, bcmConfig }) => {
                 )}
                 onClick={() => setShowMap((prev) => !prev)}
             >
-                Open maps
+                Ver mapa
             </button>
             <Transition
                 appear={true}
