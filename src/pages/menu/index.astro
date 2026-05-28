@@ -11,7 +11,7 @@ const menuPageEntries = (await bcmsPrivate.entry.getBySlug(
 )) as MenuPageEntry;
 
 if (!menuPageEntries) {
-    return notFound();
+    return Astro.rewrite('/404');
 }
 
 const menuPageMeta = menuPageEntries.meta.en as MenuPageEntryMetaItem;
