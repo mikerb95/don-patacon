@@ -14,7 +14,7 @@ const contactPageEntry = (await bcmsPrivate.entry.getBySlug(
 )) as ContactPageEntry;
 
 if (!contactPageEntry) {
-    return notFound();
+    return Astro.rewrite('/404');
 }
 
 const contactPageMeta = contactPageEntry.meta.en as ContactPageEntryMetaItem;
