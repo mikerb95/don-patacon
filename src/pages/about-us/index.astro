@@ -12,7 +12,7 @@ const aboutPageEntry = (await bcmsPrivate.entry.getBySlug(
 )) as AboutPageEntry;
 
 if (!aboutPageEntry) {
-    return notFound();
+    return Astro.rewrite('/404');
 }
 
 const aboutPageMeta = aboutPageEntry.meta.en as AboutPageEntryMetaItem;

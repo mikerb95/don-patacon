@@ -10,7 +10,7 @@ const reservationPage = (await bcmsPrivate.entry.getBySlug(
 )) as ReservationPageEntry;
 
 if (!reservationPage) {
-    return notFound();
+    return Astro.rewrite('/404');
 }
 
 const reservationPageMeta = reservationPage.meta.en as ReservationPageEntryMetaItem;
