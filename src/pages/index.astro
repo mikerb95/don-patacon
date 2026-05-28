@@ -19,7 +19,7 @@ const homePageEntry = (await bcmsPrivate.entry.getBySlug(
 )) as HomePageEntry;
 
 if (!homePageEntry) {
-    return notFound();
+    return Astro.rewrite('/404');
 }
 
 const homePageMeta = homePageEntry.meta.en as HomePageEntryMetaItem;
