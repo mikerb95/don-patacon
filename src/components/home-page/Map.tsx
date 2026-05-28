@@ -73,18 +73,18 @@ const HomeMap: React.FC<Props> = ({ map, bcmConfig }) => {
                             <div className="grid grid-cols-2 gap-3 mt-6 pointer-events-auto xl:hidden">
                                 <Btn
                                     theme="fill"
-                                    hide-arrow
+                                    hideArrow
                                     className="justify-center uppercase"
                                     onClick={() => setShowMap(false)}
                                 >
-                                    <span className="text-appText">Close</span>
+                                    <span className="text-appText">Cerrar</span>
                                 </Btn>
                                 <Btn
-                                    hide-arrow
+                                    hideArrow
+                                    to={siteConfig.maps.url}
                                     className="justify-center uppercase"
-                                    onClick={() => setShowMap(false)}
                                 >
-                                    <span>Open maps</span>
+                                    <span>Abrir mapa</span>
                                 </Btn>
                             </div>
                         </div>
