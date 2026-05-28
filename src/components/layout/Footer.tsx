@@ -20,8 +20,8 @@ const Footer: React.FC = () => {
     ].filter(Boolean) as { label: string; href: string }[];
 
     const legal = [
-        { label: 'Términos y condiciones', href: '/legal/terms' },
-        { label: 'Política de privacidad', href: '/legal/privacy' },
+        { label: 'Términos y condiciones', href: '/legal' },
+        { label: 'Política de privacidad', href: '/legal' },
     ];
 
     const nav = [
