@@ -226,7 +226,7 @@ const ReservationForm: React.FC<Props> = ({ title }) => {
                                 personales para gestionar la reserva, según
                                 nuestra{' '}
                                 <a
-                                    href="/legal/privacy"
+                                    href="/legal"
                                     className="underline"
                                 >
                                     política de privacidad
