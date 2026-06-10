@@ -3,10 +3,12 @@ import FormText from './Text';
 import classNames from 'classnames';
 import Btn from '../Btn';
 import ArchWithStar from '../ArchWithStar';
-import { siteConfig } from '../../config/site';
 
 interface Props {
     title: string;
+    businessName: string;
+    /** Número de WhatsApp sin '+', sin espacios. Ej: 573001234567 */
+    whatsappNumber: string;
 }
 
 interface ReservationForm {
