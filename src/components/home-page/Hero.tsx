@@ -19,6 +19,7 @@ interface Props {
     map: PropMediaDataParsed;
     description: InlineTextWithImageGroup[];
     bcmsConfig: ClientConfig;
+    mapsUrl: string;
 }
 
 const HomeHero: React.FC<Props> = ({
@@ -28,6 +29,7 @@ const HomeHero: React.FC<Props> = ({
     map,
     description,
     bcmsConfig,
+    mapsUrl,
 }) => {
     return (
         <section className="pt-10 md:pt-20 lg:pt-[200px]">

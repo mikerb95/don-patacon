@@ -5,14 +5,14 @@ import { BCMSImage } from '@thebcms/components-react';
 import type { PropMediaDataParsed } from '@thebcms/types';
 import type { ClientConfig } from '@thebcms/client';
 import Btn from '../Btn';
-import { siteConfig } from '../../config/site';
 
 interface Props {
     map: PropMediaDataParsed;
     bcmConfig: ClientConfig;
+    mapsUrl: string;
 }
 
-const HomeMap: React.FC<Props> = ({ map, bcmConfig }) => {
+const HomeMap: React.FC<Props> = ({ map, bcmConfig, mapsUrl }) => {
     const [showMap, setShowMap] = useState<boolean>(false);
 
     const mapRef = useRef<HTMLDivElement | null>(null);
@@ -81,7 +81,7 @@ const HomeMap: React.FC<Props> = ({ map, bcmConfig }) => {
                                 </Btn>
                                 <Btn
                                     hideArrow
-                                    to={siteConfig.maps.url}
+                                    to={mapsUrl}
                                     className="justify-center uppercase"
                                 >
                                     <span>Abrir mapa</span>
