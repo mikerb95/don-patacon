@@ -97,7 +97,7 @@ const Footer: React.FC<Props> = ({ business }) => {
                 </div>
                 <div className="flex flex-col items-center text-center md:flex-row md:justify-between">
                     <div className="text-xs leading-none text-appGray-500 md:text-base md:leading-none md:text-appBody">
-                        &copy; {new Date().getFullYear()} {siteConfig.name}. Todos
+                        &copy; {new Date().getFullYear()} {business.name}. Todos
                         los derechos reservados.
                     </div>
                 </div>
