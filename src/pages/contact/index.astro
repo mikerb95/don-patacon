@@ -20,6 +20,7 @@ if (!contactPageEntry) {
 const contactPageMeta = contactPageEntry.meta.en as ContactPageEntryMetaItem;
 
 const bcmsConfig = bcmsPrivate.getConfig();
+const business = await getBusinessInfo();
 ---
 
 <Layout title={`${contactPageMeta.seo?.title || contactPageMeta.title} - DON PATACÓN`}>
