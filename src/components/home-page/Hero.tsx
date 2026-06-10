@@ -71,7 +71,7 @@ const HomeHero: React.FC<Props> = ({
                             <div className="text-lg leading-none mb-1.5">
                                 {address}
                             </div>
-                            <HomeMap map={map} bcmConfig={bcmsConfig} />
+                            <HomeMap map={map} bcmConfig={bcmsConfig} mapsUrl={mapsUrl} />
                         </div>
                         <div className="h-px flex-1 bg-[#D9D9D9] mx-4 max-xl:hidden" />
                         <div className="bg-white px-4 py-[14px] rounded-[128px] max-w-max lg:px-20 lg:py-14">
@@ -105,7 +105,7 @@ const HomeHero: React.FC<Props> = ({
                         <div className="text-sm leading-none mb-1.5 lg:text-lg lg:leading-none">
                             {address}
                         </div>
-                        <HomeMap map={map} bcmConfig={bcmsConfig} />
+                        <HomeMap map={map} bcmConfig={bcmsConfig} mapsUrl={mapsUrl} />
                     </div>
                     <ContentManager
                         items={open_time.nodes}
