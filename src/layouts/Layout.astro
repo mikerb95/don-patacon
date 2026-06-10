@@ -1,6 +1,7 @@
 ---
 import Footer from '../components/layout/Footer';
 import Header from '../components/layout/Header';
+import { getBusinessInfo } from '../config/business';
 import '../styles/fonts.css';
 
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
 }
 
 const { title } = Astro.props;
+const business = await getBusinessInfo();
 const ogImageUrl = '/thumbnail.jpg';
 ---
 
