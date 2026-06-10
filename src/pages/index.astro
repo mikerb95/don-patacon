@@ -28,6 +28,7 @@ const homePageMeta = homePageEntry.meta.en as HomePageEntryMetaItem;
 const foodItems = (await bcmsPrivate.entry.getAll('food-item')) as FoodItemEntry[];
 
 const bcmsConfig = bcmsPublic.getConfig();
+const business = await getBusinessInfo();
 ---
 
 <Layout
