@@ -20,6 +20,11 @@ const business = await getBusinessInfo();
 
 <Layout title={`${reservationPageMeta.seo?.title || reservationPageMeta.title} - DON PATACÓN`}>
     <div>
-        <ReservationForm title={reservationPageMeta.title} client:load />
+        <ReservationForm
+            title={reservationPageMeta.title}
+            businessName={business.name}
+            whatsappNumber={business.whatsapp.number}
+            client:load
+        />
     </div>
 </Layout>
