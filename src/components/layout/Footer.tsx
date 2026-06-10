@@ -1,21 +1,25 @@
 import React from 'react';
-import { siteConfig } from '../../config/site';
+import type { BusinessInfo } from '../../config/business';
 
-const Footer: React.FC = () => {
+interface Props {
+    business: BusinessInfo;
+}
+
+const Footer: React.FC<Props> = ({ business }) => {
     const social = [
-        { label: 'Instagram', href: siteConfig.social.instagram },
-        { label: 'Facebook', href: siteConfig.social.facebook },
-        { label: 'X', href: siteConfig.social.x },
+        { label: 'Instagram', href: business.social.instagram },
+        { label: 'Facebook', href: business.social.facebook },
+        { label: 'X', href: business.social.x },
     ].filter((item) => !!item.href);
 
     const contact = [
-        siteConfig.phone.display && {
-            label: siteConfig.phone.display,
-            href: `tel:${siteConfig.phone.e164}`,
+        business.phone.display && {
+            label: business.phone.display,
+            href: `tel:${business.phone.e164}`,
         },
-        siteConfig.email && {
-            label: siteConfig.email,
-            href: `mailto:${siteConfig.email}`,
+        business.email && {
+            label: business.email,
+            href: `mailto:${business.email}`,
         },
     ].filter(Boolean) as { label: string; href: string }[];
 
@@ -31,9 +35,9 @@ const Footer: React.FC = () => {
     ].filter(Boolean) as { title: string; items: { label: string; href: string }[] }[];
 
     const addressLines = [
-        siteConfig.address.line1,
-        siteConfig.address.line2,
-        [siteConfig.address.city, siteConfig.address.country]
+        business.address.line1,
+        business.address.line2,
+        [business.address.city, business.address.country]
             .filter(Boolean)
             .join(', '),
     ].filter(Boolean);
@@ -49,10 +53,10 @@ const Footer: React.FC = () => {
                                 {i < addressLines.length - 1 && <br />}
                             </React.Fragment>
                         ))}
-                        {siteConfig.hours && (
+                        {business.hours && (
                             <>
                                 <br />
-                                <span className="block mt-2">{siteConfig.hours}</span>
+                                <span className="block mt-2">{business.hours}</span>
                             </>
                         )}
                     </address>
