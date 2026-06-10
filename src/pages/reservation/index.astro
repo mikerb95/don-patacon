@@ -3,6 +3,7 @@ import type { ReservationPageEntry, ReservationPageEntryMetaItem } from "../../.
 import ReservationForm from "../../components/reservation-page/Form";
 import Layout from "../../layouts/Layout.astro";
 import { bcmsPrivate } from '../../bcms-private';
+import { getBusinessInfo } from '../../config/business';
 
 const reservationPage = (await bcmsPrivate.entry.getBySlug(
     'reservation',
@@ -14,6 +15,7 @@ if (!reservationPage) {
 }
 
 const reservationPageMeta = reservationPage.meta.en as ReservationPageEntryMetaItem;
+const business = await getBusinessInfo();
 ---
 
 <Layout title={`${reservationPageMeta.seo?.title || reservationPageMeta.title} - DON PATACÓN`}>
