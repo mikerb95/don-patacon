@@ -90,7 +90,7 @@ const ReservationForm: React.FC<Props> = ({
             lines.push('', 'Notas:', form.notes.trim());
         }
         const text = encodeURIComponent(lines.join('\n'));
-        return `https://wa.me/${siteConfig.whatsapp.number}?text=${text}`;
+        return `https://wa.me/${whatsappNumber}?text=${text}`;
     };
 
     const handleSubmit = () => {
