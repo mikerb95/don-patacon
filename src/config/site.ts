@@ -1,8 +1,11 @@
 /**
- * Configuración central del sitio.
+ * Configuración central del sitio — valores de FALLBACK.
  *
- * Estos datos deben moverse a BCMS (ver BCMS-SETUP.md). Mientras tanto se leen
- * de variables de entorno con fallback a valores TODO_ visibles.
+ * La fuente primaria de la información del comercio es BCMS (template
+ * `business-info`, ver BCMS-SETUP.md). Estos valores, leídos de variables de
+ * entorno con fallback a TODO_ visibles, solo se usan si la entry no existe
+ * en BCMS. No leas este objeto directamente para datos del comercio: usa
+ * `getBusinessInfo()` de src/config/business.ts.
  *
  * En Vercel: definir como Environment Variables (Project Settings → Environment).
  * Local: copiar .env.example a .env.local y completar.
