@@ -6,7 +6,7 @@ import ContentManager from "../../components/ContentManager";
 import Layout from "../../layouts/Layout.astro";
 import Btn from "../../components/Btn";
 import { bcmsPrivate } from '../../bcms-private';
-import { siteConfig } from '../../config/site';
+import { getBusinessInfo } from '../../config/business';
 
 const contactPageEntry = (await bcmsPrivate.entry.getBySlug(
     'contact',
