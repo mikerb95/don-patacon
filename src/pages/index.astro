@@ -12,6 +12,7 @@ import 'swiper/css';
 import Layout from '../layouts/Layout.astro';
 import { bcmsPrivate } from '../bcms-private';
 import { bcmsPublic } from '../bcms-public';
+import { getBusinessInfo } from '../config/business';
 
 const homePageEntry = (await bcmsPrivate.entry.getBySlug(
     'home',
