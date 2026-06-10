@@ -43,6 +43,7 @@ const business = await getBusinessInfo();
                 description={homePageMeta.description}
                 client:load
                 bcmsConfig={bcmsConfig}
+                mapsUrl={business.maps.url}
             />
             <HomeMenu
                 title={homePageMeta.menu_title}
