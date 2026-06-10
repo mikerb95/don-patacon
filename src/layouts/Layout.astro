@@ -45,7 +45,7 @@ const ogImageUrl = '/thumbnail.jpg';
         <div class="overflow-hidden flex flex-col min-h-screen">
             <Header client:load />
             <main id="main-content" class="flex flex-col flex-1"><slot /></main>
-            <Footer />
+            <Footer business={business} />
         </div>
     </body>
 </html>
