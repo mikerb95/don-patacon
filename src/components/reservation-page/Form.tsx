@@ -29,7 +29,11 @@ const PHONE_RE = /^[+()\d\s.-]{6,}$/;
 
 const todayISO = () => new Date().toISOString().slice(0, 10);
 
-const ReservationForm: React.FC<Props> = ({ title }) => {
+const ReservationForm: React.FC<Props> = ({
+    title,
+    businessName,
+    whatsappNumber,
+}) => {
     const [form, setForm] = useState<ReservationForm>({
         name: '',
         guestsCount: '',
