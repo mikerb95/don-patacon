@@ -228,7 +228,7 @@ const ReservationForm: React.FC<Props> = ({
                             </div>
                             <div className="text-xs leading-[1.2] tracking-[-0.41px] text-[#665E5E] lg:text-base lg:leading-[1.2]">
                                 Al enviar este formulario confirmas que has leído
-                                y aceptas cómo {siteConfig.name} trata tus datos
+                                y aceptas cómo {businessName} trata tus datos
                                 personales para gestionar la reserva, según
                                 nuestra{' '}
                                 <a
