@@ -77,7 +77,7 @@ const ReservationForm: React.FC<Props> = ({
 
     const buildWhatsAppUrl = (): string => {
         const lines = [
-            `Hola, quiero hacer una reserva en ${siteConfig.name}.`,
+            `Hola, quiero hacer una reserva en ${businessName}.`,
             '',
             `Nombre: ${form.name}`,
             `Fecha: ${form.date}`,
