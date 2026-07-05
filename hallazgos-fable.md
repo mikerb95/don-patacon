@@ -83,3 +83,63 @@ El `.gitignore` cubre `.env*.local` pero **no** `.env`. Si algún día se crea u
 3. Tipar los parámetros `e` en `Meals.tsx` y `Seasons.tsx`.
 4. Planear la migración a Astro 7 (resuelve las vulnerabilidades altas de `astro`, breaking change).
 5. Actualizar Vercel CLI.
+
+---
+
+# Análisis de brechas — web completa de restaurante
+
+- **Fecha:** 2026-07-05
+- **Alcance:** revisión funcional del sitio contra lo que espera cubrir una web completa de restaurante, según el modelo de negocio.
+
+## Lo que ya está cubierto
+
+Home completa (hero, ambiente, especiales, temporadas, testimonios, mapa), carta, carta de temporada, eventos, nosotros, contacto, reserva vía WhatsApp, legal y 404. Los datos del negocio vienen de BCMS con fallback a variables de entorno, y hay buenas bases técnicas (CSP, accesibilidad básica, skip-link).
+
+## Brechas principales
+
+### 1. La reserva no deja rastro en el negocio (prioridad ALTA)
+
+El formulario (`src/components/reservation-page/Form.tsx`) solo arma un deep-link de `wa.me` y lo abre en otra pestaña. Si el cliente no tiene WhatsApp, no envía el mensaje, o cierra la pestaña, la reserva se pierde y el restaurante nunca se entera. Tampoco hay noción de disponibilidad ni de horario de apertura al elegir fecha/hora.
+
+**Remediación:** endpoint (Vercel Function) que guarde la solicitud y/o envíe un email al restaurante, con confirmación al cliente. WhatsApp puede quedar como opción, no como único camino.
+
+### 2. SEO local — el canal #1 de un restaurante (prioridad ALTA)
+
+Hoy no existe:
+
+- **JSON-LD de Schema.org** (`Restaurant` / `LocalBusiness` con dirección, horario, teléfono, `Menu`) — es lo que alimenta el panel de Google y el local pack de Maps.
+- **Sitemap ni robots.txt** (falta `site` en `astro.config.mjs` y `@astrojs/sitemap`).
+- **Meta por página:** `Layout.astro` tiene descripción y OG fijos para todo el sitio; menú, eventos y reservas comparten la misma descripción. Además `og:image` usa ruta relativa (`/thumbnail.jpg`), que las redes sociales no resuelven — necesita URL absoluta.
+- **Canónicas.**
+
+### 3. El horario es un string plano (prioridad MEDIA)
+
+`hours` es una sola línea de texto. Para mostrar "abierto ahora", para el `openingHoursSpecification` de Schema.org y para validar la hora de reserva, hace falta estructura por día en BCMS.
+
+### 4. Pedidos / delivery (prioridad ALTA según modelo de negocio)
+
+No hay ningún camino para pedir comida: ni enlaces a plataformas (Rappi, etc.), ni pedido por WhatsApp, ni carta con precios descargable (PDF). Relacionado: no hay precios, alérgenos ni etiquetas dietéticas en la carta.
+
+### 5. Sin analítica ni medición de conversión (prioridad MEDIA)
+
+No hay Vercel Analytics ni GA4, así que no se puede saber cuánta gente llega a reservas y abandona. Si se añade analítica con cookies, haría falta banner/política de cookies (la página legal ya existe como contenedor).
+
+### 6. Contacto pasivo (prioridad MEDIA)
+
+La página de contacto muestra datos pero no tiene formulario propio (consultas de eventos privados, catering, grupos grandes). Los eventos tampoco tienen página de detalle ni forma de apuntarse.
+
+### 7. i18n declarado pero no implementado (prioridad MEDIA)
+
+`siteConfig` declara `locales: ['es','en']`, todo el contenido se lee de `meta.en` y la UI está en español hardcodeado. Hay que decidir: o el sitio es solo español (y simplificar), o montar rutas i18n de verdad.
+
+## Menores pero valiosos
+
+- Enlace directo a reseñas de Google (los testimonios hoy son solo del CMS, sin prueba social verificable).
+- Newsletter / captura de emails para promociones y eventos.
+- Página o sección de "menú del día" si el modelo lo contempla.
+
+## Prioridad sugerida
+
+1. Respaldo del flujo de reservas con un endpoint + email.
+2. SEO local completo (JSON-LD, sitemap, meta por página, OG absoluto).
+3. Precios/pedidos en la carta.
