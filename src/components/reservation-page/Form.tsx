@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FormText from './Text';
 import classNames from 'classnames';
 import Btn from '../Btn';
@@ -27,7 +27,14 @@ type FieldErrors = Partial<Record<keyof ReservationForm, string>>;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+()\d\s.-]{6,}$/;
 
-const todayISO = () => new Date().toISOString().slice(0, 10);
+/**
+ * Fecha de hoy (YYYY-MM-DD) en hora de Bogotá. `toISOString()` usa UTC, que
+ * en Colombia (UTC-5) ya es "mañana" desde las 7 p. m.
+ */
+const todayISO = () =>
+    new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Bogota' }).format(
+        new Date(),
+    );
 
 const ReservationForm: React.FC<Props> = ({
     title,
@@ -46,6 +53,11 @@ const ReservationForm: React.FC<Props> = ({
     });
 
     const [errors, setErrors] = useState<FieldErrors>({});
+
+    // El HTML se genera en el build: el mínimo se calcula en el navegador
+    // para que no quede congelado en la fecha del último deploy.
+    const [minDate, setMinDate] = useState<string>();
+    useEffect(() => setMinDate(todayISO()), []);
 
     const update = <K extends keyof ReservationForm>(
         name: K,
@@ -131,7 +143,7 @@ const ReservationForm: React.FC<Props> = ({
                             label="Fecha"
                             placeholder="DD/MM/AAAA"
                             type="date"
-                            min={todayISO()}
+                            min={minDate}
                             error={!!errors.date}
                             errorMessage={errors.date}
                             required

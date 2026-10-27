@@ -6,6 +6,7 @@ import ContentManager from "../../components/ContentManager";
 import Layout from "../../layouts/Layout.astro";
 import Btn from "../../components/Btn";
 import { bcmsPrivate } from '../../bcms-private';
+import { bcmsPublic } from '../../bcms-public';
 import { getBusinessInfo } from '../../config/business';
 
 const contactPageEntry = (await bcmsPrivate.entry.getBySlug(
@@ -19,7 +20,8 @@ if (!contactPageEntry) {
 
 const contactPageMeta = contactPageEntry.meta.en as ContactPageEntryMetaItem;
 
-const bcmsConfig = bcmsPrivate.getConfig();
+// Se serializa al HTML (BCMSImage es isla con client:load): solo la key pública.
+const bcmsConfig = bcmsPublic.getConfig();
 const business = await getBusinessInfo();
 ---
 
