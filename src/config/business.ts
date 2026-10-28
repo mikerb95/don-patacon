@@ -15,6 +15,11 @@ import { siteConfig } from './site';
 
 export interface BusinessInfo {
     name: string;
+    /** Razón social y NIT del responsable del tratamiento de datos. */
+    legal: {
+        name: string;
+        nit: string;
+    };
     address: {
         line1: string;
         line2: string;
@@ -49,6 +54,7 @@ export interface BusinessInfo {
 
 const fallback: BusinessInfo = {
     name: siteConfig.name,
+    legal: { ...siteConfig.legal },
     address: { ...siteConfig.address },
     phone: { ...siteConfig.phone },
     email: siteConfig.email,
@@ -93,6 +99,10 @@ async function load(): Promise<BusinessInfo> {
 
     return {
         name: str(meta, 'title') || fallback.name,
+        legal: {
+            name: str(meta, 'legal_name') || fallback.legal.name,
+            nit: str(meta, 'nit') || fallback.legal.nit,
+        },
         address: {
             line1: str(meta, 'address_line1') || fallback.address.line1,
             line2: str(meta, 'address_line2') ?? fallback.address.line2,

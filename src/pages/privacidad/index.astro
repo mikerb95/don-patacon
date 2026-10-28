@@ -1,0 +1,154 @@
+---
+import ArchWithStar from '../../components/ArchWithStar';
+import Layout from '../../layouts/Layout.astro';
+import { getBusinessInfo } from '../../config/business';
+
+// Política de tratamiento de datos personales (Ley 1581 de 2012 y Decreto
+// 1074 de 2015). Va en código y no en BCMS para que cada cambio quede
+// versionado. Actualizar `updatedAt` cuando cambie el texto.
+const updatedAt = '27 de octubre de 2026';
+
+const business = await getBusinessInfo();
+const address = [
+    business.mallLocation,
+    business.address.line1,
+    business.address.line2,
+    business.address.city,
+]
+    .filter(Boolean)
+    .join(', ');
+---
+
+<Layout
+    title="Política de tratamiento de datos - DON PATACÓN"
+    description="Cómo DON PATACÓN trata los datos personales de quienes hacen pedidos, según la Ley 1581 de 2012."
+>
+    <div>
+        <section class="pt-[108px] pb-10 overflow-hidden md:pb-20 lg:pt-[218px] lg:pb-[120px]">
+            <div class="container max-w-[1198px]">
+                <ArchWithStar />
+                <div class="relative px-4 max-w-[400px] mx-auto lg:max-w-[850px] xl:px-0">
+                    <h1 class="text-xl leading-none font-Gloock uppercase text-center mb-4 lg:text-5xl lg:leading-none lg:mb-6">
+                        Política de tratamiento de datos
+                    </h1>
+                    <p class="text-xs tracking-[-0.41px] uppercase text-center text-appGray-400 mb-12 lg:text-sm lg:mb-20">
+                        Última actualización: {updatedAt}
+                    </p>
+                    <div class="legalText grid grid-cols-1 gap-10 text-sm leading-normal tracking-[-0.41px] text-appGray-200 lg:text-lg lg:leading-normal">
+                        <section>
+                            <h2>1. Responsable del tratamiento</h2>
+                            <p>
+                                {business.legal.name} ({business.name}), NIT {business.legal.nit},
+                                con domicilio en {address}.
+                            </p>
+                            <ul>
+                                {business.email && <li>Correo: <a href={`mailto:${business.email}`}>{business.email}</a></li>}
+                                {business.phone.display && <li>Teléfono: <a href={`tel:${business.phone.e164}`}>{business.phone.display}</a></li>}
+                            </ul>
+                        </section>
+
+                        <section>
+                            <h2>2. Qué datos recogemos</h2>
+                            <p>
+                                Cuando haces un pedido en este sitio te pedimos tu nombre, un
+                                teléfono de contacto y el detalle del pedido (productos, hora
+                                de recogida y comentarios). No pedimos datos sensibles ni datos
+                                de pago.
+                            </p>
+                            <p>
+                                El formulario no guarda nada en nuestros servidores: al
+                                enviarlo se abre WhatsApp con un mensaje ya escrito, y los datos
+                                nos llegan solo si tú envías ese mensaje.
+                            </p>
+                        </section>
+
+                        <section>
+                            <h2>3. Para qué los usamos</h2>
+                            <ul>
+                                <li>Recibir, preparar y entregar tu pedido.</li>
+                                <li>Contactarte sobre ese pedido (confirmación, cambios, demoras).</li>
+                                <li>Atender preguntas, quejas o reclamos que nos hagas.</li>
+                            </ul>
+                            <p>
+                                No usamos tus datos para publicidad ni los vendemos o cedemos a
+                                terceros. Si algún día quisiéramos enviarte promociones, te
+                                pediríamos una autorización aparte.
+                            </p>
+                        </section>
+
+                        <section>
+                            <h2>4. WhatsApp y transferencia internacional</h2>
+                            <p>
+                                La conversación del pedido ocurre en WhatsApp, un servicio de
+                                Meta Platforms que puede almacenar la información fuera de
+                                Colombia. Al usarlo aceptas también las condiciones y la
+                                política de privacidad de WhatsApp.
+                            </p>
+                        </section>
+
+                        <section>
+                            <h2>5. Cuánto tiempo los conservamos</h2>
+                            <p>
+                                Conservamos la conversación del pedido mientras sea necesaria
+                                para atenderlo y para resolver cualquier reclamo posterior, y
+                                durante los plazos que exijan las normas contables y
+                                tributarias.
+                            </p>
+                        </section>
+
+                        <section>
+                            <h2>6. Tus derechos</h2>
+                            <p>Como titular de los datos puedes:</p>
+                            <ul>
+                                <li>Conocer, actualizar y rectificar tus datos.</li>
+                                <li>Pedir prueba de la autorización que nos diste.</li>
+                                <li>Saber qué uso le hemos dado a tus datos.</li>
+                                <li>Revocar la autorización o pedir que borremos tus datos, cuando no exista un deber legal de conservarlos.</li>
+                                <li>Acceder gratis a tus datos.</li>
+                                <li>Presentar quejas ante la Superintendencia de Industria y Comercio (SIC) después de haber hecho la consulta o el reclamo con nosotros.</li>
+                            </ul>
+                        </section>
+
+                        <section>
+                            <h2>7. Cómo ejercerlos</h2>
+                            <p>
+                                Escríbenos al correo o al teléfono de la sección 1 indicando tu
+                                nombre, un medio para responderte y lo que pides.
+                            </p>
+                            <ul>
+                                <li><strong>Consultas:</strong> respondemos en máximo 10 días hábiles, prorrogables 5 días hábiles más si te avisamos el motivo.</li>
+                                <li><strong>Reclamos</strong> (corrección, actualización o supresión): respondemos en máximo 15 días hábiles, prorrogables 8 días hábiles más si te avisamos el motivo.</li>
+                            </ul>
+                        </section>
+
+                        <section>
+                            <h2>8. Cambios a esta política</h2>
+                            <p>
+                                Si cambiamos esta política publicaremos la nueva versión en esta
+                                página con su fecha de actualización. Esta versión rige desde la
+                                fecha indicada arriba.
+                            </p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</Layout>
+
+<style>
+    .legalText h2 {
+        @apply font-Gloock text-appText text-lg leading-none mb-[14px] lg:text-[32px] lg:leading-none lg:mb-5;
+    }
+    .legalText p + p,
+    .legalText p + ul,
+    .legalText ul + p {
+        @apply mt-3;
+    }
+    .legalText ul {
+        @apply list-disc pl-5 space-y-1;
+    }
+    .legalText a {
+        @apply underline;
+    }
+</style>

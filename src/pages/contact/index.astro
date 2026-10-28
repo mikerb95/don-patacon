@@ -1,12 +1,10 @@
 ---
-import { BCMSImage } from "@thebcms/components-react";
 import type { ContactPageEntry, ContactPageEntryMetaItem } from "../../../bcms/types/ts";
 import ArchWithStar from "../../components/ArchWithStar";
 import ContentManager from "../../components/ContentManager";
 import Layout from "../../layouts/Layout.astro";
 import Btn from "../../components/Btn";
 import { bcmsPrivate } from '../../bcms-private';
-import { bcmsPublic } from '../../bcms-public';
 import { getBusinessInfo } from '../../config/business';
 
 const contactPageEntry = (await bcmsPrivate.entry.getBySlug(
@@ -20,9 +18,14 @@ if (!contactPageEntry) {
 
 const contactPageMeta = contactPageEntry.meta.en as ContactPageEntryMetaItem;
 
-// Se serializa al HTML (BCMSImage es isla con client:load): solo la key pública.
-const bcmsConfig = bcmsPublic.getConfig();
 const business = await getBusinessInfo();
+
+// Embed de Google Maps sin API key. Apunta al centro comercial (no al local)
+// para que funcione aunque el negocio todavía no tenga perfil en Google.
+// Con CSP activo hay que permitir https://www.google.com en frame-src.
+const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(
+    'Centro Comercial Plaza Central, Bogotá',
+)}&output=embed`;
 ---
 
 <Layout
@@ -52,12 +55,13 @@ const business = await getBusinessInfo();
                         </p>
                     )}
                     <div class="bg-[#E5E4DA] rounded-2xl p-4 mb-8 lg:mb-10">
-                        <BCMSImage
-                            media={contactPageMeta.map_image}
-                            clientConfig={bcmsConfig}
-                            client:load
-                            className="w-full h-auto cover rounded-[10px] overflow-hidden pointer-events-auto"
-                        />
+                        <iframe
+                            src={mapEmbedUrl}
+                            title="Mapa: Centro Comercial Plaza Central, Bogotá"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            class="block w-full aspect-[4/3] border-0 rounded-[10px]"
+                        ></iframe>
                     </div>
                     <Btn
                         to={business.maps.url}

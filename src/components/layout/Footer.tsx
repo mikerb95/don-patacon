@@ -25,7 +25,7 @@ const Footer: React.FC<Props> = ({ business }) => {
 
     const legal = [
         { label: 'Términos y condiciones', href: '/legal' },
-        { label: 'Política de privacidad', href: '/legal' },
+        { label: 'Política de privacidad', href: '/privacidad' },
     ];
 
     const nav = [

@@ -16,9 +16,16 @@ vende para recoger (pedido por WhatsApp) y a domicilio solo por apps.
 - [ ] **Cargar las claves en Vercel** (production, preview y development):
       `BCMS_API_KEY` (la nueva) y `PUBLIC_BCMS_API_KEY` (solo lectura).
 - [ ] **Deploy de preview y revisión en pantalla** de todo lo cambiado sin
-      build: carta (`?s=`, precios en COP), especiales del día, títulos en
-      Gloock, página `/pedidos`, contacto, footer y redirecciones
-      (`/reservation` → `/pedidos`, `/events` → `/`).
+      build (en local no hay claves de BCMS, así que nada se ha visto aún):
+      - carta (`?s=`, precios en COP) y especiales del día,
+      - fuentes nuevas: Inter variable en lugar de Helvetica, y Gloock
+        autoalojada con `@fontsource`. Inter es algo más ancha: revisar que
+        no se rompa ningún título o botón,
+      - sliders del home con Swiper 12 (especiales y testimonios),
+      - página `/pedidos` y su enlace a `/privacidad`,
+      - página `/privacidad` (nueva),
+      - contacto con el mapa embebido de Google Maps,
+      - footer y redirecciones (`/reservation` → `/pedidos`, `/events` → `/`).
 
 ## 2. Datos que faltan del negocio
 
@@ -29,7 +36,10 @@ variables `PUBLIC_*`.
       (ej. "Local 3-12, plazoleta de comidas, piso 3").
 - [ ] `rappi_url` / `didi_url`: enlaces a las apps de domicilios, si existen.
 - [ ] Revisar que no quede ningún valor `TODO_` (dirección, teléfono, email,
-      WhatsApp, horario).
+      WhatsApp, horario, razón social y NIT).
+- [ ] **Razón social y NIT** (`legal_name` y `nit` en `business-info`, o
+      `PUBLIC_LEGAL_NAME` / `PUBLIC_NIT`): los usa `/privacidad` como
+      responsable del tratamiento.
 - [ ] Confirmar "cocina colombiana" en las descripciones y en el JSON-LD
       (`servesCuisine`).
 - [ ] **Horario real por día.** Se necesita para:
@@ -43,6 +53,8 @@ variables `PUBLIC_*`.
 
 - [ ] Borrar los templates `reservation-page` y `events-page`.
 - [ ] Borrar los campos `events_*` de `home-page`.
+- [ ] Borrar el campo `map_image` de `contact-page`: contacto ya usa un mapa
+      embebido de Google Maps.
 
 ## 4. SEO local
 
@@ -50,26 +62,21 @@ variables `PUBLIC_*`.
       (`@astrojs/sitemap`), `robots.txt`, canónicas, `og:image` absoluta y
       `url` / `image` en el JSON-LD.
 - [ ] **Perfil de Google Business** del local, con la ubicación dentro de
-      Plaza Central, y enlace desde el sitio a las reseñas.
+      Plaza Central, y enlace desde el sitio a las reseñas. Con él, apuntar el
+      mapa de contacto al local (hoy apunta al centro comercial).
 - [ ] Cambiar los testimonios cargados a mano en BCMS por la calificación y las
       reseñas reales de Google.
 
 ## 5. Técnico
 
 - [ ] **CSP.** Hoy no está activo (Astro 5 ignoraba `security.csp`). Activarlo
-      con un build de prueba: puede bloquear Google Fonts y los estilos inline
-      de Swiper.
-- [ ] **Dependencias vulnerables.** `npm audit fix` (sin `--force`) y luego
-      planear la migración a Astro 6, que resuelve las vulnerabilidades de
-      `astro` y trae CSP y fuentes estables. Probar con build.
-- [ ] **Fuentes Helvetica.** 26 `@font-face` (940 KB, incluida una cirílica) y
-      de licencia comercial. Reemplazar por 2 o 3 pesos de una fuente libre.
-- [ ] **`locales: ['es', 'en']`** en `src/config/site.ts`: el inglés no existe.
-      Quitarlo (o implementar i18n de verdad).
-- [ ] **`hallazgos-fable.md` está desactualizado**: dice que el CSP está
-      habilitado y no lo está, y varias de sus brechas ya se resolvieron.
-      Corregirlo o borrarlo en favor de este archivo.
-- [ ] README: sigue siendo el del starter de BCMS.
+      con un build de prueba (requiere las claves de BCMS): puede bloquear los
+      estilos inline de Swiper, y hay que permitir `https://www.google.com` en
+      `frame-src` por el mapa de contacto. Google Fonts ya no aplica.
+- [ ] **Migración de Astro.** `npm audit fix` ya aplicado (de 39 a 12
+      vulnerabilidades) y Swiper subido a 12.2 (quita la crítica de Swiper).
+      Las 12 restantes (`astro`, `esbuild`, `sharp`, `zod`, `uuid`) solo se
+      resuelven con la versión mayor de Astro (hoy 7.x). Planearla con build.
 
 ## 6. Contenido y decisiones
 
@@ -77,12 +84,12 @@ variables `PUBLIC_*`.
       aplican en Bogotá. Convertirla en "Menú del día" / "Almuerzo ejecutivo" o
       eliminarla. Hoy tampoco está en el menú principal (solo se llega desde el
       home), igual que "Nosotros".
-- [ ] **Política de tratamiento de datos (Ley 1581 de 2012).** El formulario de
-      pedidos pide nombre y teléfono. Hace falta una política real y separada;
-      hoy "Términos" y "Política de privacidad" del footer apuntan los dos a
-      `/legal`.
-- [ ] **Mapa.** Cambiar la imagen estática por un mapa embebido de Google Maps,
-      y agregar parqueadero y cómo llegar (TransMilenio) en contacto.
+- [ ] **Política de tratamiento de datos.** Ya existe `/privacidad` (enlazada
+      desde el footer y el formulario de pedidos). Falta: completar razón
+      social y NIT, y que el dueño (idealmente con asesoría legal) valide el
+      texto.
+- [ ] **Contacto:** agregar parqueadero y cómo llegar (TransMilenio); faltan
+      los datos.
 
 ## 7. Opcional
 

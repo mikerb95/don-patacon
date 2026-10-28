@@ -224,7 +224,7 @@ const OrderForm: React.FC<Props> = ({
                                 {businessName} a usar tus datos para gestionar
                                 tu pedido, según nuestra{' '}
                                 <a
-                                    href="/legal"
+                                    href="/privacidad"
                                     className="underline"
                                 >
                                     política de tratamiento de datos

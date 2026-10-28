@@ -74,6 +74,8 @@ Agrega estas propiedades, todas de tipo **String** y opcionales (el campo
 
 | Propiedad (name) | Contenido | Ejemplo |
 | --- | --- | --- |
+| `legal_name` | Razón social (responsable del tratamiento de datos) | `Don Patacón S.A.S.` |
+| `nit` | NIT | `901.234.567-8` |
 | `address_line1` | Dirección, línea 1 | `Calle 12 # 34-56` |
 | `address_line2` | Dirección, línea 2 (opcional) | `Local 3` |
 | `address_city` | Ciudad | `Bogotá` |
@@ -120,6 +122,7 @@ si quieres que se redepliegue automático al publicar).
 | `mall_location` | Footer, página de contacto, página de pedidos, datos para Google |
 | Rappi / DiDi | Botones "¿Prefieres domicilio?" en la página de pedidos |
 | `maps_url` | "Abrir mapa" en home (hero) y página de contacto |
+| `legal_name`, `nit` | Página `/privacidad` (política de tratamiento de datos) |
 
 ---
 
