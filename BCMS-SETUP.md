@@ -2,7 +2,7 @@
 
 Todo el contenido del sitio se gestiona desde el dashboard de BCMS
 ([app.thebcms.com](https://app.thebcms.com)): platos, precios, menús de
-temporada, eventos, textos de páginas y también la **información del comercio**
+temporada, textos de páginas y también la **información del comercio**
 (dirección, teléfono, horario, redes, WhatsApp, mapa).
 
 Este documento cubre dos cosas:
@@ -60,7 +60,7 @@ la clave falta o es inválida.
 El código (`src/config/business.ts`) busca una entry con slug `business-info`
 del template `business-info`. Si no existe, usa como fallback las variables de
 entorno `PUBLIC_*` (ver `.env.example`), así que el sitio no se rompe mientras
-tanto — pero lo recomendado es gestionarlo desde BCMS.
+tanto, pero lo recomendado es gestionarlo desde BCMS.
 
 ### Crear el template
 
@@ -83,6 +83,9 @@ Agrega estas propiedades, todas de tipo **String** y opcionales (el campo
 | `email` | Email de contacto | `contacto@donpatacon.com` |
 | `whatsapp_number` | WhatsApp sin `+` ni espacios | `573001234567` |
 | `hours` | Horario | `Mar–Dom 12:00–22:00` |
+| `mall_location` | Ubicación dentro de Plaza Central | `Local 3-12, plazoleta de comidas, piso 3` |
+| `rappi_url` | Enlace al restaurante en Rappi (vacío = no se muestra) | |
+| `didi_url` | Enlace al restaurante en DiDi Food (vacío = no se muestra) | |
 | `instagram_url` | URL de Instagram (vacío = no se muestra) | `https://instagram.com/donpatacon` |
 | `facebook_url` | URL de Facebook (vacío = no se muestra) | |
 | `x_url` | URL de X (vacío = no se muestra) | |
@@ -95,7 +98,7 @@ Agrega estas propiedades, todas de tipo **String** y opcionales (el campo
 
 1. **Entries → Business Info → Add new entry**.
 2. **Title**: `DON PATACÓN` (se usa como nombre del comercio en footer,
-   formulario de reservas y mensajes de WhatsApp).
+   formulario de pedidos y mensajes de WhatsApp).
 3. **Slug**: `business-info` (debe ser exactamente este).
 4. Completa los campos y publica.
 5. Asegúrate de que la API key privada tenga acceso de lectura a este template
@@ -109,11 +112,13 @@ si quieres que se redepliegue automático al publicar).
 
 | Dato | Dónde aparece |
 | --- | --- |
-| Nombre (title) | Footer (copyright), formulario de reservas, mensaje de WhatsApp |
+| Nombre (title) | Footer (copyright), formulario de pedidos, mensaje de WhatsApp |
 | Dirección, horario | Footer |
 | Teléfono, email | Footer (columna Contacto) |
 | Redes sociales | Footer (columna Síguenos; las URLs vacías se ocultan) |
-| WhatsApp | Botón de enviar reserva (`wa.me`) |
+| WhatsApp | Botón de enviar pedido (`wa.me`) |
+| `mall_location` | Footer, página de contacto, página de pedidos, datos para Google |
+| Rappi / DiDi | Botones "¿Prefieres domicilio?" en la página de pedidos |
 | `maps_url` | "Abrir mapa" en home (hero) y página de contacto |
 
 ---
@@ -122,11 +127,13 @@ si quieres que se redepliegue automático al publicar).
 
 Estos templates ya existen y se gestionan igual, desde el dashboard:
 
-- `food-item` — platos: nombre, precio, descripción, imagen.
-- `meal-type` — categorías del menú.
-- `season` — menús de temporada.
-- Páginas: `home-page`, `menu-page`, `seasonal-menu-page`, `events-page`,
-  `about-page`, `contact-page`, `reservation-page`, `legal-page`.
+- `food-item`: platos: nombre, precio, descripción, imagen.
+- `meal-type`: categorías del menú.
+- `season`: menús de temporada.
+- Páginas: `home-page`, `menu-page`, `seasonal-menu-page`,
+  `about-page`, `contact-page`, `legal-page`. (`reservation-page` y `events-page` ya no se usan:
+  el local no toma reservas ni hace eventos. Se pueden borrar del dashboard,
+  igual que los campos `events_*` de `home-page`.)
 
 Los tipos TypeScript de estos templates se generan con `bcms pull types`
 (carpeta `bcms/`, generada en cada build).

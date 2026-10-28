@@ -2,13 +2,16 @@
 import Footer from '../components/layout/Footer';
 import Header from '../components/layout/Header';
 import { getBusinessInfo } from '../config/business';
+import { siteConfig } from '../config/site';
 import '../styles/fonts.css';
 
 interface Props {
     title: string;
+    /** Meta description de la página; por defecto, la del sitio. */
+    description?: string;
 }
 
-const { title } = Astro.props;
+const { title, description = siteConfig.description } = Astro.props;
 const business = await getBusinessInfo();
 const ogImageUrl = '/thumbnail.jpg';
 ---
@@ -17,14 +20,13 @@ const ogImageUrl = '/thumbnail.jpg';
 <html lang="es">
     <head>
         <meta charset="UTF-8" />
-        <meta
-            name="description"
-            content="DON PATACÓN — cocina con sabor y carácter. Reservas, eventos y nuestra carta de temporada."
-        />
-        <meta name="viewport" content="width=device-width" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
+        <meta name="description" content={description} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <meta name="generator" content={Astro.generator} />
         <meta property="og:title" content="DON PATACÓN" />
+        <meta property="og:description" content={description} />
+        <meta property="og:locale" content="es_CO" />
         <meta property="og:image" content={ogImageUrl} />
         <meta property="og:image:secure_url" content={ogImageUrl} />
         <meta property="twitter:title" content="DON PATACÓN" />
@@ -34,6 +36,7 @@ const ogImageUrl = '/thumbnail.jpg';
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Gloock&display=swap" rel="stylesheet">
         <title>{title}</title>
+        <slot name="head" />
     </head>
     <body class="font-Helvetica overflow-x-hidden bg-appBody text-appText">
         <a

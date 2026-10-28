@@ -148,7 +148,7 @@ const HomeHero: React.FC<Props> = ({
                 </div>
                 <Btn to="/about-us" className="uppercase max-w-max mx-auto">
                     <span>
-                        Learn more <span className="sr-only">about us</span>
+                        Conócenos
                     </span>
                 </Btn>
                 <HomeDivider />

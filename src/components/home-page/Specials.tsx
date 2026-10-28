@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { A11y } from 'swiper/modules';
 import SwiperCore from 'swiper';
 import { SwiperSlide, Swiper } from 'swiper/react';
@@ -19,7 +19,25 @@ interface Props {
     bcmsConfig: ClientConfig;
 }
 
-const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+/** `value` es el código que guarda BCMS en `day_available`. */
+const days = [
+    { value: 'MON', label: 'LUN' },
+    { value: 'TUE', label: 'MAR' },
+    { value: 'WED', label: 'MIÉ' },
+    { value: 'THU', label: 'JUE' },
+    { value: 'FRI', label: 'VIE' },
+    { value: 'SAT', label: 'SÁB' },
+    { value: 'SUN', label: 'DOM' },
+];
+
+/** Código del día de hoy en hora de Bogotá ("MON", "TUE"...). */
+const todayCode = () =>
+    new Intl.DateTimeFormat('en-US', {
+        weekday: 'short',
+        timeZone: 'America/Bogota',
+    })
+        .format(new Date())
+        .toUpperCase();
 
 const HomeSpecials: React.FC<Props> = ({
     title,
@@ -27,13 +45,16 @@ const HomeSpecials: React.FC<Props> = ({
     items,
     bcmsConfig,
 }) => {
-    const [activeDay, setActiveDay] = useState('SUN');
+    const [activeDay, setActiveDay] = useState('MON');
+
+    // El HTML se genera en el build: el día actual se elige en el navegador.
+    useEffect(() => setActiveDay(todayCode()), []);
 
     const filteredItems = useMemo(() => {
         return items.filter((item) => {
             return item.day_available === activeDay && item.special;
         });
-    }, [activeDay]);
+    }, [activeDay, items]);
 
     return (
         <section className="overflow-hidden">
@@ -72,15 +93,16 @@ const HomeSpecials: React.FC<Props> = ({
                                             'flex justify-center w-full py-2.5 border rounded-[32px] transition-colors duration-300',
                                             {
                                                 'border-appAccent bg-appAccent text-appBody':
-                                                    day === activeDay,
+                                                    day.value === activeDay,
                                                 'border-appText':
-                                                    day !== activeDay,
+                                                    day.value !== activeDay,
                                             },
                                         )}
-                                        onClick={() => setActiveDay(day)}
+                                        aria-pressed={day.value === activeDay}
+                                        onClick={() => setActiveDay(day.value)}
                                     >
                                         <span className="text-xs leading-none tracking-[-0.41px] lg:text-base lg:leading-none">
-                                            {day}
+                                            {day.label}
                                         </span>
                                     </button>
                                 </SwiperSlide>
@@ -115,11 +137,11 @@ const HomeSpecials: React.FC<Props> = ({
                     </div>
                 ) : (
                     <div className="text-sm leading-none tracking-[-0.41px] text-center text-appGray-700 my-20">
-                        No specials for this day
+                        No hay especiales para este día
                     </div>
                 )}
             </div>
-            <HomeDivider />
+            <HomeDivider arc />
         </section>
     );
 };

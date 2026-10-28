@@ -30,6 +30,13 @@ export interface BusinessInfo {
         number: string;
     };
     hours: string;
+    /** Ubicación dentro del centro comercial. Ej: "Local 3-12, plazoleta de comidas, piso 3". */
+    mallLocation: string;
+    /** Enlaces a apps de domicilios (vacío = no se muestra). */
+    delivery: {
+        rappi: string;
+        didi: string;
+    };
     social: {
         instagram: string;
         facebook: string;
@@ -47,6 +54,8 @@ const fallback: BusinessInfo = {
     email: siteConfig.email,
     whatsapp: { ...siteConfig.whatsapp },
     hours: siteConfig.hours,
+    mallLocation: siteConfig.mallLocation,
+    delivery: { ...siteConfig.delivery },
     social: { ...siteConfig.social },
     maps: { ...siteConfig.maps },
 };
@@ -99,6 +108,11 @@ async function load(): Promise<BusinessInfo> {
             number: str(meta, 'whatsapp_number') || fallback.whatsapp.number,
         },
         hours: str(meta, 'hours') || fallback.hours,
+        mallLocation: str(meta, 'mall_location') ?? fallback.mallLocation,
+        delivery: {
+            rappi: str(meta, 'rappi_url') ?? fallback.delivery.rappi,
+            didi: str(meta, 'didi_url') ?? fallback.delivery.didi,
+        },
         social: {
             instagram: str(meta, 'instagram_url') ?? fallback.social.instagram,
             facebook: str(meta, 'facebook_url') ?? fallback.social.facebook,

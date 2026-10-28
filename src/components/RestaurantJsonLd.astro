@@ -1,0 +1,63 @@
+---
+/**
+ * Datos estructurados Schema.org (`Restaurant`) para Google: panel del
+ * negocio, Maps y resultados locales. Se arman con la info del comercio
+ * (BCMS `business-info` o variables de entorno). Los valores vacíos o los
+ * placeholders `TODO_` de src/config/site.ts se omiten.
+ *
+ * Pendiente cuando haya datos: `url` e `image` absolutas (requieren el
+ * dominio final) y `openingHoursSpecification` (requiere horario por día).
+ */
+import { getBusinessInfo } from '../config/business';
+
+const business = await getBusinessInfo();
+
+const valid = (value: string) => !!value && !value.startsWith('TODO_');
+
+const street = [
+    business.mallLocation,
+    business.address.line1,
+    business.address.line2,
+]
+    .filter(valid)
+    .join(', ');
+
+const sameAs = [
+    business.social.instagram,
+    business.social.facebook,
+    business.social.x,
+].filter(valid);
+
+const data = {
+    '@context': 'https://schema.org',
+    '@type': 'Restaurant',
+    name: business.name,
+    servesCuisine: 'Colombiana',
+    ...(valid(business.phone.e164) && { telephone: business.phone.e164 }),
+    ...(valid(business.email) && { email: business.email }),
+    address: {
+        '@type': 'PostalAddress',
+        ...(street && { streetAddress: street }),
+        addressLocality: valid(business.address.city)
+            ? business.address.city
+            : 'Bogotá',
+        addressCountry: 'CO',
+    },
+    containedInPlace: {
+        '@type': 'ShoppingCenter',
+        name: 'Centro Comercial Plaza Central',
+        address: {
+            '@type': 'PostalAddress',
+            addressLocality: 'Bogotá',
+            addressCountry: 'CO',
+        },
+    },
+    ...(business.maps.url !== 'https://www.google.com/maps' && {
+        hasMap: business.maps.url,
+    }),
+    ...(sameAs.length > 0 && { sameAs }),
+    acceptsReservations: false,
+};
+---
+
+<script is:inline type="application/ld+json" set:html={JSON.stringify(data)} />

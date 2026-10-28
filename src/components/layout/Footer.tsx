@@ -35,6 +35,7 @@ const Footer: React.FC<Props> = ({ business }) => {
     ].filter(Boolean) as { title: string; items: { label: string; href: string }[] }[];
 
     const addressLines = [
+        business.mallLocation,
         business.address.line1,
         business.address.line2,
         [business.address.city, business.address.country]

@@ -16,7 +16,7 @@ const env = import.meta.env;
 export const siteConfig = {
     name: 'DON PATACÓN',
     description:
-        'DON PATACÓN — cocina con sabor y carácter. Reservas, eventos y carta de temporada.',
+        'DON PATACÓN, cocina colombiana en el Centro Comercial Plaza Central, Bogotá. Pide para recoger o a domicilio.',
     locales: ['es', 'en'] as const,
     defaultLocale: 'es' as const,
 
@@ -40,6 +40,14 @@ export const siteConfig = {
     },
 
     hours: env.PUBLIC_HOURS || 'TODO_HORARIO',
+
+    /** Ubicación dentro del centro comercial (local, piso, plazoleta). */
+    mallLocation: env.PUBLIC_MALL_LOCATION || '',
+
+    delivery: {
+        rappi: env.PUBLIC_RAPPI_URL || '',
+        didi: env.PUBLIC_DIDI_URL || '',
+    },
 
     social: {
         instagram: env.PUBLIC_INSTAGRAM_URL || '',

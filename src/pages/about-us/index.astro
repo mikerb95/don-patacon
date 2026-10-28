@@ -20,7 +20,10 @@ const aboutPageMeta = aboutPageEntry.meta.en as AboutPageEntryMetaItem;
 const bcmsConfig = bcmsPublic.getConfig();
 ---
 
-<Layout title={`${aboutPageMeta.seo?.title || aboutPageMeta.title} - DON PATACÓN`}>
+<Layout
+    title={`${aboutPageMeta.seo?.title || aboutPageMeta.title} - DON PATACÓN`}
+    description="Conoce la historia de DON PATACÓN, cocina colombiana en el Centro Comercial Plaza Central, Bogotá."
+>
     <div>
         <AboutHero
             title={aboutPageMeta.hero_title}

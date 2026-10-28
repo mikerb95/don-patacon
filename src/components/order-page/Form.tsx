@@ -1,67 +1,57 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import FormText from './Text';
 import classNames from 'classnames';
 import Btn from '../Btn';
 import ArchWithStar from '../ArchWithStar';
 
 interface Props {
-    title: string;
     businessName: string;
     /** Número de WhatsApp sin '+', sin espacios. Ej: 573001234567 */
     whatsappNumber: string;
+    /** Ubicación dentro del centro comercial; vacío = no se muestra. */
+    mallLocation: string;
+    /** Apps de domicilios; las URLs vacías no se muestran. */
+    delivery: { rappi: string; didi: string };
 }
 
-interface ReservationForm {
+interface OrderForm {
     name: string;
-    date: string;
-    time: string;
-    guestsCount: string;
-    email: string;
     phone: string;
+    order: string;
+    pickupTime: string;
     notes: string;
     acceptTerms: boolean;
 }
 
-type FieldErrors = Partial<Record<keyof ReservationForm, string>>;
+type FieldErrors = Partial<Record<keyof OrderForm, string>>;
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RE = /^[+()\d\s.-]{6,}$/;
 
-/**
- * Fecha de hoy (YYYY-MM-DD) en hora de Bogotá. `toISOString()` usa UTC, que
- * en Colombia (UTC-5) ya es "mañana" desde las 7 p. m.
- */
-const todayISO = () =>
-    new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Bogota' }).format(
-        new Date(),
-    );
-
-const ReservationForm: React.FC<Props> = ({
-    title,
+const OrderForm: React.FC<Props> = ({
     businessName,
     whatsappNumber,
+    mallLocation,
+    delivery,
 }) => {
-    const [form, setForm] = useState<ReservationForm>({
+    const [form, setForm] = useState<OrderForm>({
         name: '',
-        guestsCount: '',
-        email: '',
         phone: '',
+        order: '',
+        pickupTime: '',
         notes: '',
         acceptTerms: false,
-        time: '',
-        date: '',
     });
 
     const [errors, setErrors] = useState<FieldErrors>({});
 
-    // El HTML se genera en el build: el mínimo se calcula en el navegador
-    // para que no quede congelado en la fecha del último deploy.
-    const [minDate, setMinDate] = useState<string>();
-    useEffect(() => setMinDate(todayISO()), []);
+    const deliveryApps = [
+        { label: 'Pedir en Rappi', href: delivery.rappi },
+        { label: 'Pedir en DiDi Food', href: delivery.didi },
+    ].filter((app) => !!app.href);
 
-    const update = <K extends keyof ReservationForm>(
+    const update = <K extends keyof OrderForm>(
         name: K,
-        value: ReservationForm[K],
+        value: OrderForm[K],
     ): void => {
         setForm((prev) => ({ ...prev, [name]: value }));
         setErrors((prev) => ({ ...prev, [name]: undefined }));
@@ -70,34 +60,24 @@ const ReservationForm: React.FC<Props> = ({
     const validate = (): FieldErrors => {
         const e: FieldErrors = {};
         if (!form.name.trim()) e.name = 'Ingresa tu nombre.';
-        if (!form.date) e.date = 'Elige una fecha.';
-        else if (form.date < todayISO()) e.date = 'La fecha no puede ser pasada.';
-        if (!form.time) e.time = 'Elige una hora.';
-        if (!form.guestsCount) e.guestsCount = 'Indica cuántas personas.';
-        if (!form.email && !form.phone) {
-            e.email = 'Déjanos email o teléfono.';
-            e.phone = 'Déjanos email o teléfono.';
-        } else {
-            if (form.email && !EMAIL_RE.test(form.email))
-                e.email = 'Email inválido.';
-            if (form.phone && !PHONE_RE.test(form.phone))
-                e.phone = 'Teléfono inválido.';
-        }
-        if (!form.acceptTerms) e.acceptTerms = 'Debes aceptar los términos.';
+        if (!form.phone) e.phone = 'Déjanos un teléfono de contacto.';
+        else if (!PHONE_RE.test(form.phone)) e.phone = 'Teléfono inválido.';
+        if (!form.order.trim()) e.order = 'Cuéntanos qué quieres pedir.';
+        if (!form.acceptTerms) e.acceptTerms = 'Debes aceptar el tratamiento de datos.';
         return e;
     };
 
     const buildWhatsAppUrl = (): string => {
         const lines = [
-            `Hola, quiero hacer una reserva en ${businessName}.`,
+            `Hola, quiero hacer un pedido para recoger en ${businessName}.`,
             '',
             `Nombre: ${form.name}`,
-            `Fecha: ${form.date}`,
-            `Hora: ${form.time}`,
-            `Personas: ${form.guestsCount}`,
+            `Teléfono: ${form.phone}`,
+            `Recojo: ${form.pickupTime || 'lo antes posible'}`,
+            '',
+            'Pedido:',
+            form.order.trim(),
         ];
-        if (form.email) lines.push(`Email: ${form.email}`);
-        if (form.phone) lines.push(`Teléfono: ${form.phone}`);
         if (form.notes.trim()) {
             lines.push('', 'Notas:', form.notes.trim());
         }
@@ -117,9 +97,32 @@ const ReservationForm: React.FC<Props> = ({
             <div className="container max-w-[1198px]">
                 <ArchWithStar />
                 <div className="relative px-4 max-w-[400px] mx-auto lg:max-w-[808px] xl:px-0">
-                    <h1 className="text-xl leading-none font-Gloock uppercase text-center mb-10 lg:text-5xl lg:leading-none lg:mb-14">
-                        {title}
+                    <h1 className="text-xl leading-none font-Gloock uppercase text-center mb-6 lg:text-5xl lg:leading-none lg:mb-10">
+                        Haz tu pedido
                     </h1>
+                    <p className="text-sm leading-[1.3] tracking-[-0.41px] uppercase text-center text-appGray-700 mb-8 lg:text-base lg:leading-[1.3] lg:mb-12">
+                        Pide por WhatsApp y recógelo listo en nuestro local
+                        {mallLocation ? ` (${mallLocation})` : ''} del Centro
+                        Comercial Plaza Central.
+                    </p>
+                    {deliveryApps.length > 0 && (
+                        <div className="flex flex-col items-center gap-4 mb-10 lg:mb-14">
+                            <div className="text-xs leading-none tracking-[-0.41px] uppercase text-appGray-400 lg:text-sm lg:leading-none">
+                                ¿Prefieres domicilio?
+                            </div>
+                            <div className="flex flex-wrap justify-center gap-3">
+                                {deliveryApps.map((app) => (
+                                    <Btn
+                                        key={app.href}
+                                        to={app.href}
+                                        className="uppercase"
+                                    >
+                                        <span>{app.label}</span>
+                                    </Btn>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                     <form
                         onSubmit={(e) => {
                             e.preventDefault();
@@ -131,54 +134,12 @@ const ReservationForm: React.FC<Props> = ({
                         <FormText
                             value={form.name}
                             label="Nombre"
-                            placeholder="Tu nombre completo"
+                            placeholder="Tu nombre"
                             error={!!errors.name}
                             errorMessage={errors.name}
                             required
                             className="col-span-2"
                             onChange={(v) => update('name', v)}
-                        />
-                        <FormText
-                            value={form.date}
-                            label="Fecha"
-                            placeholder="DD/MM/AAAA"
-                            type="date"
-                            min={minDate}
-                            error={!!errors.date}
-                            errorMessage={errors.date}
-                            required
-                            onChange={(v) => update('date', v)}
-                        />
-                        <FormText
-                            value={form.time}
-                            label="Hora"
-                            placeholder="HH:MM"
-                            type="time"
-                            error={!!errors.time}
-                            errorMessage={errors.time}
-                            required
-                            onChange={(v) => update('time', v)}
-                        />
-                        <FormText
-                            value={form.guestsCount}
-                            label="Número de personas"
-                            placeholder="¿Cuántos comensales?"
-                            type="number"
-                            min="1"
-                            max="20"
-                            error={!!errors.guestsCount}
-                            errorMessage={errors.guestsCount}
-                            required
-                            onChange={(v) => update('guestsCount', v)}
-                        />
-                        <FormText
-                            value={form.email}
-                            label="Email"
-                            placeholder="tucorreo@ejemplo.com"
-                            type="email"
-                            error={!!errors.email}
-                            errorMessage={errors.email}
-                            onChange={(v) => update('email', v)}
                         />
                         <FormText
                             value={form.phone}
@@ -187,13 +148,33 @@ const ReservationForm: React.FC<Props> = ({
                             type="tel"
                             error={!!errors.phone}
                             errorMessage={errors.phone}
-                            className="col-span-2"
+                            required
                             onChange={(v) => update('phone', v)}
+                        />
+                        <FormText
+                            value={form.pickupTime}
+                            label="Hora de recogida (opcional)"
+                            placeholder="HH:MM"
+                            type="time"
+                            error={!!errors.pickupTime}
+                            errorMessage={errors.pickupTime}
+                            onChange={(v) => update('pickupTime', v)}
+                        />
+                        <FormText
+                            value={form.order}
+                            label="Tu pedido"
+                            placeholder="Platos y cantidades, tal como aparecen en la carta"
+                            type="textarea"
+                            error={!!errors.order}
+                            errorMessage={errors.order}
+                            required
+                            className="col-span-2"
+                            onChange={(v) => update('order', v)}
                         />
                         <FormText
                             value={form.notes}
                             label="Notas (opcional)"
-                            placeholder="¿Alergias, ocasión especial, alguna petición?"
+                            placeholder="¿Alergias o alguna petición?"
                             type="textarea"
                             error={!!errors.notes}
                             errorMessage={errors.notes}
@@ -239,15 +220,14 @@ const ReservationForm: React.FC<Props> = ({
                                 )}
                             </div>
                             <div className="text-xs leading-[1.2] tracking-[-0.41px] text-[#665E5E] lg:text-base lg:leading-[1.2]">
-                                Al enviar este formulario confirmas que has leído
-                                y aceptas cómo {businessName} trata tus datos
-                                personales para gestionar la reserva, según
-                                nuestra{' '}
+                                Al enviar este formulario autorizas a{' '}
+                                {businessName} a usar tus datos para gestionar
+                                tu pedido, según nuestra{' '}
                                 <a
                                     href="/legal"
                                     className="underline"
                                 >
-                                    política de privacidad
+                                    política de tratamiento de datos
                                 </a>
                                 .
                             </div>
@@ -266,10 +246,11 @@ const ReservationForm: React.FC<Props> = ({
                             className="justify-center w-full col-span-2"
                             onClick={handleSubmit}
                         >
-                            <span>Enviar por WhatsApp</span>
+                            <span>Enviar pedido por WhatsApp</span>
                         </Btn>
                         <p className="col-span-2 text-xs text-center text-appGray-400 -mt-2">
-                            Se abrirá WhatsApp con tu solicitud lista para enviar.
+                            Se abrirá WhatsApp con tu pedido listo para enviar.
+                            Te confirmamos el total y el tiempo de preparación.
                         </p>
                     </form>
                 </div>
@@ -278,4 +259,4 @@ const ReservationForm: React.FC<Props> = ({
     );
 };
 
-export default ReservationForm;
+export default OrderForm;

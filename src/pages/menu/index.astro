@@ -26,7 +26,10 @@ const foodItems = (
 const bcmsConfig = bcmsPublic.getConfig();
 ---
 
-<Layout title={`${menuPageMeta.seo?.title || menuPageMeta.title} - DON PATACÓN`}>
+<Layout
+    title={`${menuPageMeta.seo?.title || menuPageMeta.title} - DON PATACÓN`}
+    description="Carta completa de DON PATACÓN, con precios. Centro Comercial Plaza Central, Bogotá."
+>
     <div>
         <MenuMeals
             meta={menuPageMeta}

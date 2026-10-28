@@ -11,8 +11,7 @@ const Header: React.FC = () => {
     const nav = [
         { label: 'Inicio', href: '/' },
         { label: 'Carta', href: '/menu' },
-        { label: 'Eventos', href: '/events' },
-        { label: 'Reservas', href: '/reservation' },
+        { label: 'Pedidos', href: '/pedidos' },
     ];
 
     useEffect(() => {

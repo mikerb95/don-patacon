@@ -28,7 +28,7 @@ const HomeTestimonials: React.FC<Props> = ({
             <div className="container">
                 <div className="flex flex-col items-center">
                     <div className="text-xs leading-none mb-2.5 lg:text-base lg:leading-none lg:mb-[14px]">
-                        [ 6 ]
+                        [ 5 ]
                     </div>
                     <h2 className="text-lg leading-none uppercase font-Gloock mb-4 lg:text-5xl lg:leading-none lg:mb-6">
                         {title}
@@ -38,7 +38,11 @@ const HomeTestimonials: React.FC<Props> = ({
                         className="text-sm leading-[1.3] tracking-[-0.41px] text-appGray-700 uppercase max-w-[745px] mx-auto mb-10 lg:text-base lg:leading-[1.3] lg:mb-[45px]"
                     />
                     <div className="grid grid-cols-[auto,1fr,auto] gap-5 w-full lg:gap-24">
-                        <button className="homeTestimonials--swiperPrev flex translate-y-[60px]">
+                        <button
+                            type="button"
+                            aria-label="Testimonio anterior"
+                            className="homeTestimonials--swiperPrev flex translate-y-[60px]"
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
@@ -94,7 +98,11 @@ const HomeTestimonials: React.FC<Props> = ({
                                 </SwiperSlide>
                             ))}
                         </Swiper>
-                        <button className="homeTestimonials--swiperNext flex translate-y-[60px]">
+                        <button
+                            type="button"
+                            aria-label="Testimonio siguiente"
+                            className="homeTestimonials--swiperNext flex translate-y-[60px]"
+                        >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"

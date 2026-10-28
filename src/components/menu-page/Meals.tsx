@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import type { ClientConfig } from '@thebcms/client';
 import { BCMSImage } from '@thebcms/components-react';
 import type {
@@ -9,6 +9,7 @@ import type {
 import ArchWithStar from '../ArchWithStar';
 import classNames from 'classnames';
 import ContentManager from '../ContentManager';
+import { formatPrice } from '../../utils/format';
 
 interface Props {
     meta: MenuPageEntryMetaItem;
@@ -18,7 +19,17 @@ interface Props {
 }
 
 const MenuMeals: React.FC<Props> = ({ meta, meals, foodItems, bcmsConfig }) => {
-    const [activeMealType, setActiveMealType] = useState('breakfast');
+    const [activeMealType, setActiveMealType] = useState(
+        meals[0]?.title.toLowerCase() ?? '',
+    );
+
+    // El home enlaza a /menu?s=<categoría>: abrir esa categoría si existe.
+    useEffect(() => {
+        const s = new URLSearchParams(window.location.search).get('s');
+        if (s && meals.some((mealType) => mealType.title.toLowerCase() === s)) {
+            setActiveMealType(s);
+        }
+    }, [meals]);
 
     const activeMealTypeDescription = useMemo(() => {
         return (
@@ -26,7 +37,7 @@ const MenuMeals: React.FC<Props> = ({ meta, meals, foodItems, bcmsConfig }) => {
                 (mealType) => mealType.title.toLowerCase() === activeMealType,
             )?.description.nodes || []
         );
-    }, [activeMealType]);
+    }, [activeMealType, meals]);
 
     const filteredFoodItems = useMemo(() => {
         return (
@@ -36,7 +47,7 @@ const MenuMeals: React.FC<Props> = ({ meta, meals, foodItems, bcmsConfig }) => {
                 );
             }) || []
         );
-    }, [activeMealType]);
+    }, [activeMealType, foodItems]);
 
     return (
         <section className="pt-[108px] pb-10 overflow-hidden md:pb-20 lg:pt-[218px] lg:pb-[120px]">
@@ -97,7 +108,7 @@ const MenuMeals: React.FC<Props> = ({ meta, meals, foodItems, bcmsConfig }) => {
                                     className="text-sm leading-[1.3] tracking-[-0.41px] uppercase text-appGray-100 max-w-[480px] mb-4 lg:text-base lg:leading-[1.3] lg:mb-6"
                                 />
                                 <div className="px-6 py-[13px] flex max-w-max bg-[#9BA58F] rounded-[32px] text-sm leading-none text-white tracking-[-0.41px] lg:px-[18px] lg:py-3 lg:text-sm lg:leading-none">
-                                    ${item.price}
+                                    {formatPrice(item.price)}
                                 </div>
                             </div>
                             <BCMSImage
@@ -111,7 +122,7 @@ const MenuMeals: React.FC<Props> = ({ meta, meals, foodItems, bcmsConfig }) => {
                 </div>
             ) : (
                 <div className="text-sm leading-none tracking-[-0.41px] text-center text-appGray-700 my-20">
-                    No menu item found
+                    No hay platos en esta categoría
                 </div>
             )}
         </section>

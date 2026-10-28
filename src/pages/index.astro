@@ -1,7 +1,6 @@
 ---
 import type { FoodItemEntry, FoodItemEntryMetaItem, HomePageEntry, HomePageEntryMetaItem } from '../../bcms/types/ts';
 import HomeAmbience from '../components/home-page/Ambience';
-import HomeEvents from '../components/home-page/Events';
 import HomeHero from '../components/home-page/Hero';
 import HomeMenu from '../components/home-page/Menu';
 import HomeSeasons from '../components/home-page/Seasons';
@@ -10,6 +9,7 @@ import HomeTestimonials from '../components/home-page/Testimonials';
 import 'swiper/css';
 
 import Layout from '../layouts/Layout.astro';
+import RestaurantJsonLd from '../components/RestaurantJsonLd.astro';
 import { bcmsPrivate } from '../bcms-private';
 import { bcmsPublic } from '../bcms-public';
 import { getBusinessInfo } from '../config/business';
@@ -33,7 +33,9 @@ const business = await getBusinessInfo();
 
 <Layout
     title={`${homePageMeta.seo?.title || homePageMeta.title} - DON PATACÓN`}
+    description="DON PATACÓN, cocina colombiana en el Centro Comercial Plaza Central, Bogotá. Carta, especiales del día y pedidos para recoger o a domicilio."
 >
+    <RestaurantJsonLd slot="head" />
     <div>
         <HomeHero
                 title={homePageMeta.hero_title}
@@ -70,13 +72,6 @@ const business = await getBusinessInfo();
                 title={homePageMeta.specials_title}
                 description={homePageMeta.specials_description}
                 items={foodItems.map((e) => e.meta.en as FoodItemEntryMetaItem)}
-                client:visible
-                bcmsConfig={bcmsConfig}
-            />
-            <HomeEvents
-                title={homePageMeta.events_title}
-                description={homePageMeta.events_description}
-                events={homePageMeta.events}
                 client:visible
                 bcmsConfig={bcmsConfig}
             />
