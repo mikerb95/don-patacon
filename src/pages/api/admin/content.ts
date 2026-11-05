@@ -2,7 +2,8 @@ import type { APIRoute } from 'astro';
 import { getStore } from '../../../lib/admin/config';
 import { adminRoute, json } from '../../../lib/admin/guard';
 import { docPath, revOf, serializeDoc, type DocFile, type WriteFile } from '../../../lib/admin/store';
-import { DOC_NAMES, docSchemas } from '../../../lib/schema';
+import { validateDocs } from '../../../lib/admin/validate';
+import { DOC_NAMES } from '../../../lib/schema';
 
 export const prerender = false;
 
@@ -28,21 +29,22 @@ export const PUT: APIRoute = adminRoute(async ({ request }) => {
     const names = DOC_NAMES.filter((n) => body.docs[n] !== undefined);
     if (names.length === 0) return json({ error: 'No hay cambios para publicar.' }, 400);
 
+    const { parsed, issues } = validateDocs(body.docs);
+    if (issues.length > 0) {
+        return json({ error: issues[0].message, issues }, 422);
+    }
+
     const files: WriteFile[] = [];
     const expected: Partial<Record<DocFile, string>> = {};
     const revs: Partial<Record<DocFile, string>> = {};
     const saved: Partial<Record<DocFile, unknown>> = {};
     for (const name of names) {
-        const parsed = docSchemas[name].safeParse(body.docs[name]);
-        if (!parsed.success) {
-            return json({ error: parsed.error.issues[0]?.message ?? 'Hay un dato inválido.', doc: name }, 422);
-        }
         if (typeof body.revs[name] !== 'string') return json({ error: 'Falta la versión.' }, 400);
-        const text = serializeDoc(parsed.data);
+        const text = serializeDoc(parsed[name]);
         files.push({ path: docPath(name), content: Buffer.from(text) });
         expected[name] = body.revs[name];
         revs[name] = revOf(text);
-        saved[name] = parsed.data;
+        saved[name] = parsed[name];
     }
 
     const message = `contenido: actualiza ${names.map((n) => SUMMARY[n]).join(', ')}`;

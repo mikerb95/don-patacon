@@ -2,6 +2,11 @@ import type { DocName, Docs } from '../../lib/schema';
 
 export type Revs = Record<DocName, string>;
 
+export interface Issue {
+    path: string;
+    message: string;
+}
+
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
     let res: Response;
     try {
@@ -13,15 +18,17 @@ async function request<T>(url: string, init?: RequestInit): Promise<T> {
         window.location.href = '/admin/login';
     }
     const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new ApiError(data.error ?? 'No se pudo completar la operación.', res.status);
+    if (!res.ok) throw new ApiError(data.error ?? 'No se pudo completar la operación.', res.status, data.issues);
     return data as T;
 }
 
 export class ApiError extends Error {
     status: number;
-    constructor(message: string, status: number) {
+    issues: Issue[];
+    constructor(message: string, status: number, issues: Issue[] = []) {
         super(message);
         this.status = status;
+        this.issues = issues;
     }
 }
 
@@ -33,6 +40,13 @@ export const publish = (docs: Partial<Docs>, revs: Revs) =>
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ docs, revs }),
+    });
+
+export const validateDraft = (docs: Docs) =>
+    request<{ issues: Issue[] }>('/api/admin/validate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ docs }),
     });
 
 export const checkLive = (commit: string) =>

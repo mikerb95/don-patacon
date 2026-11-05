@@ -1,24 +1,6 @@
 ---
-import AboutHero from "../../components/about-page/Hero";
-import AboutTextImage from "../../components/about-page/TextImage";
-import Layout from "../../layouts/Layout.astro";
-import { pages } from '../../lib/content';
-
-const about = pages.about;
+import AboutView from '../../views/AboutView.astro';
+import { content } from '../../lib/content';
 ---
 
-<Layout
-    title="Nosotros - DON PATACÓN"
-    description="Conoce la historia de DON PATACÓN, cocina colombiana en el Centro Comercial Plaza Central, Bogotá."
->
-    <div>
-        <AboutHero
-            titleTop={about.titleTop}
-            titleBottom={about.titleBottom}
-            subtitle={about.subtitle}
-            description={about.description}
-            cover={about.cover}
-        />
-        {about.blocks.length > 0 && <AboutTextImage data={about.blocks} />}
-    </div>
-</Layout>
+<AboutView content={content} />

@@ -1,0 +1,29 @@
+---
+import MenuMeals from "../components/menu-page/Meals";
+import Layout from "../layouts/Layout.astro";
+import type { Docs } from '../lib/schema';
+
+interface Props {
+    content: Docs;
+    preview?: boolean;
+}
+
+const { content, preview } = Astro.props;
+const { menu, pages } = content;
+---
+
+<Layout
+    content={content}
+    preview={preview}
+    title={`${pages.menu.title} - DON PATACÓN`}
+    description="Carta completa de DON PATACÓN, con precios. Centro Comercial Plaza Central, Bogotá."
+>
+    <div>
+        <MenuMeals
+            title={pages.menu.title}
+            categories={menu.categories}
+            dishes={menu.dishes}
+            client:load
+        />
+    </div>
+</Layout>

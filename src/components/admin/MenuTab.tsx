@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import type { Category, Day, Dish, Menu } from '../../lib/schema';
 import { DAYS } from '../../lib/schema';
-import { Button, Field, ImageField, moveItem, previews, Sheet, Toggle, uniqueId } from './ui';
+import type { SheetRoute } from './route';
+import { Button, Field, FieldError, ImageField, moveItem, previews, Sheet, Toggle, uniqueId, useIssues } from './ui';
 
 const DAY_LABELS: Record<Day, string> = {
     MON: 'Lun', TUE: 'Mar', WED: 'Mié', THU: 'Jue', FRI: 'Vie', SAT: 'Sáb', SUN: 'Dom',
@@ -13,6 +14,12 @@ interface Props {
     menu: Menu;
     onChange: (menu: Menu) => void;
     onError: (message: string) => void;
+    /** Categoría y ficha abiertas: viven en la URL para que "atrás" funcione. */
+    category?: string;
+    sheet?: SheetRoute;
+    onCategory: (id: string) => void;
+    onOpenSheet: (category: string, sheet: SheetRoute) => void;
+    onCloseSheet: () => void;
 }
 
 /** Precio editable en la fila: se escribe "32000" y se lee "32.000". */
@@ -33,11 +40,12 @@ const PriceInput: React.FC<{ value: number; label: string; onChange: (v: number)
     </label>
 );
 
-const MenuTab: React.FC<Props> = ({ menu, onChange, onError }) => {
-    const [activeId, setActiveId] = useState(menu.categories[0]?.id ?? '');
+const MenuTab: React.FC<Props> = ({ menu, onChange, onError, category: routeCategory, sheet, onCategory, onOpenSheet, onCloseSheet }) => {
+    const activeId = menu.categories.some((c) => c.id === routeCategory) ? routeCategory! : (menu.categories[0]?.id ?? '');
+    const editingDish = sheet?.type === 'plato' ? sheet.id : null;
+    const editingCategory = sheet?.type === 'categoria' ? sheet.id : null;
+    const { clear } = useIssues();
     const [query, setQuery] = useState('');
-    const [editingDish, setEditingDish] = useState<string | null>(null);
-    const [editingCategory, setEditingCategory] = useState<string | null>(null);
     const [confirmDelete, setConfirmDelete] = useState(false);
 
     const q = query.trim().toLowerCase();
@@ -61,19 +69,20 @@ const MenuTab: React.FC<Props> = ({ menu, onChange, onError }) => {
         });
         setQuery('');
         setConfirmDelete(false);
-        setEditingDish(id);
+        onOpenSheet(activeId, { type: 'plato', id });
     };
 
     const addCategory = () => {
         const id = uniqueId('categoria-nueva', menu.categories.map((c) => c.id));
         onChange({ ...menu, categories: [...menu.categories, { id, title: '', description: '', image: '' }] });
-        setActiveId(id);
         setConfirmDelete(false);
-        setEditingCategory(id);
+        onOpenSheet(id, { type: 'categoria', id });
     };
 
     const dish = menu.dishes.find((d) => d.id === editingDish);
+    const dishKey = dish ? `menu.dishes.${menu.dishes.indexOf(dish)}` : '';
     const category = menu.categories.find((c) => c.id === editingCategory);
+    const categoryKey = category ? `menu.categories.${menu.categories.indexOf(category)}` : '';
     const dishCount = (id: string) => menu.dishes.filter((d) => d.categoryId === id).length;
 
     const moveDish = (id: string, delta: number) => {
@@ -99,7 +108,7 @@ const MenuTab: React.FC<Props> = ({ menu, onChange, onError }) => {
             {!q && (
                 <div className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 mb-2">
                     {menu.categories.map((c) => (
-                        <button key={c.id} type="button" aria-pressed={c.id === activeId} onClick={() => setActiveId(c.id)}
+                        <button key={c.id} type="button" aria-pressed={c.id === activeId} onClick={() => onCategory(c.id)}
                             className={`shrink-0 min-h-11 px-4 rounded-full font-medium transition-colors ${c.id === activeId ? 'bg-appText text-white' : 'bg-[#E5E2D4]'}`}>
                             {c.title || 'Sin nombre'} <span className="opacity-70 font-normal">{dishCount(c.id)}</span>
                         </button>
@@ -111,7 +120,7 @@ const MenuTab: React.FC<Props> = ({ menu, onChange, onError }) => {
             )}
 
             {!q && menu.categories.some((c) => c.id === activeId) && (
-                <button type="button" onClick={() => { setConfirmDelete(false); setEditingCategory(activeId); }}
+                <button type="button" onClick={() => { setConfirmDelete(false); onOpenSheet(activeId, { type: 'categoria', id: activeId }); }}
                     className="min-h-11 text-[#6B5533] font-medium underline underline-offset-4 mb-2">
                     Editar esta categoría
                 </button>
@@ -127,7 +136,7 @@ const MenuTab: React.FC<Props> = ({ menu, onChange, onError }) => {
                 <ul className="divide-y divide-[#DAD7C8]">
                     {visible.map((d) => (
                         <li key={d.id} className={`flex items-center gap-2 py-3 ${d.available ? '' : 'opacity-60'}`}>
-                            <button type="button" onClick={() => { setConfirmDelete(false); setEditingDish(d.id); }} className="flex flex-1 min-w-0 items-center gap-2.5 text-left rounded-lg min-h-11">
+                            <button type="button" onClick={() => { setConfirmDelete(false); onOpenSheet(activeId, { type: 'plato', id: d.id }); }} className="flex flex-1 min-w-0 items-center gap-2.5 text-left rounded-lg min-h-11">
                                 <span className="w-11 h-11 shrink-0 rounded-lg overflow-hidden bg-[#E5E2D4]">
                                     {d.image && <img src={previews.get(d.image) ?? d.image} alt="" className="w-full h-full object-cover" />}
                                 </span>
@@ -146,18 +155,19 @@ const MenuTab: React.FC<Props> = ({ menu, onChange, onError }) => {
             )}
 
             {dish && (
-                <Sheet title={dish.title || 'Plato nuevo'} onClose={() => setEditingDish(null)}>
-                    <Field label="Nombre" value={dish.title} maxLength={100} onChange={(title) => patchDish(dish.id, { title })} />
-                    <Field label="Precio en pesos" inputMode="numeric" value={dish.price ? String(dish.price) : ''}
+                <Sheet title={dish.title || 'Plato nuevo'} onClose={onCloseSheet}>
+                    <Field name={`${dishKey}.title`} label="Nombre" value={dish.title} maxLength={100} onChange={(title) => patchDish(dish.id, { title })} />
+                    <Field name={`${dishKey}.price`} label="Precio en pesos" inputMode="numeric" value={dish.price ? String(dish.price) : ''}
                         onChange={(v) => patchDish(dish.id, { price: Number(v.replace(/\D/g, '').slice(0, 8)) })} />
-                    <Field label="Descripción" multiline value={dish.description} maxLength={600} onChange={(description) => patchDish(dish.id, { description })} />
+                    <Field name={`${dishKey}.description`} label="Descripción" multiline value={dish.description} maxLength={600} onChange={(description) => patchDish(dish.id, { description })} />
                     <ImageField label="Foto" value={dish.image} onChange={(image) => patchDish(dish.id, { image })} onError={onError} />
                     <div className="grid gap-1.5">
                         <label htmlFor="dish-category" className="font-medium">Categoría</label>
-                        <select id="dish-category" value={dish.categoryId} onChange={(e) => patchDish(dish.id, { categoryId: e.target.value })}
+                        <select id="dish-category" data-field={`${dishKey}.categoryId`} value={dish.categoryId} onChange={(e) => { clear(`${dishKey}.categoryId`); patchDish(dish.id, { categoryId: e.target.value }); }}
                             className="min-h-12 px-3 rounded-xl bg-white border border-[#CFCCBF] text-base">
                             {menu.categories.map((c) => <option key={c.id} value={c.id}>{c.title || 'Sin nombre'}</option>)}
                         </select>
+                        <FieldError name={`${dishKey}.categoryId`} />
                     </div>
                     <Toggle checked={dish.available} label="Disponible hoy" showLabel onChange={(available) => patchDish(dish.id, { available })} />
                     <fieldset className="grid gap-2">
@@ -185,7 +195,7 @@ const MenuTab: React.FC<Props> = ({ menu, onChange, onError }) => {
                     <Button kind="danger" onClick={() => {
                         if (!confirmDelete) return setConfirmDelete(true);
                         onChange({ ...menu, dishes: menu.dishes.filter((d) => d.id !== dish.id) });
-                        setEditingDish(null);
+                        onCloseSheet();
                     }}>
                         {confirmDelete ? 'Toca otra vez para eliminar' : 'Eliminar plato'}
                     </Button>
@@ -193,9 +203,9 @@ const MenuTab: React.FC<Props> = ({ menu, onChange, onError }) => {
             )}
 
             {category && (
-                <Sheet title={category.title || 'Categoría nueva'} onClose={() => setEditingCategory(null)}>
-                    <Field label="Nombre" value={category.title} maxLength={60} onChange={(title) => patchCategory(category.id, { title })} />
-                    <Field label="Descripción" multiline value={category.description} maxLength={400} onChange={(description) => patchCategory(category.id, { description })} />
+                <Sheet title={category.title || 'Categoría nueva'} onClose={onCloseSheet}>
+                    <Field name={`${categoryKey}.title`} label="Nombre" value={category.title} maxLength={60} onChange={(title) => patchCategory(category.id, { title })} />
+                    <Field name={`${categoryKey}.description`} label="Descripción" multiline value={category.description} maxLength={400} onChange={(description) => patchCategory(category.id, { description })} />
                     <ImageField label="Foto de la categoría" value={category.image} onChange={(image) => patchCategory(category.id, { image })} onError={onError} />
                     <div className="flex flex-wrap gap-2">
                         {(['Mover a la izquierda', 'Mover a la derecha'] as const).map((label, i) => (
@@ -212,8 +222,7 @@ const MenuTab: React.FC<Props> = ({ menu, onChange, onError }) => {
                             if (!confirmDelete) return setConfirmDelete(true);
                             const rest = menu.categories.filter((c) => c.id !== category.id);
                             onChange({ ...menu, categories: rest });
-                            setActiveId(rest[0]?.id ?? '');
-                            setEditingCategory(null);
+                            onCloseSheet();
                         }}>
                             {confirmDelete ? 'Toca otra vez para eliminar' : 'Eliminar categoría'}
                         </Button>

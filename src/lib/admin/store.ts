@@ -32,6 +32,8 @@ export interface ContentStore {
     readonly hasHistory: boolean;
     /** Lee los documentos; con `at`, en un commit anterior. */
     readDocs(at?: string): Promise<Record<DocFile, string>>;
+    /** Lee un archivo publicado o recién subido, como una imagen. */
+    readBinary(path: string): Promise<Buffer>;
     /** Escribe si `expected` coincide con lo actual; devuelve el commit (o null en local). */
     write(
         files: WriteFile[],
@@ -70,6 +72,10 @@ export class LocalStore implements ContentStore {
             ]),
         );
         return Object.fromEntries(entries);
+    }
+
+    async readBinary(path: string): Promise<Buffer> {
+        return readFile(join(this.root, path));
     }
 
     async write(files: WriteFile[], _message: string, expected?: Partial<Record<DocFile, string>>) {
@@ -156,6 +162,12 @@ export class GitHubStore implements ContentStore {
             }),
         );
         return Object.fromEntries(entries);
+    }
+
+    async readBinary(path: string): Promise<Buffer> {
+        const sha = await this.head();
+        const res = await this.call(`/contents/${path}?ref=${sha}`, {}, 'application/vnd.github.raw+json');
+        return Buffer.from(await res.arrayBuffer());
     }
 
     async write(files: WriteFile[], message: string, expected?: Partial<Record<DocFile, string>>) {

@@ -1,19 +1,6 @@
 ---
-import MenuMeals from "../../components/menu-page/Meals";
-import Layout from "../../layouts/Layout.astro";
-import { menu, pages } from '../../lib/content';
+import MenuView from '../../views/MenuView.astro';
+import { content } from '../../lib/content';
 ---
 
-<Layout
-    title={`${pages.menu.title} - DON PATACÓN`}
-    description="Carta completa de DON PATACÓN, con precios. Centro Comercial Plaza Central, Bogotá."
->
-    <div>
-        <MenuMeals
-            title={pages.menu.title}
-            categories={menu.categories}
-            dishes={menu.dishes}
-            client:load
-        />
-    </div>
-</Layout>
+<MenuView content={content} />

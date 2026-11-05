@@ -1,7 +1,8 @@
 ---
 import Footer from '../components/layout/Footer';
 import Header from '../components/layout/Header';
-import { business, pages, SITE_DESCRIPTION } from '../lib/content';
+import { content as publishedContent, SITE_DESCRIPTION } from '../lib/content';
+import type { Docs } from '../lib/schema';
 // Fuentes autoalojadas (sin Google Fonts): Inter variable para el texto,
 // Gloock para los títulos. Solo se descarga el subset latino que se use.
 import '@fontsource-variable/inter/wght.css';
@@ -12,9 +13,14 @@ interface Props {
     title: string;
     /** Meta description de la página; por defecto, la del sitio. */
     description?: string;
+    /** Contenido a mostrar; por defecto, el publicado. */
+    content?: Docs;
+    /** En la vista previa del panel, los enlaces no navegan. */
+    preview?: boolean;
 }
 
-const { title, description = SITE_DESCRIPTION } = Astro.props;
+const { title, description = SITE_DESCRIPTION, content = publishedContent, preview = false } = Astro.props;
+const { business, pages } = content;
 const ogImageUrl = '/thumbnail.jpg';
 ---
 
@@ -36,6 +42,13 @@ const ogImageUrl = '/thumbnail.jpg';
         <meta property="twitter:image" content={ogImageUrl} />
         <title>{title}</title>
         <slot name="head" />
+        {preview && (
+            <script is:inline>
+                document.addEventListener('click', (event) => {
+                    if (event.target.closest('a')) event.preventDefault();
+                }, true);
+            </script>
+        )}
     </head>
     <body class="font-sans overflow-x-hidden bg-appBody text-appText">
         <a

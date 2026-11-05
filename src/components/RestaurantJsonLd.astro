@@ -5,9 +5,14 @@
  *
  * Pendiente cuando haya dominio: `url` e `image` absolutas.
  */
-import { business } from '../lib/content';
+import type { Business } from '../lib/schema';
 import { openingHoursSpecification } from '../lib/hours';
 
+interface Props {
+    business: Business;
+}
+
+const { business } = Astro.props;
 const valid = (value: string) => !!value;
 const telephone = business.phone.replace(/[^\d+]/g, '');
 const openingHours = openingHoursSpecification(business.hours);

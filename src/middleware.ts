@@ -5,7 +5,7 @@
  */
 import { defineMiddleware } from 'astro:middleware';
 
-const CSP = [
+const csp = (framing: string, extra: string[] = []) => [
     "default-src 'self'",
     "script-src 'self' 'unsafe-inline'",
     "style-src 'self' 'unsafe-inline'",
@@ -14,8 +14,9 @@ const CSP = [
     "connect-src 'self'",
     "base-uri 'none'",
     "form-action 'self'",
-    "frame-ancestors 'none'",
+    `frame-ancestors ${framing}`,
     "object-src 'none'",
+    ...extra,
 ].join('; ');
 
 export const onRequest = defineMiddleware(async (context, next) => {
@@ -30,9 +31,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
         response.headers.set('Cache-Control', 'no-store');
         response.headers.set('X-Robots-Tag', 'noindex, nofollow');
         response.headers.set('X-Content-Type-Options', 'nosniff');
-        response.headers.set('X-Frame-Options', 'DENY');
+        // La vista previa se muestra dentro del panel y usa el mapa de Google.
+        const preview = path.startsWith('/admin/preview');
+        response.headers.set('X-Frame-Options', preview ? 'SAMEORIGIN' : 'DENY');
         response.headers.set('Referrer-Policy', 'same-origin');
-        response.headers.set('Content-Security-Policy', CSP);
+        response.headers.set(
+            'Content-Security-Policy',
+            preview ? csp("'self'", ['frame-src https://www.google.com']) : csp("'none'"),
+        );
     }
     return response;
 });

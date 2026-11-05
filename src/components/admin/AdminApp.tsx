@@ -1,19 +1,29 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Docs } from '../../lib/schema';
-import { ApiError, checkLive, loadContent, publish, type Revs } from './api';
+import { ApiError, checkLive, loadContent, publish, validateDraft, type Issue, type Revs } from './api';
 import BusinessTab, { missingBusiness } from './BusinessTab';
 import HistoryTab from './HistoryTab';
 import MenuTab from './MenuTab';
 import PagesTab from './PagesTab';
-import { Button } from './ui';
+import Preview from './Preview';
+import { routeForIssue, type PreviewPage, type Tab } from './route';
+import { Button, IssuesContext } from './ui';
+import { useRoute } from './useRoute';
 
-type Tab = 'menu' | 'business' | 'pages' | 'history';
 const TABS: { id: Tab; label: string }[] = [
-    { id: 'menu', label: 'Carta' },
-    { id: 'business', label: 'Negocio' },
-    { id: 'pages', label: 'Páginas' },
-    { id: 'history', label: 'Historial' },
+    { id: 'carta', label: 'Carta' },
+    { id: 'negocio', label: 'Negocio' },
+    { id: 'paginas', label: 'Páginas' },
+    { id: 'historial', label: 'Historial' },
 ];
+
+/** Qué página conviene ver primero según lo que se está editando. */
+const PREVIEW_FOR_TAB: Record<Tab, PreviewPage> = {
+    carta: 'carta',
+    negocio: 'contacto',
+    paginas: 'inicio',
+    historial: 'inicio',
+};
 
 const DRAFT_KEY = 'dp_admin_draft';
 const POLL_MS = 15_000;
@@ -34,7 +44,11 @@ const AdminApp: React.FC = () => {
     const [draft, setDraft] = useState<Docs | null>(null);
     const [revs, setRevs] = useState<Revs | null>(null);
     const [hasHistory, setHasHistory] = useState(false);
-    const [tab, setTab] = useState<Tab>('menu');
+    const { route, navigate, goBack } = useRoute();
+    const tab = route.tab;
+    const [issues, setIssues] = useState<Issue[]>([]);
+    const [focusField, setFocusField] = useState<{ path: string } | null>(null);
+    const [checking, setChecking] = useState(false);
     const [error, setError] = useState('');
     const [loadError, setLoadError] = useState('');
     const [conflict, setConflict] = useState(false);
@@ -132,7 +146,77 @@ const AdminApp: React.FC = () => {
         undoStack.current = [];
         setUndoCount(0);
         setError('');
+        setIssues([]);
     };
+
+    const issueMap = useMemo(() => new Map(issues.map((i) => [i.path, i.message])), [issues]);
+    const clearIssue = useCallback((name: string) => {
+        setIssues((list) => (list.some((i) => i.path === name) ? list.filter((i) => i.path !== name) : list));
+    }, []);
+    const issuesValue = useMemo(() => ({ issues: issueMap, clear: clearIssue }), [issueMap, clearIssue]);
+
+    const goToIssue = useCallback((issue: Issue, docs: Docs) => {
+        const target = routeForIssue(issue.path, docs.menu);
+        navigate(target, { replace: !target.sheet });
+        setFocusField({ path: issue.path });
+    }, [navigate]);
+
+    const showIssues = useCallback((list: Issue[], docs: Docs) => {
+        setIssues(list);
+        setError('');
+        if (list[0]) goToIssue(list[0], docs);
+    }, [goToIssue]);
+
+    // Lleva al campo con error: abre su sección si está plegada y le da el foco.
+    useEffect(() => {
+        if (!focusField) return;
+        let tries = 0;
+        let frame = 0;
+        const find = () => {
+            const el = document.querySelector<HTMLElement>(`[data-field="${focusField.path}"]`);
+            if (el) {
+                const section = el.closest('details');
+                if (section) section.open = true;
+                el.scrollIntoView({ block: 'center' });
+                el.focus();
+                setFocusField(null);
+            } else if (tries++ < 20) {
+                frame = requestAnimationFrame(find);
+            } else {
+                setFocusField(null);
+            }
+        };
+        frame = requestAnimationFrame(find);
+        return () => cancelAnimationFrame(frame);
+    }, [focusField, route]);
+
+    // Al cambiar de sección se empieza desde arriba.
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [tab]);
+
+    const openPreview = async () => {
+        if (!draft) return;
+        setChecking(true);
+        setError('');
+        try {
+            const { issues: found } = await validateDraft(draft);
+            if (found.length > 0) showIssues(found, draft);
+            else {
+                setIssues([]);
+                navigate({ ...route, preview: PREVIEW_FOR_TAB[tab] });
+            }
+        } catch (err) {
+            setError(err instanceof ApiError ? err.message : 'No se pudo preparar la vista previa.');
+        } finally {
+            setChecking(false);
+        }
+    };
+
+    const closePreview = useCallback(() => {
+        const { preview: _preview, ...rest } = route;
+        goBack(rest);
+    }, [route, goBack]);
 
     const startFollowing = (commit: string | null) => {
         setPublishing(commit ? { state: 'deploying', commit, since: Date.now() } : { state: 'saved-local' });
@@ -142,6 +226,7 @@ const AdminApp: React.FC = () => {
         if (!draft || !revs || !base) return;
         setPublishing({ state: 'saving' });
         setError('');
+        setIssues([]);
         try {
             const docs = Object.fromEntries(changed.map((k) => [k, draft[k]])) as Partial<Docs>;
             const res = await publish(docs, revs);
@@ -152,8 +237,15 @@ const AdminApp: React.FC = () => {
             undoStack.current = [];
             setUndoCount(0);
             startFollowing(res.commit);
+            if (route.preview) closePreview();
         } catch (err) {
             setPublishing({ state: 'idle' });
+            if (err instanceof ApiError && err.issues.length > 0) {
+                const { preview: _preview, ...rest } = route;
+                if (route.preview) navigate(rest, { replace: true });
+                showIssues(err.issues, draft);
+                return;
+            }
             if (err instanceof ApiError && err.status === 409) setConflict(true);
             setError(err instanceof ApiError ? err.message : 'No se pudo publicar.');
         }
@@ -174,16 +266,17 @@ const AdminApp: React.FC = () => {
     const missing = missingBusiness(draft.business).length;
 
     return (
-        <div className="min-h-dvh pb-44 md:pb-28">
+        <IssuesContext.Provider value={issuesValue}>
+        <div className="min-h-dvh pb-52 md:pb-36">
             <header className="sticky top-0 z-20 bg-appBody/95 backdrop-blur border-b border-[#DAD7C8]">
                 <div className="max-w-3xl mx-auto px-4 flex items-center justify-between gap-3 h-14">
                     <a href="/" target="_blank" rel="noopener" className="font-Gloock text-xl leading-none">Don Patacón</a>
                     <nav aria-label="Secciones del panel" className="hidden md:flex gap-1">
                         {TABS.map((t) => (
-                            <button key={t.id} type="button" aria-current={tab === t.id ? 'page' : undefined} onClick={() => setTab(t.id)}
+                            <button key={t.id} type="button" aria-current={tab === t.id ? 'page' : undefined} onClick={() => navigate({ tab: t.id })}
                                 className={`relative min-h-11 px-3.5 rounded-xl font-medium ${tab === t.id ? 'bg-[#E5E2D4]' : ''}`}>
                                 {t.label}
-                                {t.id === 'business' && missing > 0 && <span className="absolute top-2 right-1.5 w-2 h-2 rounded-full bg-[#A2452E]" aria-label={`Faltan ${missing} datos`} />}
+                                {t.id === 'negocio' && missing > 0 && <span className="absolute top-2 right-1.5 w-2 h-2 rounded-full bg-[#A2452E]" aria-label={`Faltan ${missing} datos`} />}
                             </button>
                         ))}
                     </nav>
@@ -194,17 +287,37 @@ const AdminApp: React.FC = () => {
             </header>
 
             <main className="max-w-3xl mx-auto px-4 pt-6">
-                {tab === 'menu' && <MenuTab menu={draft.menu} onChange={(menu) => update({ menu })} onError={setError} />}
-                {tab === 'business' && <BusinessTab business={draft.business} onChange={(business) => update({ business })} />}
-                {tab === 'pages' && <PagesTab pages={draft.pages} onChange={(pages) => update({ pages })} onError={setError} />}
-                {tab === 'history' && (
+                {tab === 'carta' && (
+                    <MenuTab
+                        menu={draft.menu}
+                        onChange={(menu) => update({ menu })}
+                        onError={setError}
+                        category={route.category}
+                        sheet={route.sheet}
+                        onCategory={(category) => navigate({ tab: 'carta', category }, { replace: true })}
+                        onOpenSheet={(category, sheet) => navigate({ tab: 'carta', category, sheet })}
+                        onCloseSheet={() => goBack({ tab: 'carta', category: route.category })}
+                    />
+                )}
+                {tab === 'negocio' && <BusinessTab business={draft.business} onChange={(business) => update({ business })} />}
+                {tab === 'paginas' && <PagesTab pages={draft.pages} onChange={(pages) => update({ pages })} onError={setError} />}
+                {tab === 'historial' && (
                     <HistoryTab enabled={hasHistory} hasDraft={dirty} onError={setError}
-                        onRestored={(commit) => { startFollowing(commit); void load(); setTab('menu'); }} />
+                        onRestored={(commit) => { startFollowing(commit); void load(); navigate({ tab: 'carta' }); }} />
                 )}
             </main>
 
             <div className="fixed inset-x-0 bottom-0 z-30 pointer-events-none" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
                 <div className="max-w-3xl mx-auto px-3 pb-2 grid gap-2">
+                    {issues.length > 0 && (
+                        <div role="alert" className="pointer-events-auto rounded-2xl bg-[#7E2F20] text-white p-3.5 flex items-center justify-between gap-3">
+                            <span className="leading-snug">
+                                {issues.length === 1 ? 'Corrige este campo antes de continuar: ' : `Corrige ${issues.length} campos antes de continuar. El primero: `}
+                                {issues[0].message}
+                            </span>
+                            <Button className="shrink-0" onClick={() => goToIssue(issues[0], draft)}>Ver campo</Button>
+                        </div>
+                    )}
                     {error && (
                         <div role="alert" className="pointer-events-auto rounded-2xl bg-[#7E2F20] text-white p-3.5 flex items-center justify-between gap-3">
                             <span className="leading-snug">{error}</span>
@@ -214,12 +327,19 @@ const AdminApp: React.FC = () => {
                         </div>
                     )}
                     {dirty ? (
-                        <div className="pointer-events-auto rounded-2xl bg-appText text-white p-3 flex flex-wrap items-center justify-between gap-2">
-                            <p className="font-medium pl-1">Cambios sin publicar</p>
-                            <div className="flex gap-1.5 ml-auto">
-                                <button type="button" onClick={undo} disabled={undoCount === 0} className="min-h-11 px-3 rounded-xl font-medium disabled:opacity-40">Deshacer</button>
-                                <button type="button" onClick={discard} className="min-h-11 px-3 rounded-xl font-medium">Descartar</button>
-                                <button type="button" onClick={doPublish} disabled={publishing.state === 'saving'} className="min-h-11 px-4 rounded-xl font-semibold bg-appBody text-appText disabled:opacity-60">
+                        <div className="pointer-events-auto rounded-2xl bg-appText text-white p-3 grid gap-2">
+                            <div className="flex items-center justify-between gap-2">
+                                <p className="font-medium pl-1">Cambios sin publicar</p>
+                                <div className="flex gap-1">
+                                    <button type="button" onClick={undo} disabled={undoCount === 0} className="min-h-11 px-2.5 rounded-xl font-medium disabled:opacity-40">Deshacer</button>
+                                    <button type="button" onClick={discard} className="min-h-11 px-2.5 rounded-xl font-medium">Descartar</button>
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-2">
+                                <button type="button" onClick={openPreview} disabled={checking} className="min-h-11 px-3 rounded-xl font-semibold bg-white/10 disabled:opacity-60">
+                                    {checking ? 'Revisando…' : 'Vista previa'}
+                                </button>
+                                <button type="button" onClick={doPublish} disabled={publishing.state === 'saving'} className="min-h-11 px-3 rounded-xl font-semibold bg-appBody text-appText disabled:opacity-60">
                                     {publishing.state === 'saving' ? 'Publicando…' : 'Publicar'}
                                 </button>
                             </div>
@@ -238,16 +358,29 @@ const AdminApp: React.FC = () => {
                     ) : null}
                     <nav aria-label="Secciones del panel" className="pointer-events-auto md:hidden grid grid-cols-4 rounded-2xl bg-white shadow-[0_2px_16px_rgba(39,36,36,0.14)]">
                         {TABS.map((t) => (
-                            <button key={t.id} type="button" aria-current={tab === t.id ? 'page' : undefined} onClick={() => setTab(t.id)}
+                            <button key={t.id} type="button" aria-current={tab === t.id ? 'page' : undefined} onClick={() => navigate({ tab: t.id })}
                                 className={`relative min-h-14 rounded-2xl font-medium text-sm ${tab === t.id ? 'bg-[#E5E2D4]' : ''}`}>
                                 {t.label}
-                                {t.id === 'business' && missing > 0 && <span className="absolute top-3 right-3 w-2 h-2 rounded-full bg-[#A2452E]" aria-label={`Faltan ${missing} datos`} />}
+                                {t.id === 'negocio' && missing > 0 && <span className="absolute top-3 right-3 w-2 h-2 rounded-full bg-[#A2452E]" aria-label={`Faltan ${missing} datos`} />}
                             </button>
                         ))}
                     </nav>
                 </div>
             </div>
+            {route.preview && (
+                <Preview
+                    page={route.preview}
+                    category={route.category}
+                    docs={draft}
+                    dirty={dirty}
+                    publishing={publishing.state === 'saving'}
+                    onPage={(page) => navigate({ ...route, preview: page }, { replace: true })}
+                    onClose={closePreview}
+                    onPublish={doPublish}
+                />
+            )}
         </div>
+        </IssuesContext.Provider>
     );
 };
 

@@ -1,20 +1,6 @@
 ---
-import OrderForm from "../../components/order-page/Form";
-import Layout from "../../layouts/Layout.astro";
-import { business } from '../../lib/content';
+import OrdersView from '../../views/OrdersView.astro';
+import { content } from '../../lib/content';
 ---
 
-<Layout
-    title={`Pedidos - DON PATACÓN`}
-    description="Pide en DON PATACÓN por WhatsApp y recoge en el Centro Comercial Plaza Central, Bogotá, o pide a domicilio."
->
-    <div>
-        <OrderForm
-            businessName={business.name}
-            whatsappNumber={business.whatsapp}
-            mallLocation={business.mallLocation}
-            delivery={business.delivery}
-            client:load
-        />
-    </div>
-</Layout>
+<OrdersView content={content} />

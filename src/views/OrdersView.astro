@@ -1,0 +1,30 @@
+---
+import OrderForm from "../components/order-page/Form";
+import Layout from "../layouts/Layout.astro";
+import type { Docs } from '../lib/schema';
+
+interface Props {
+    content: Docs;
+    preview?: boolean;
+}
+
+const { content, preview } = Astro.props;
+const { business } = content;
+---
+
+<Layout
+    content={content}
+    preview={preview}
+    title={`Pedidos - DON PATACÓN`}
+    description="Pide en DON PATACÓN por WhatsApp y recoge en el Centro Comercial Plaza Central, Bogotá, o pide a domicilio."
+>
+    <div>
+        <OrderForm
+            businessName={business.name}
+            whatsappNumber={business.whatsapp}
+            mallLocation={business.mallLocation}
+            delivery={business.delivery}
+            client:load
+        />
+    </div>
+</Layout>

@@ -1,0 +1,53 @@
+---
+import { isAuthenticated, isSameOrigin } from '../../../lib/admin/guard';
+import { rewriteMediaForPreview, validateDocs } from '../../../lib/admin/validate';
+import type { Docs } from '../../../lib/schema';
+import AboutView from '../../../views/AboutView.astro';
+import ContactView from '../../../views/ContactView.astro';
+import HomeView from '../../../views/HomeView.astro';
+import LegalView from '../../../views/LegalView.astro';
+import MenuView from '../../../views/MenuView.astro';
+import OrdersView from '../../../views/OrdersView.astro';
+import PrivacyView from '../../../views/PrivacyView.astro';
+
+export const prerender = false;
+
+/**
+ * Vista previa del borrador: usa las mismas vistas que el sitio público, con el
+ * contenido que llega del panel. No guarda nada.
+ */
+const VIEWS = {
+    inicio: HomeView,
+    carta: MenuView,
+    pedidos: OrdersView,
+    contacto: ContactView,
+    nosotros: AboutView,
+    legal: LegalView,
+    privacidad: PrivacyView,
+} as const;
+
+const text = (message: string, status: number) =>
+    new Response(message, { status, headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+
+if (!isAuthenticated(Astro)) return text('Tu sesión terminó. Vuelve a entrar al panel.', 401);
+if (Astro.request.method !== 'POST') return Astro.redirect('/admin');
+if (!isSameOrigin(Astro.request)) return text('Origen no permitido.', 403);
+
+const View = VIEWS[Astro.params.page as keyof typeof VIEWS];
+if (!View) return text('Página no encontrada.', 404);
+
+const form = await Astro.request.formData();
+let docs: Record<string, unknown> = {};
+try {
+    docs = JSON.parse(String(form.get('docs') ?? ''));
+} catch {
+    return text('Borrador inválido.', 400);
+}
+const { parsed, issues } = validateDocs(docs);
+if (issues.length > 0 || !parsed.business || !parsed.menu || !parsed.pages) {
+    return text(issues[0]?.message ?? 'Borrador incompleto.', 422);
+}
+const content = rewriteMediaForPreview(parsed as unknown as Docs);
+---
+
+<View content={content} preview />

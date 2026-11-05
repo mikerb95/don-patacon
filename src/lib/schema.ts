@@ -5,7 +5,7 @@
  */
 import { z } from 'astro/zod';
 
-const text = (max: number) => z.string().trim().max(max);
+const text = (max: number) => z.string().trim().max(max, `Máximo ${max} caracteres`);
 
 /** Solo http(s): evita enlaces `javascript:` en el sitio público. */
 const httpUrl = z
@@ -50,8 +50,14 @@ export const businessSchema = z.object({
     phone: z
         .string()
         .trim()
-        .regex(/^$|^[+()\d\s.-]{6,25}$/, 'Teléfono inválido'),
-    email: z.union([z.literal(''), z.string().trim().email('Correo inválido').max(120)]),
+        .regex(/^$|^[+()\d\s.-]{6,25}$/, 'Escribe un teléfono válido, como +57 300 123 4567'),
+    email: z
+        .string()
+        .trim()
+        .max(120, 'Máximo 120 caracteres')
+        .refine((v) => v === '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), {
+            message: 'Escribe un correo válido, como nombre@dominio.com',
+        }),
     whatsapp: z
         .string()
         .transform((v) => {
@@ -78,7 +84,7 @@ const dish = z.object({
     id,
     title: text(100).min(1, 'El plato necesita un nombre'),
     description: text(600),
-    price: z.number().int('El precio va sin decimales').min(0).max(10_000_000),
+    price: z.number().int('El precio va sin decimales').min(0, 'El precio no puede ser negativo').max(10_000_000, 'El precio es demasiado alto'),
     image: imagePath,
     categoryId: id,
     available: z.boolean(),

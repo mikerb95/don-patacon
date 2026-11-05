@@ -150,3 +150,9 @@ test('GitHubStore: reintenta una vez si la rama se movió en medio', async () =>
     assert.equal(gh.current()['public/media/a.webp'], 'img');
     assert.equal(gh.calls.filter((c) => c === 'PATCH /git/refs/heads/main').length, 2);
 });
+
+test('GitHubStore: lee una imagen recién subida', async () => {
+    const gh = fakeGitHub({ ...DOCS, 'public/media/a.webp': 'img' });
+    const file = await makeStore(gh.fetchFn).readBinary('public/media/a.webp');
+    assert.equal(file.toString(), 'img');
+});

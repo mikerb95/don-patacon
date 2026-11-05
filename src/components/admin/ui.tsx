@@ -1,10 +1,26 @@
-import React, { useEffect, useId, useRef, useState } from 'react';
+import React, { createContext, useContext, useEffect, useId, useRef, useState } from 'react';
 import { uploadImage, ApiError } from './api';
+
+/** Errores de validación por campo; la clave es la ruta: "menu.dishes.3.title". */
+export const IssuesContext = createContext<{
+    issues: Map<string, string>;
+    clear: (name: string) => void;
+}>({ issues: new Map(), clear: () => {} });
+
+export const useIssues = () => useContext(IssuesContext);
+
+export const FieldError: React.FC<{ name: string; id?: string }> = ({ name, id }) => {
+    const message = useIssues().issues.get(name);
+    if (!message) return null;
+    return <p id={id} className="text-sm leading-snug font-medium text-[#8E3B2A]">{message}</p>;
+};
 
 const INPUT =
     'w-full min-h-12 px-3.5 py-2.5 rounded-xl bg-white border border-[#CFCCBF] text-base text-appText placeholder:text-appGray-400 focus:border-appText';
 
 interface FieldProps {
+    /** Ruta del dato; permite llevar a este campo cuando tiene un error. */
+    name?: string;
     label: string;
     value: string;
     onChange: (value: string) => void;
@@ -18,19 +34,34 @@ interface FieldProps {
 }
 
 export const Field: React.FC<FieldProps> = ({
-    label, value, onChange, hint, multiline, rows = 3, type = 'text', inputMode, placeholder, maxLength,
+    name, label, value, onChange, hint, multiline, rows = 3, type = 'text', inputMode, placeholder, maxLength,
 }) => {
     const id = useId();
+    const { issues, clear } = useIssues();
+    const invalid = !!name && issues.has(name);
+    const shared = {
+        id,
+        value,
+        placeholder,
+        maxLength,
+        'data-field': name,
+        'aria-invalid': invalid || undefined,
+        'aria-describedby': invalid ? `${id}-error` : undefined,
+        className: `${INPUT} ${invalid ? '!border-[#8E3B2A] !border-2' : ''}`,
+    };
+    const change = (next: string) => {
+        if (name) clear(name);
+        onChange(next);
+    };
     return (
         <div className="grid gap-1.5">
             <label htmlFor={id} className="font-medium leading-snug">{label}</label>
             {multiline ? (
-                <textarea id={id} rows={rows} className={INPUT} value={value} placeholder={placeholder} maxLength={maxLength}
-                    onChange={(e) => onChange(e.target.value)} />
+                <textarea {...shared} rows={rows} onChange={(e) => change(e.target.value)} />
             ) : (
-                <input id={id} type={type} inputMode={inputMode} className={INPUT} value={value} placeholder={placeholder} maxLength={maxLength}
-                    onChange={(e) => onChange(e.target.value)} />
+                <input {...shared} type={type} inputMode={inputMode} onChange={(e) => change(e.target.value)} />
             )}
+            {name && <FieldError name={name} id={`${id}-error`} />}
             {hint && <p className="text-sm leading-snug text-appGray-300">{hint}</p>}
         </div>
     );
