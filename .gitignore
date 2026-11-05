@@ -5,5 +5,4 @@ node_modules
 # Generados en build — no versionar
 .astro
 dist
-bcms
 .env

@@ -1,0 +1,23 @@
+{
+  "categories": [
+    {
+      "id": "entradas",
+      "title": "Entradas",
+      "description": "",
+      "image": ""
+    },
+    {
+      "id": "platos-fuertes",
+      "title": "Platos fuertes",
+      "description": "",
+      "image": ""
+    },
+    {
+      "id": "bebidas",
+      "title": "Bebidas",
+      "description": "",
+      "image": ""
+    }
+  ],
+  "dishes": []
+}

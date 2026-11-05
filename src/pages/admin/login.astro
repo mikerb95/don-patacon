@@ -1,0 +1,75 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import { authConfig, COOKIE_NAME } from '../../lib/admin/config';
+import { createSession, LoginThrottle, SESSION_HOURS, verifyPassword, verifyTotp } from '../../lib/admin/crypto';
+import { isAuthenticated, isSameOrigin } from '../../lib/admin/guard';
+
+export const prerender = false;
+
+const throttle = ((globalThis as Record<string, any>).__dpThrottle ??= new LoginThrottle());
+const usedSteps = ((globalThis as Record<string, any>).__dpTotpUsed ??= { last: 0 });
+
+const cfg = authConfig();
+if (isAuthenticated(Astro)) return Astro.redirect('/admin');
+
+let error = '';
+if (Astro.request.method === 'POST' && !isSameOrigin(Astro.request)) {
+    return new Response('Origen no permitido', { status: 403 });
+}
+if (Astro.request.method === 'POST' && cfg) {
+    const ip = Astro.clientAddress;
+    if (throttle.blocked(ip)) {
+        Astro.response.status = 429;
+        error = 'Demasiados intentos. Espera 15 minutos y vuelve a probar.';
+    } else {
+        const form = await Astro.request.formData();
+        const password = String(form.get('password') ?? '').slice(0, 200);
+        const code = String(form.get('code') ?? '').replace(/\s/g, '');
+        const passwordOk = await verifyPassword(password, cfg.passwordHash);
+        const step = verifyTotp(cfg.totpSecret, code);
+        // El mismo código no sirve dos veces.
+        if (passwordOk && step !== null && step > usedSteps.last) {
+            usedSteps.last = step;
+            throttle.clear(ip);
+            Astro.cookies.set(COOKIE_NAME, createSession(cfg.sessionSecret), {
+                path: '/',
+                httpOnly: true,
+                secure: import.meta.env.PROD,
+                sameSite: 'strict',
+                maxAge: SESSION_HOURS * 3600,
+            });
+            return Astro.redirect('/admin', 303);
+        }
+        throttle.fail(ip);
+        Astro.response.status = 401;
+        error = 'La contraseña o el código no son correctos.';
+    }
+}
+---
+
+<AdminLayout title="Entrar al panel - Don Patacón">
+    <main class="min-h-dvh flex flex-col justify-center px-6 py-10 max-w-sm mx-auto">
+        <h1 class="font-Gloock text-4xl leading-tight mb-2">Don Patacón</h1>
+        <p class="text-appGray-700 mb-8">Entra para editar la carta y los datos del local.</p>
+        {!cfg ? (
+            <p role="alert" class="bg-white rounded-xl p-4 leading-snug">
+                El panel aún no tiene credenciales. Ejecuta <code class="font-semibold">npm run admin:setup</code> y carga las variables en el servidor.
+            </p>
+        ) : (
+            <form method="post" class="grid gap-5">
+                <label class="grid gap-1.5">
+                    <span class="font-medium">Contraseña</span>
+                    <input name="password" type="password" required autocomplete="current-password" autofocus maxlength="200"
+                        class="h-12 px-4 rounded-xl bg-white border border-[#CFCCBF] text-base" />
+                </label>
+                <label class="grid gap-1.5">
+                    <span class="font-medium">Código de 6 dígitos de tu app</span>
+                    <input name="code" required inputmode="numeric" autocomplete="one-time-code" pattern="[0-9 ]{6,7}" maxlength="7"
+                        class="h-12 px-4 rounded-xl bg-white border border-[#CFCCBF] text-base tracking-[0.3em]" />
+                </label>
+                {error && <p role="alert" class="text-[#8E3B2A] font-medium">{error}</p>}
+                <button class="h-12 rounded-xl bg-appText text-white font-medium">Entrar</button>
+            </form>
+        )}
+    </main>
+</AdminLayout>

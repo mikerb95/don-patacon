@@ -86,6 +86,7 @@ const OrderForm: React.FC<Props> = ({
     };
 
     const handleSubmit = () => {
+        if (!whatsappNumber) return;
         const found = validate();
         setErrors(found);
         if (Object.keys(found).length > 0) return;
@@ -240,14 +241,20 @@ const OrderForm: React.FC<Props> = ({
                                 {errors.acceptTerms}
                             </div>
                         )}
-                        <Btn
-                            theme="accent"
-                            size="lg"
-                            className="justify-center w-full col-span-2"
-                            onClick={handleSubmit}
-                        >
-                            <span>Enviar pedido por WhatsApp</span>
-                        </Btn>
+                        {whatsappNumber ? (
+                            <Btn
+                                theme="accent"
+                                size="lg"
+                                className="justify-center w-full col-span-2"
+                                onClick={handleSubmit}
+                            >
+                                <span>Enviar pedido por WhatsApp</span>
+                            </Btn>
+                        ) : (
+                            <p role="status" className="col-span-2 text-sm text-center text-appGray-700">
+                                Los pedidos por WhatsApp estarán disponibles muy pronto.
+                            </p>
+                        )}
                         <p className="col-span-2 text-xs text-center text-appGray-400 -mt-2">
                             Se abrirá WhatsApp con tu pedido listo para enviar.
                             Te confirmamos el total y el tiempo de preparación.

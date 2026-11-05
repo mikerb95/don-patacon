@@ -1,18 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Transition } from 'react-transition-group';
 import classnames from 'classnames';
-import { BCMSImage } from '@thebcms/components-react';
-import type { PropMediaDataParsed } from '@thebcms/types';
-import type { ClientConfig } from '@thebcms/client';
 import Btn from '../Btn';
 
 interface Props {
-    map: PropMediaDataParsed;
-    bcmConfig: ClientConfig;
+    embedUrl: string;
     mapsUrl: string;
 }
 
-const HomeMap: React.FC<Props> = ({ map, bcmConfig, mapsUrl }) => {
+const HomeMap: React.FC<Props> = ({ embedUrl, mapsUrl }) => {
     const [showMap, setShowMap] = useState<boolean>(false);
 
     const mapRef = useRef<HTMLDivElement | null>(null);
@@ -65,10 +61,12 @@ const HomeMap: React.FC<Props> = ({ map, bcmConfig, mapsUrl }) => {
                         )}
                     >
                         <div className="relative z-10 top-4 translate-y-full bg-[#E5E4DA] rounded-2xl p-4 pb-6 xl:p-2 xl:w-[440px]">
-                            <BCMSImage
-                                media={map}
-                                clientConfig={bcmConfig}
-                                className="w-full h-auto cover rounded-[10px] overflow-hidden pointer-events-auto"
+                            <iframe
+                                src={embedUrl}
+                                title="Mapa: Centro Comercial Plaza Central, Bogotá"
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                                className="block w-full aspect-[4/3] border-0 rounded-[10px] overflow-hidden pointer-events-auto"
                             />
                             <div className="grid grid-cols-2 gap-3 mt-6 pointer-events-auto xl:hidden">
                                 <Btn

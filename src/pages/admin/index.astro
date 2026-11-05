@@ -1,0 +1,13 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+import AdminApp from '../../components/admin/AdminApp';
+import { isAuthenticated } from '../../lib/admin/guard';
+
+export const prerender = false;
+
+if (!isAuthenticated(Astro)) return Astro.redirect('/admin/login');
+---
+
+<AdminLayout title="Panel - Don Patacón">
+    <AdminApp client:only="react" />
+</AdminLayout>

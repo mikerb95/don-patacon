@@ -1,11 +1,15 @@
 import React from 'react';
-import type { BusinessInfo } from '../../config/business';
+import type { Business } from '../../lib/schema';
+import { summarizeHours } from '../../lib/hours';
 
 interface Props {
-    business: BusinessInfo;
+    business: Business;
+    /** Sin secciones publicadas no se enlaza /legal. */
+    hasTerms: boolean;
 }
 
-const Footer: React.FC<Props> = ({ business }) => {
+const Footer: React.FC<Props> = ({ business, hasTerms }) => {
+    const hours = summarizeHours(business.hours);
     const social = [
         { label: 'Instagram', href: business.social.instagram },
         { label: 'Facebook', href: business.social.facebook },
@@ -13,9 +17,9 @@ const Footer: React.FC<Props> = ({ business }) => {
     ].filter((item) => !!item.href);
 
     const contact = [
-        business.phone.display && {
-            label: business.phone.display,
-            href: `tel:${business.phone.e164}`,
+        business.phone && {
+            label: business.phone,
+            href: `tel:${business.phone.replace(/[^\d+]/g, '')}`,
         },
         business.email && {
             label: business.email,
@@ -24,7 +28,7 @@ const Footer: React.FC<Props> = ({ business }) => {
     ].filter(Boolean) as { label: string; href: string }[];
 
     const legal = [
-        { label: 'Términos y condiciones', href: '/legal' },
+        ...(hasTerms ? [{ label: 'Términos y condiciones', href: '/legal' }] : []),
         { label: 'Política de privacidad', href: '/privacidad' },
     ];
 
@@ -54,11 +58,12 @@ const Footer: React.FC<Props> = ({ business }) => {
                                 {i < addressLines.length - 1 && <br />}
                             </React.Fragment>
                         ))}
-                        {business.hours && (
-                            <>
-                                <br />
-                                <span className="block mt-2">{business.hours}</span>
-                            </>
+                        {hours.length > 0 && (
+                            <span className="block mt-2">
+                                {hours.map((line) => (
+                                    <span key={line} className="block">{line}</span>
+                                ))}
+                            </span>
                         )}
                     </address>
                     <nav className="grid grid-cols-[repeat(2,auto)] justify-between gap-x-12 gap-y-8 mx-auto mb-10 max-md:max-w-[225px] md:mb-20 lg:grid-cols-[repeat(3,auto)] lg:gap-20 xl:gap-[128px]">

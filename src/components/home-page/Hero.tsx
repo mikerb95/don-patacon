@@ -1,36 +1,34 @@
 import React from 'react';
 import StarIcon from '../../assets/icons/star.svg?raw';
-import { BCMSImage } from '@thebcms/components-react';
-import type {
-    PropMediaDataParsed,
-    PropRichTextDataParsed,
-} from '@thebcms/types';
-import type { InlineTextWithImageGroup } from '../../../bcms/types/ts';
-import type { ClientConfig } from '@thebcms/client';
 import HomeDivider from './Divider';
 import Btn from '../Btn';
-import ContentManager from '../ContentManager';
+import Prose from '../Prose';
 import HomeMap from './Map';
+import OpenStatus from './OpenStatus';
+import type { Business } from '../../lib/schema';
+import { summarizeHours } from '../../lib/hours';
 
 interface Props {
     title: string;
-    open_time: PropRichTextDataParsed;
+    image: string;
+    hours: Business['hours'];
     address: string;
-    map: PropMediaDataParsed;
-    description: InlineTextWithImageGroup[];
-    bcmsConfig: ClientConfig;
+    description: string;
     mapsUrl: string;
+    mapEmbedUrl: string;
 }
 
 const HomeHero: React.FC<Props> = ({
     title,
-    open_time,
+    image,
+    hours,
     address,
-    map,
     description,
-    bcmsConfig,
     mapsUrl,
+    mapEmbedUrl,
 }) => {
+    const summary = summarizeHours(hours);
+
     return (
         <section className="pt-10 md:pt-20 lg:pt-[200px]">
             <div className="container">
@@ -39,39 +37,31 @@ const HomeHero: React.FC<Props> = ({
                         viewBox="0 0 1376 986"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
-                        xmlnsXlink="http://www.w3.org/1999/xlink"
+                        role="presentation"
                         className="w-full"
                     >
-                        <path
-                            d="M0 238.786C403.766 -78.5849 972.234 -78.5849 1376 238.786V986H0V238.786Z"
-                            fill="url(#pattern0)"
-                        />
                         <defs>
-                            <pattern
-                                id="pattern0"
-                                patternContentUnits="objectBoundingBox"
-                                width="1"
-                                height="1"
-                            >
-                                <use
-                                    xlinkHref="#image0_560_272"
-                                    transform="matrix(0.000558036 0 0 0.000596162 0 -0.301242)"
-                                />
-                            </pattern>
-                            <image
-                                id="image0_560_272"
-                                width="1792"
-                                height="2688"
-                                xlinkHref={`/home-cover.jpg`}
-                            />
+                            <clipPath id="homeHeroArch">
+                                <path d="M0 238.786C403.766 -78.5849 972.234 -78.5849 1376 238.786V986H0V238.786Z" />
+                            </clipPath>
                         </defs>
+                        <rect width="1376" height="986" fill="#272424" clipPath="url(#homeHeroArch)" />
+                        {image && (
+                            <image
+                                href={image}
+                                width="1376"
+                                height="986"
+                                preserveAspectRatio="xMidYMid slice"
+                                clipPath="url(#homeHeroArch)"
+                            />
+                        )}
                     </svg>
                     <div className="absolute top-1 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-between xl:top-10 xl:w-full">
                         <div className="flex flex-col items-end max-xl:hidden">
                             <div className="text-lg leading-none mb-1.5">
                                 {address}
                             </div>
-                            <HomeMap map={map} bcmConfig={bcmsConfig} mapsUrl={mapsUrl} />
+                            <HomeMap embedUrl={mapEmbedUrl} mapsUrl={mapsUrl} />
                         </div>
                         <div className="h-px flex-1 bg-[#D9D9D9] mx-4 max-xl:hidden" />
                         <div className="bg-white px-4 py-[14px] rounded-[128px] max-w-max lg:px-20 lg:py-14">
@@ -82,7 +72,7 @@ const HomeHero: React.FC<Props> = ({
                                     }}
                                     className="w-2 h-2 lg:w-12 lg:h-12"
                                 />
-                                <h1 className="text-xl leading-none font-Gloock mx-2.5 lg:text-[80px] lg:leading-none lg:mx-12 2xl:text-[112px] 2xl:leading-none">
+                                <h1 className="text-xl leading-none whitespace-nowrap font-Gloock mx-2.5 lg:text-[80px] lg:leading-none lg:mx-12 2xl:text-[112px] 2xl:leading-none">
                                     {title}
                                 </h1>
                                 <div
@@ -94,10 +84,7 @@ const HomeHero: React.FC<Props> = ({
                             </div>
                         </div>
                         <div className="h-px flex-1 bg-[#D9D9D9] mx-4 max-xl:hidden" />
-                        <ContentManager
-                            items={open_time.nodes}
-                            className="text-sm leading-none text-[#8F8E88] text-right [&_strong]:inline-block [&_strong]:leading-none [&_strong]:font-normal [&_strong]:text-base [&_strong]:text-[#1e293b] [&_strong]:mb-1.5 max-xl:hidden md:[&_strong]:text-lg md:[&_strong]:leading-none lg:text-left"
-                        />
+                        <OpenStatus hours={hours} summary={summary} className="text-sm leading-none text-[#8F8E88] text-right max-xl:hidden lg:text-left" />
                     </div>
                 </div>
                 <div className="flex items-start justify-between mb-6 xl:hidden">
@@ -105,47 +92,14 @@ const HomeHero: React.FC<Props> = ({
                         <div className="text-sm leading-none mb-1.5 lg:text-lg lg:leading-none">
                             {address}
                         </div>
-                        <HomeMap map={map} bcmConfig={bcmsConfig} mapsUrl={mapsUrl} />
+                        <HomeMap embedUrl={mapEmbedUrl} mapsUrl={mapsUrl} />
                     </div>
-                    <ContentManager
-                        items={open_time.nodes}
-                        className="text-sm leading-none text-[#8F8E88] text-right [&_strong]:inline-block [&_strong]:leading-none [&_strong]:font-normal [&_strong]:text-base [&_strong]:text-[#1e293b] [&_strong]:mb-1.5 md:[&_strong]:text-lg md:[&_strong]:leading-none lg:text-left"
-                    />
+                    <OpenStatus hours={hours} summary={summary} className="text-sm leading-none text-[#8F8E88] text-right lg:text-left" />
                 </div>
-                <div className="homeHero--description mb-6 lg:mb-14">
-                    {description.map((item, index) => {
-                        return (
-                            <React.Fragment key={index}>
-                                {item.text && item.text.nodes.length > 0 && (
-                                    <ContentManager
-                                        items={item.text.nodes}
-                                        className="text-sm leading-[1.3] tracking-[-0.41px] uppercase text-appGray-700 lg:text-[40px] lg:leading-none"
-                                    />
-                                )}
-                                {item.image && (
-                                    <BCMSImage
-                                        media={item.image}
-                                        clientConfig={bcmsConfig}
-                                        className="h-4 flex-shrink-0 mx-2 bg-center bg-cover lg:hidden"
-                                        style={{
-                                            width: `${item.image.width / 5}px`,
-                                        }}
-                                    />
-                                )}
-                                {item.image && (
-                                    <BCMSImage
-                                        media={item.image}
-                                        clientConfig={bcmsConfig}
-                                        className="h-10 flex-shrink-0 mx-4 -translate-y-2 bg-center bg-cover max-lg:hidden"
-                                        style={{
-                                            width: `${item.image.width / 2}px`,
-                                        }}
-                                    />
-                                )}
-                            </React.Fragment>
-                        );
-                    })}
-                </div>
+                <Prose
+                    text={description}
+                    className="text-sm leading-[1.3] tracking-[-0.41px] uppercase text-appGray-700 mb-6 lg:text-[40px] lg:leading-none lg:mb-14"
+                />
                 <Btn to="/about-us" className="uppercase max-w-max mx-auto">
                     <span>
                         Conócenos

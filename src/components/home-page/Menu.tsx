@@ -1,64 +1,54 @@
-import { BCMSImage } from '@thebcms/components-react';
-import type { PropRichTextDataParsed } from '@thebcms/types';
-import type { ClientConfig } from '@thebcms/client';
-import ContentManager from '../ContentManager';
+import MediaImage from '../MediaImage';
+import Prose from '../Prose';
 import HomeDivider from './Divider';
-import type { MealTypeEntry } from '../../../bcms/types/ts';
+import type { Category } from '../../lib/schema';
 
 interface Props {
+    index: number;
     title: string;
-    description: PropRichTextDataParsed;
-    meals: MealTypeEntry[];
-    bcmsConfig: ClientConfig;
+    description: string;
+    categories: Category[];
 }
 
-const HomeMenu: React.FC<Props> = ({
-    title,
-    description,
-    meals,
-    bcmsConfig,
-}) => {
+const HomeMenu: React.FC<Props> = ({ index, title, description, categories }) => {
     return (
         <section>
             <div className="container">
                 <div className="flex flex-col items-center mb-8 lg:mb-[88px]">
                     <div className="text-xs leading-none mb-2.5 lg:text-base lg:leading-none lg:mb-[14px]">
-                        [ 1 ]
+                        [ {index} ]
                     </div>
                     <h2 className="text-lg leading-none uppercase font-Gloock mb-4 lg:text-5xl lg:leading-none lg:mb-6">
                         {title}
                     </h2>
-                    <ContentManager
-                        items={description.nodes}
+                    <Prose
+                        text={description}
                         className="text-sm leading-[1.3] tracking-[-0.41px] text-appGray-700 uppercase max-w-[745px] mx-auto lg:text-base lg:leading-[1.3]"
                     />
                 </div>
             </div>
-            {meals.map((meal, index) => (
+            {categories.map((category) => (
                 <a
-                    key={index}
-                    href={`/menu?s=${meal.meta.en?.title.toLowerCase()}`}
-                    className="flex relative"
+                    key={category.id}
+                    href={`/menu?s=${category.id}`}
+                    className="flex relative bg-appText"
                 >
-                    {meal.meta.en && (
-                        <div className="container">
-                            <div className="relative z-10 flex flex-col items-center text-center py-12 max-w-[765px] mx-auto lg:py-[150px]">
-                                <h3 className="text-sm leading-none font-Gloock text-white uppercase mb-3 lg:text-[32px] lg:leading-none lg:mb-[18px]">
-                                    {meal.meta.en.title}
-                                </h3>
-                                <ContentManager
-                                    items={meal.meta.en?.description.nodes}
-                                    className="text-xs leading-[1.3] tracking-[-0.41px] uppercase text-appGray-100 lg:text-lg lg:leading-[1.3]"
-                                />
-                            </div>
-                            <BCMSImage
-                                media={meal.meta.en?.cover_image}
-                                clientConfig={bcmsConfig}
-                                className="absolute top-0 left-0 w-full h-full object-cover"
+                    <div className="container">
+                        <div className="relative z-10 flex flex-col items-center text-center py-12 max-w-[765px] mx-auto lg:py-[150px]">
+                            <h3 className="text-sm leading-none font-Gloock text-white uppercase mb-3 lg:text-[32px] lg:leading-none lg:mb-[18px]">
+                                {category.title}
+                            </h3>
+                            <Prose
+                                text={category.description}
+                                className="text-xs leading-[1.3] tracking-[-0.41px] uppercase text-appGray-100 lg:text-lg lg:leading-[1.3]"
                             />
-                            <div className="absolute top-0 left-0 w-full h-full bg-black/50" />
                         </div>
-                    )}
+                        <MediaImage
+                            src={category.image}
+                            className="absolute top-0 left-0 w-full h-full object-cover"
+                        />
+                        <div className="absolute top-0 left-0 w-full h-full bg-black/50" />
+                    </div>
                 </a>
             ))}
             <HomeDivider />

@@ -1,9 +1,7 @@
 ---
 import OrderForm from "../../components/order-page/Form";
 import Layout from "../../layouts/Layout.astro";
-import { getBusinessInfo } from '../../config/business';
-
-const business = await getBusinessInfo();
+import { business } from '../../lib/content';
 ---
 
 <Layout
@@ -13,7 +11,7 @@ const business = await getBusinessInfo();
     <div>
         <OrderForm
             businessName={business.name}
-            whatsappNumber={business.whatsapp.number}
+            whatsappNumber={business.whatsapp}
             mallLocation={business.mallLocation}
             delivery={business.delivery}
             client:load

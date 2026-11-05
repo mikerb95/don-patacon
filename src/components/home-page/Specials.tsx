@@ -3,23 +3,21 @@ import { A11y } from 'swiper/modules';
 import SwiperCore from 'swiper';
 import { SwiperSlide, Swiper } from 'swiper/react';
 import classnames from 'classnames';
-import { BCMSImage } from '@thebcms/components-react';
-import type { PropRichTextDataParsed } from '@thebcms/types';
-import type { FoodItemEntryMetaItem } from '../../../bcms/types/ts';
-import type { ClientConfig } from '@thebcms/client';
-import ContentManager from '../ContentManager';
+import MediaImage from '../MediaImage';
+import Prose from '../Prose';
+import type { Dish } from '../../lib/schema';
 import HomeDivider from './Divider';
 
 SwiperCore.use([A11y]);
 
 interface Props {
+    index: number;
     title: string;
-    description: PropRichTextDataParsed;
-    items: FoodItemEntryMetaItem[];
-    bcmsConfig: ClientConfig;
+    description: string;
+    items: Dish[];
 }
 
-/** `value` es el código que guarda BCMS en `day_available`. */
+/** `value` es el código que guarda el panel en `specialDays`. */
 const days = [
     { value: 'MON', label: 'LUN' },
     { value: 'TUE', label: 'MAR' },
@@ -39,21 +37,18 @@ const todayCode = () =>
         .format(new Date())
         .toUpperCase();
 
-const HomeSpecials: React.FC<Props> = ({
-    title,
-    description,
-    items,
-    bcmsConfig,
-}) => {
+const HomeSpecials: React.FC<Props> = ({ index, title, description, items }) => {
     const [activeDay, setActiveDay] = useState('MON');
 
     // El HTML se genera en el build: el día actual se elige en el navegador.
     useEffect(() => setActiveDay(todayCode()), []);
 
     const filteredItems = useMemo(() => {
-        return items.filter((item) => {
-            return item.day_available === activeDay && item.special;
-        });
+        return items.filter(
+            (item) =>
+                item.available &&
+                item.specialDays.includes(activeDay as Dish['specialDays'][number]),
+        );
     }, [activeDay, items]);
 
     return (
@@ -61,13 +56,13 @@ const HomeSpecials: React.FC<Props> = ({
             <div className="container">
                 <div className="flex flex-col items-center mb-8 lg:mb-20">
                     <div className="text-xs leading-none mb-2.5 lg:text-base lg:leading-none lg:mb-[14px]">
-                        [ 4 ]
+                        [ {index} ]
                     </div>
                     <h2 className="text-lg leading-none uppercase font-Gloock mb-4 lg:text-5xl lg:leading-none lg:mb-6">
                         {title}
                     </h2>
-                    <ContentManager
-                        items={description.nodes}
+                    <Prose
+                        text={description}
                         className="text-sm leading-[1.3] tracking-[-0.41px] text-appGray-700 uppercase max-w-[745px] mx-auto mb-8 lg:text-base lg:leading-[1.3] lg:mb-[45px]"
                     />
                     <Swiper
@@ -112,23 +107,23 @@ const HomeSpecials: React.FC<Props> = ({
                 </div>
                 {filteredItems.length > 0 ? (
                     <div className="grid grid-cols-2 gap-4 auto-rows-fr lg:gap-6">
-                        {filteredItems.map((item, index) => (
+                        {filteredItems.map((item) => (
                             <div
-                                key={index}
-                                className="homeSpecials--gridItem w-full h-full relative lg:min-h-[360px]"
+                                key={item.id}
+                                className="homeSpecials--gridItem w-full h-full relative bg-appText lg:min-h-[360px]"
                             >
                                 <div className="relative z-10 flex flex-col items-center justify-center h-full p-2 lg:items-start lg:justify-between lg:p-10">
                                     <h3 className="text-xs leading-none uppercase text-white font-Gloock text-center lg:text-[32px] lg:leading-none lg:mb-[18px]">
                                         {item.title}
                                     </h3>
-                                    <ContentManager
-                                        items={item.description.nodes}
+                                    <Prose
+                                        text={item.description}
                                         className="leading-[1.3] tracking-[-0.41px] uppercase text-appGray-100 max-w-[475px] max-lg:hidden"
                                     />
                                 </div>
-                                <BCMSImage
-                                    media={item.cover_image}
-                                    clientConfig={bcmsConfig}
+                                <MediaImage
+                                    src={item.image}
+                                    alt={item.title}
                                     className="absolute top-0 left-0 w-full h-full object-cover"
                                 />
                                 <div className="absolute top-0 left-0 w-full h-full bg-black/50" />

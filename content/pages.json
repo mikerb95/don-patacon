@@ -1,0 +1,36 @@
+{
+  "home": {
+    "heroTitle": "Don Patacón",
+    "heroImage": "/media/home-cover.jpg",
+    "heroDescription": "Cocina colombiana en el Centro Comercial Plaza Central, Bogotá. Pide por WhatsApp y recoge tu pedido listo en el local.",
+    "menuTitle": "Nuestra carta",
+    "menuDescription": "Elige una categoría para ver los platos y sus precios.",
+    "ambienceTitle": "El lugar",
+    "ambienceDescription": "",
+    "ambienceItems": [],
+    "specialsTitle": "Especiales del día",
+    "specialsDescription": "Cada día de la semana tiene sus platos especiales.",
+    "testimonialsTitle": "Lo que dicen de nosotros",
+    "testimonialsDescription": "",
+    "testimonials": []
+  },
+  "about": {
+    "titleTop": "Don Patacón",
+    "titleBottom": "Plaza Central",
+    "subtitle": "Cocina colombiana en Bogotá",
+    "description": "Estamos en el Centro Comercial Plaza Central. Comes en las mesas de la plazoleta, o pides para recoger.",
+    "cover": "",
+    "blocks": []
+  },
+  "menu": {
+    "title": "Carta"
+  },
+  "contact": {
+    "title": "Cómo llegar",
+    "description": "Estamos dentro del Centro Comercial Plaza Central, en Bogotá.",
+    "howToArrive": ""
+  },
+  "legal": {
+    "sections": []
+  }
+}

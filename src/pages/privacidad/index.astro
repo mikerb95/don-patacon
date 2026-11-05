@@ -1,14 +1,13 @@
 ---
 import ArchWithStar from '../../components/ArchWithStar';
 import Layout from '../../layouts/Layout.astro';
-import { getBusinessInfo } from '../../config/business';
+import { business } from '../../lib/content';
 
 // Política de tratamiento de datos personales (Ley 1581 de 2012 y Decreto
-// 1074 de 2015). Va en código y no en BCMS para que cada cambio quede
-// versionado. Actualizar `updatedAt` cuando cambie el texto.
+// 1074 de 2015). Va en código y no en el panel: es un texto legal que debe
+// revisarse antes de cambiar. Actualizar `updatedAt` cuando cambie el texto.
 const updatedAt = '27 de octubre de 2026';
 
-const business = await getBusinessInfo();
 const address = [
     business.mallLocation,
     business.address.line1,
@@ -38,12 +37,12 @@ const address = [
                         <section>
                             <h2>1. Responsable del tratamiento</h2>
                             <p>
-                                {business.legal.name} ({business.name}), NIT {business.legal.nit},
+                                {business.legalName ? `${business.legalName} (${business.name})` : business.name}{business.nit && `, NIT ${business.nit}`},
                                 con domicilio en {address}.
                             </p>
                             <ul>
                                 {business.email && <li>Correo: <a href={`mailto:${business.email}`}>{business.email}</a></li>}
-                                {business.phone.display && <li>Teléfono: <a href={`tel:${business.phone.e164}`}>{business.phone.display}</a></li>}
+                                {business.phone && <li>Teléfono: <a href={`tel:${business.phone.replace(/[^\d+]/g, '')}`}>{business.phone}</a></li>}
                             </ul>
                         </section>
 

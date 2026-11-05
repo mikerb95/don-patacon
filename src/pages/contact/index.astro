@@ -1,35 +1,19 @@
 ---
-import type { ContactPageEntry, ContactPageEntryMetaItem } from "../../../bcms/types/ts";
 import ArchWithStar from "../../components/ArchWithStar";
-import ContentManager from "../../components/ContentManager";
+import Prose from "../../components/Prose";
 import Layout from "../../layouts/Layout.astro";
 import Btn from "../../components/Btn";
-import { bcmsPrivate } from '../../bcms-private';
-import { getBusinessInfo } from '../../config/business';
+import { business, pages } from '../../lib/content';
+import { summarizeHours } from '../../lib/hours';
+import { MALL_EMBED_URL } from '../../lib/maps';
 
-const contactPageEntry = (await bcmsPrivate.entry.getBySlug(
-    'contact',
-    'contact-page',
-)) as ContactPageEntry;
-
-if (!contactPageEntry) {
-    return Astro.rewrite('/404');
-}
-
-const contactPageMeta = contactPageEntry.meta.en as ContactPageEntryMetaItem;
-
-const business = await getBusinessInfo();
-
-// Embed de Google Maps sin API key. Apunta al centro comercial (no al local)
-// para que funcione aunque el negocio todavía no tenga perfil en Google.
-// Con CSP activo hay que permitir https://www.google.com en frame-src.
-const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(
-    'Centro Comercial Plaza Central, Bogotá',
-)}&output=embed`;
+const contact = pages.contact;
+const hours = summarizeHours(business.hours);
+const mapEmbedUrl = MALL_EMBED_URL;
 ---
 
 <Layout
-    title={`${contactPageMeta.seo?.title || contactPageMeta.title} - DON PATACÓN`}
+    title={`${contact.title} - DON PATACÓN`}
     description="Cómo llegar a DON PATACÓN en el Centro Comercial Plaza Central, Bogotá: dirección, mapa, teléfono y horario."
 >
     <div>
@@ -38,10 +22,10 @@ const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(
                 <ArchWithStar />
                 <div class="relative px-4 max-w-[400px] mx-auto lg:max-w-[560px] xl:px-0">
                     <h1 class="text-xl leading-none font-Gloock uppercase text-center mb-8 lg:text-5xl lg:leading-none lg:mb-20">
-                        {contactPageMeta.title}
+                        {contact.title}
                     </h1>
-                    <ContentManager
-                        items={contactPageMeta.description.nodes}
+                    <Prose
+                        text={contact.description}
                         className="text-sm leading-[1.3] tracking-[-0.41px] uppercase text-center text-appGray-700 mb-8 lg:text-base lg:leading-[1.3] lg:mb-12"
                     />
                     {business.mallLocation && (
@@ -54,6 +38,11 @@ const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(
                             </span>
                         </p>
                     )}
+                    {hours.length > 0 && (
+                        <ul class="text-sm leading-[1.5] text-center text-appGray-700 mb-8 lg:text-base lg:mb-10">
+                            {hours.map((line) => <li>{line}</li>)}
+                        </ul>
+                    )}
                     <div class="bg-[#E5E4DA] rounded-2xl p-4 mb-8 lg:mb-10">
                         <iframe
                             src={mapEmbedUrl}
@@ -63,8 +52,14 @@ const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(
                             class="block w-full aspect-[4/3] border-0 rounded-[10px]"
                         ></iframe>
                     </div>
+                    {contact.howToArrive && (
+                        <div class="mb-8 lg:mb-10">
+                            <h2 class="font-Gloock text-lg leading-tight text-center mb-3 lg:text-2xl">Cómo llegar</h2>
+                            <Prose text={contact.howToArrive} className="text-sm leading-[1.4] text-center text-appGray-700 lg:text-base" />
+                        </div>
+                    )}
                     <Btn
-                        to={business.maps.url}
+                        to={business.mapsUrl}
                         className="uppercase max-w-max mx-auto"
                     >
                         <span>Abrir mapa</span>

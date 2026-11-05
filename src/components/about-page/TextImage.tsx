@@ -1,15 +1,12 @@
 import React from 'react';
-import { BCMSImage } from '@thebcms/components-react';
-import type { InlineTextWithImageGroup } from '../../../bcms/types/ts';
-import type { ClientConfig } from '@thebcms/client';
-import ContentManager from '../ContentManager';
+import MediaImage from '../MediaImage';
+import Prose from '../Prose';
 
 interface Props {
-    data: InlineTextWithImageGroup[];
-    bcmsConfig: ClientConfig;
+    data: { text: string; image: string }[];
 }
 
-const AboutTextImage: React.FC<Props> = ({ data, bcmsConfig }) => {
+const AboutTextImage: React.FC<Props> = ({ data }) => {
     return (
         <section className="relative mb-14 md:py-20 md:mb-20 lg:py-[104px] lg:mb-[120px]">
             <div className="container max-w-[1198px]">
@@ -22,16 +19,15 @@ const AboutTextImage: React.FC<Props> = ({ data, bcmsConfig }) => {
                             >
                                 {col.image && (
                                     <div className="max-md:mb-4 md:flex-1">
-                                        <BCMSImage
-                                            media={col.image}
-                                            clientConfig={bcmsConfig}
+                                        <MediaImage
+                                            src={col.image}
                                             className="w-full object-cover aspect-[1.7] lg:aspect-[1.36]"
                                         />
                                     </div>
                                 )}
-                                <ContentManager
-                                    items={col.text.nodes}
-                                    parentClassName="text-xs leading-[1.3] tracking-[-0.41px] uppercase text-appGray-700 md:flex-1 lg:text-[22px] lg:leading-[1.3]"
+                                <Prose
+                                    text={col.text}
+                                    className="text-xs leading-[1.3] tracking-[-0.41px] uppercase text-appGray-700 md:flex-1 lg:text-[22px] lg:leading-[1.3]"
                                 />
                             </div>
                         ))}

@@ -1,0 +1,42 @@
+---
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource/gloock/400.css';
+
+interface Props {
+    title: string;
+}
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta name="robots" content="noindex, nofollow" />
+        <meta name="theme-color" content="#272424" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <title>{title}</title>
+    </head>
+    <body class="font-sans bg-appBody text-appText antialiased">
+        <slot />
+    </body>
+</html>
+
+<style is:global>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:focus-visible {
+    outline: 2px solid #272424;
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+</style>

@@ -1,0 +1,62 @@
+{
+  "name": "DON PATACÓN",
+  "legalName": "",
+  "nit": "",
+  "mallLocation": "",
+  "address": {
+    "line1": "Centro Comercial Plaza Central",
+    "line2": "",
+    "city": "Bogotá",
+    "country": "Colombia"
+  },
+  "phone": "",
+  "email": "",
+  "whatsapp": "",
+  "hours": [
+    {
+      "day": "MON",
+      "open": "",
+      "close": ""
+    },
+    {
+      "day": "TUE",
+      "open": "",
+      "close": ""
+    },
+    {
+      "day": "WED",
+      "open": "",
+      "close": ""
+    },
+    {
+      "day": "THU",
+      "open": "",
+      "close": ""
+    },
+    {
+      "day": "FRI",
+      "open": "",
+      "close": ""
+    },
+    {
+      "day": "SAT",
+      "open": "",
+      "close": ""
+    },
+    {
+      "day": "SUN",
+      "open": "",
+      "close": ""
+    }
+  ],
+  "delivery": {
+    "rappi": "",
+    "didi": ""
+  },
+  "social": {
+    "instagram": "",
+    "facebook": "",
+    "x": ""
+  },
+  "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Centro+Comercial+Plaza+Central+Bogot%C3%A1"
+}

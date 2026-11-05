@@ -1,13 +1,10 @@
 ---
-import type { LegalPageEntry } from '../../../bcms/types/ts';
 import ArchWithStar from "../../components/ArchWithStar";
-import ContentManager from "../../components/ContentManager";
+import Prose from "../../components/Prose";
 import Layout from "../../layouts/Layout.astro";
-import { bcmsPrivate } from '../../bcms-private';
+import { pages } from '../../lib/content';
 
-const legalEntries = (await bcmsPrivate.entry.getAll(
-    'legal-page',
-)) as LegalPageEntry[];
+const sections = pages.legal.sections;
 ---
 
 <Layout
@@ -22,16 +19,21 @@ const legalEntries = (await bcmsPrivate.entry.getAll(
                     <h1 class="text-xl leading-none font-Gloock uppercase text-center mb-12 lg:text-5xl lg:leading-none lg:mb-20">
                         Legal
                     </h1>
+                    {sections.length === 0 && (
+                        <p class="text-center text-appGray-700">
+                            Consulta nuestra <a class="underline" href="/privacidad">política de tratamiento de datos</a>.
+                        </p>
+                    )}
                     <div class="grid grid-cols-1 gap-4 w-full max-w-[850px] mx-auto lg:gap-6">
-                        {legalEntries.map((item) => (
+                        {sections.map((item) => (
                             <div
                                 class="border border-[#DBD9D5] rounded-[7px] p-6"
                             >
                                 <h2 class="leading-none tracking-[-0.41px] font-Gloock mb-[14px] lg:text-[32px] lg:leading-none lg:mb-5">
-                                    {item.meta.en?.title}
+                                    {item.title}
                                 </h2>
-                                <ContentManager
-                                    items={item.content.en || []}
+                                <Prose
+                                    text={item.body}
                                     className="text-sm leading-normal tracking-[-0.41px] text-appGray-200 lg:text-lg lg:leading-normal"
                                 />
                             </div>

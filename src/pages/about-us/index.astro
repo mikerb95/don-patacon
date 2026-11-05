@@ -1,42 +1,24 @@
 ---
-import type { AboutPageEntry, AboutPageEntryMetaItem } from "../../../bcms/types/ts";
 import AboutHero from "../../components/about-page/Hero";
 import AboutTextImage from "../../components/about-page/TextImage";
 import Layout from "../../layouts/Layout.astro";
-import { bcmsPrivate } from '../../bcms-private';
-import { bcmsPublic } from '../../bcms-public';
+import { pages } from '../../lib/content';
 
-const aboutPageEntry = (await bcmsPrivate.entry.getBySlug(
-    'about-us',
-    'about-page',
-)) as AboutPageEntry;
-
-if (!aboutPageEntry) {
-    return Astro.rewrite('/404');
-}
-
-const aboutPageMeta = aboutPageEntry.meta.en as AboutPageEntryMetaItem;
-
-const bcmsConfig = bcmsPublic.getConfig();
+const about = pages.about;
 ---
 
 <Layout
-    title={`${aboutPageMeta.seo?.title || aboutPageMeta.title} - DON PATACÓN`}
+    title="Nosotros - DON PATACÓN"
     description="Conoce la historia de DON PATACÓN, cocina colombiana en el Centro Comercial Plaza Central, Bogotá."
 >
     <div>
         <AboutHero
-            title={aboutPageMeta.hero_title}
-            subtitle={aboutPageMeta.hero_subtitle}
-            description={aboutPageMeta.hero_description}
-            cover={aboutPageMeta.hero_cover}
-            client:load
-            bcmsConfig={bcmsConfig}
+            titleTop={about.titleTop}
+            titleBottom={about.titleBottom}
+            subtitle={about.subtitle}
+            description={about.description}
+            cover={about.cover}
         />
-        <AboutTextImage
-            data={aboutPageMeta.text_image_cols}
-            client:load
-            bcmsConfig={bcmsConfig}
-        />
+        {about.blocks.length > 0 && <AboutTextImage data={about.blocks} />}
     </div>
 </Layout>

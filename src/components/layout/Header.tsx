@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import MenuIcon from '../../assets/icons/menu.svg?raw';
 import XIcon from '../../assets/icons/x.svg?raw';
-import Logo from '../../assets/icons/logo.svg?raw';
 import classNames from 'classnames';
 import Btn from '../Btn';
 
@@ -38,13 +37,14 @@ const Header: React.FC = () => {
                         className="flex md:flex-1"
                         aria-label="Página principal"
                     >
-                        <div
-                            dangerouslySetInnerHTML={{ __html: Logo }}
-                            className={classNames('w-[60px] md:w-[101px]', {
-                                'max-md:invert': showMobileMenu,
-                            })}
-                            aria-hidden="true"
-                        />
+                        <span
+                            className={classNames(
+                                'font-Gloock text-lg leading-none whitespace-nowrap md:text-2xl md:leading-none',
+                                { 'max-md:text-white': showMobileMenu },
+                            )}
+                        >
+                            Don Patacón
+                        </span>
                     </a>
                     <ul
                         className={classNames(
