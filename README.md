@@ -60,7 +60,9 @@ locales.
 2. Al publicar, el servidor valida con `src/lib/schema.ts` y hace un commit de
    contenido en GitHub (`contenido: ...`).
 3. Ese commit dispara el deploy en Vercel. El panel avisa cuando ya está en línea.
-4. El historial permite volver a cualquier versión anterior con un commit nuevo.
+4. Antes de publicar, "Vista previa" muestra el borrador con las mismas vistas
+   del sitio (`src/views/`), sin guardar nada.
+5. El historial permite volver a cualquier versión anterior con un commit nuevo.
 
 Las fotos se reducen en el navegador (WebP, máximo 1600 px) y se guardan con un
 commit propio al subirlas.

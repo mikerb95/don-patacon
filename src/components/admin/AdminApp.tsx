@@ -46,9 +46,15 @@ const AdminApp: React.FC = () => {
     const [hasHistory, setHasHistory] = useState(false);
     const { route, navigate, goBack } = useRoute();
     const tab = route.tab;
+    // Al volver a Carta se regresa a la categoría en la que se estaba.
+    const lastCategory = useRef(route.category);
+    if (route.category) lastCategory.current = route.category;
+    const goToTab = (id: Tab) => navigate(id === 'carta' ? { tab: id, category: lastCategory.current } : { tab: id });
     const [issues, setIssues] = useState<Issue[]>([]);
     const [focusField, setFocusField] = useState<{ path: string } | null>(null);
     const [checking, setChecking] = useState(false);
+    // Error cuyo campo no se pudo localizar: su mensaje se muestra en el aviso.
+    const [unlocated, setUnlocated] = useState<string | null>(null);
     const [error, setError] = useState('');
     const [loadError, setLoadError] = useState('');
     const [conflict, setConflict] = useState(false);
@@ -88,6 +94,8 @@ const AdminApp: React.FC = () => {
     const dirty = changed.length > 0;
 
     useEffect(() => {
+        // Sin contenido cargado aún no se sabe si hay cambios: no tocar el borrador guardado.
+        if (!base) return;
         if (!dirty) {
             try { localStorage.removeItem(DRAFT_KEY); } catch { /* sin almacenamiento */ }
             return;
@@ -96,7 +104,7 @@ const AdminApp: React.FC = () => {
         const warn = (e: BeforeUnloadEvent) => e.preventDefault();
         window.addEventListener('beforeunload', warn);
         return () => window.removeEventListener('beforeunload', warn);
-    }, [dirty, draft, revs]);
+    }, [base, dirty, draft, revs]);
 
     // Seguimiento del deploy: se pregunta cada 15 s si la versión ya está en línea.
     useEffect(() => {
@@ -183,9 +191,11 @@ const AdminApp: React.FC = () => {
             } else if (tries++ < 20) {
                 frame = requestAnimationFrame(find);
             } else {
+                setUnlocated(focusField.path);
                 setFocusField(null);
             }
         };
+        setUnlocated(null);
         frame = requestAnimationFrame(find);
         return () => cancelAnimationFrame(frame);
     }, [focusField, route]);
@@ -246,6 +256,8 @@ const AdminApp: React.FC = () => {
                 showIssues(err.issues, draft);
                 return;
             }
+            // La vista previa tapa los avisos: se cierra para que el error se vea.
+            if (route.preview) closePreview();
             if (err instanceof ApiError && err.status === 409) setConflict(true);
             setError(err instanceof ApiError ? err.message : 'No se pudo publicar.');
         }
@@ -273,7 +285,7 @@ const AdminApp: React.FC = () => {
                     <a href="/" target="_blank" rel="noopener" className="font-Gloock text-xl leading-none">Don Patacón</a>
                     <nav aria-label="Secciones del panel" className="hidden md:flex gap-1">
                         {TABS.map((t) => (
-                            <button key={t.id} type="button" aria-current={tab === t.id ? 'page' : undefined} onClick={() => navigate({ tab: t.id })}
+                            <button key={t.id} type="button" aria-current={tab === t.id ? 'page' : undefined} onClick={() => goToTab(t.id)}
                                 className={`relative min-h-11 px-3.5 rounded-xl font-medium ${tab === t.id ? 'bg-[#E5E2D4]' : ''}`}>
                                 {t.label}
                                 {t.id === 'negocio' && missing > 0 && <span className="absolute top-2 right-1.5 w-2 h-2 rounded-full bg-[#A2452E]" aria-label={`Faltan ${missing} datos`} />}
@@ -310,10 +322,10 @@ const AdminApp: React.FC = () => {
             <div className="fixed inset-x-0 bottom-0 z-30 pointer-events-none" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
                 <div className="max-w-3xl mx-auto px-3 pb-2 grid gap-2">
                     {issues.length > 0 && (
-                        <div role="alert" className="pointer-events-auto rounded-2xl bg-[#7E2F20] text-white p-3.5 flex items-center justify-between gap-3">
+                        <div role="alert" className="pointer-events-auto rounded-2xl bg-[#7E2F20] text-white py-1.5 pl-3.5 pr-1.5 flex items-center justify-between gap-3">
                             <span className="leading-snug">
-                                {issues.length === 1 ? 'Corrige este campo antes de continuar: ' : `Corrige ${issues.length} campos antes de continuar. El primero: `}
-                                {issues[0].message}
+                                {issues.length === 1 ? 'Falta corregir 1 campo' : `Falta corregir ${issues.length} campos`}
+                                {unlocated === issues[0].path && `: ${issues[0].message}`}
                             </span>
                             <Button className="shrink-0" onClick={() => goToIssue(issues[0], draft)}>Ver campo</Button>
                         </div>
@@ -329,7 +341,7 @@ const AdminApp: React.FC = () => {
                     {dirty ? (
                         <div className="pointer-events-auto rounded-2xl bg-appText text-white p-3 grid gap-2">
                             <div className="flex items-center justify-between gap-2">
-                                <p className="font-medium pl-1">Cambios sin publicar</p>
+                                <p className="font-medium pl-1 whitespace-nowrap">Sin publicar</p>
                                 <div className="flex gap-1">
                                     <button type="button" onClick={undo} disabled={undoCount === 0} className="min-h-11 px-2.5 rounded-xl font-medium disabled:opacity-40">Deshacer</button>
                                     <button type="button" onClick={discard} className="min-h-11 px-2.5 rounded-xl font-medium">Descartar</button>
@@ -358,7 +370,7 @@ const AdminApp: React.FC = () => {
                     ) : null}
                     <nav aria-label="Secciones del panel" className="pointer-events-auto md:hidden grid grid-cols-4 rounded-2xl bg-white shadow-[0_2px_16px_rgba(39,36,36,0.14)]">
                         {TABS.map((t) => (
-                            <button key={t.id} type="button" aria-current={tab === t.id ? 'page' : undefined} onClick={() => navigate({ tab: t.id })}
+                            <button key={t.id} type="button" aria-current={tab === t.id ? 'page' : undefined} onClick={() => goToTab(t.id)}
                                 className={`relative min-h-14 rounded-2xl font-medium text-sm ${tab === t.id ? 'bg-[#E5E2D4]' : ''}`}>
                                 {t.label}
                                 {t.id === 'negocio' && missing > 0 && <span className="absolute top-3 right-3 w-2 h-2 rounded-full bg-[#A2452E]" aria-label={`Faltan ${missing} datos`} />}

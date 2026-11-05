@@ -15,6 +15,15 @@ interface Props {
 
 const FRAME = 'dp-preview';
 
+/** El marco nuevo primero carga about:blank: esa carga no cuenta como lista. */
+const isBlank = (frame: HTMLIFrameElement) => {
+    try {
+        return frame.contentWindow?.location.href === 'about:blank';
+    } catch {
+        return false;
+    }
+};
+
 /** Muestra el borrador tal como quedará en el sitio. Nada de esto es público todavía. */
 const Preview: React.FC<Props> = ({ page, category, docs, dirty, publishing, onPage, onClose, onPublish }) => {
     const form = useRef<HTMLFormElement>(null);
@@ -43,11 +52,11 @@ const Preview: React.FC<Props> = ({ page, category, docs, dirty, publishing, onP
 
     return (
         <div role="dialog" aria-modal="true" aria-label="Vista previa" className="fixed inset-0 z-50 flex flex-col bg-appText">
-            <div className="text-white px-3 pt-3 pb-2 grid gap-2.5" style={{ paddingTop: 'max(0.75rem, env(safe-area-inset-top))' }}>
+            <div className="text-white px-3 pt-3 pb-2 grid grid-cols-1 gap-2.5 min-w-0" style={{ paddingTop: 'max(0.75rem, env(safe-area-inset-top))' }}>
                 <div className="flex items-center justify-between gap-2">
                     <div className="min-w-0 pl-1">
                         <h2 className="font-Gloock text-xl leading-tight">Vista previa</h2>
-                        <p className="text-sm leading-snug text-[#CFCCBF]">{dirty ? 'Solo tú la ves. Aún no está publicada.' : 'No hay cambios sin publicar.'}</p>
+                        <p className="text-sm leading-snug text-[#CFCCBF]">{dirty ? 'Aún no está publicada' : 'Sin cambios pendientes'}</p>
                     </div>
                     <div className="flex shrink-0 items-center gap-1.5">
                         <button ref={close} type="button" onClick={onClose} className="min-h-11 px-3 rounded-xl font-medium">Volver a editar</button>
@@ -74,11 +83,14 @@ const Preview: React.FC<Props> = ({ page, category, docs, dirty, publishing, onP
             </div>
             <div className="relative flex-1 min-h-0 flex justify-center bg-[#3A3636] md:p-3">
                 {loading && <p role="status" className="absolute top-8 text-white">Preparando la vista previa…</p>}
+                {/* Un marco nuevo por página: así cambiar de página no agrega entradas al
+                    historial, y "atrás" cierra la vista previa en lugar de retroceder dentro. */}
                 <iframe
+                    key={`${page}${query}`}
                     name={FRAME}
                     title={`Vista previa de ${PREVIEW_PAGES.find((p) => p.id === page)?.label}`}
                     sandbox="allow-scripts allow-same-origin allow-forms"
-                    onLoad={() => setLoading(false)}
+                    onLoad={(e) => { if (!isBlank(e.currentTarget)) setLoading(false); }}
                     className={`h-full w-full bg-appBody border-0 ${wide ? '' : 'md:max-w-[390px] md:rounded-2xl'} ${loading ? 'opacity-0' : ''}`}
                 />
             </div>

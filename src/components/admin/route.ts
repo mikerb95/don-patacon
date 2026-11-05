@@ -36,7 +36,7 @@ export function parseRoute(hash: string): Route {
     });
     const tab = TAB_IDS.includes(tabPart as Tab) ? (tabPart as Tab) : 'carta';
     const route: Route = { tab };
-    if (tab === 'carta' && category) {
+    if (tabPart === 'carta' && category) {
         route.category = category;
         if ((sheetType === 'plato' || sheetType === 'categoria') && sheetId) {
             route.sheet = { type: sheetType, id: sheetId };
