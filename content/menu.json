@@ -1,23 +1,106 @@
 {
   "categories": [
     {
-      "id": "entradas",
-      "title": "Entradas",
-      "description": "",
+      "id": "patacones",
+      "title": "Patacones",
+      "description": "Todos se piden en verde (crocante) o maduro (dulce).",
       "image": ""
     },
     {
-      "id": "platos-fuertes",
-      "title": "Platos fuertes",
-      "description": "",
-      "image": ""
-    },
-    {
-      "id": "bebidas",
-      "title": "Bebidas",
+      "id": "para-compartir",
+      "title": "Para compartir",
       "description": "",
       "image": ""
     }
   ],
-  "dishes": []
+  "dishes": [
+    {
+      "id": "don-patacon",
+      "title": "Don Patacón",
+      "description": "El de la casa: carne en salsa, pollo desmechado, chorizo, maíz, guacamole, queso y huevos de codorniz.",
+      "price": 31900,
+      "image": "/media/plato-don-patacon.webp",
+      "categoryId": "patacones",
+      "available": true,
+      "specialDays": [],
+      "plantainChoice": true
+    },
+    {
+      "id": "paisa",
+      "title": "Paisa",
+      "description": "Fríjoles, arroz, huevo frito, chicharrón, chorizo y guacamole.",
+      "price": 32900,
+      "image": "/media/plato-paisa.webp",
+      "categoryId": "patacones",
+      "available": true,
+      "specialDays": [],
+      "plantainChoice": true
+    },
+    {
+      "id": "mexicano",
+      "title": "Mexicano",
+      "description": "Carne molida, chorizo, nachos, pico de gallo y queso cheddar.",
+      "price": 28900,
+      "image": "/media/plato-mexicano.webp",
+      "categoryId": "patacones",
+      "available": true,
+      "specialDays": [],
+      "plantainChoice": true
+    },
+    {
+      "id": "carne",
+      "title": "Carne",
+      "description": "Carne en salsa, maíz, guacamole y queso.",
+      "price": 28900,
+      "image": "/media/plato-carne.webp",
+      "categoryId": "patacones",
+      "available": true,
+      "specialDays": [],
+      "plantainChoice": true
+    },
+    {
+      "id": "pollo",
+      "title": "Pollo",
+      "description": "Pollo en salsa blanca, hogao, maíz, guacamole y queso.",
+      "price": 24900,
+      "image": "/media/plato-pollo.webp",
+      "categoryId": "patacones",
+      "available": true,
+      "specialDays": [],
+      "plantainChoice": true
+    },
+    {
+      "id": "vegetales",
+      "title": "Vegetales",
+      "description": "Verduras salteadas, queso gratinado y guacamole.",
+      "price": 23900,
+      "image": "/media/plato-vegetales.webp",
+      "categoryId": "patacones",
+      "available": true,
+      "specialDays": [],
+      "plantainChoice": true
+    },
+    {
+      "id": "combo-mixto",
+      "title": "Combo Mixto x2",
+      "description": "Patacón mixto para compartir, con papas a la francesa y dos gaseosas.",
+      "price": 49900,
+      "image": "/media/plato-combo-mixto.webp",
+      "categoryId": "para-compartir",
+      "available": true,
+      "specialDays": [],
+      "plantainChoice": true
+    },
+    {
+      "id": "burguer",
+      "title": "Burguer x2",
+      "description": "Dos hamburguesas con pan de patacón, con papas a la francesa y dos gaseosas.",
+      "price": 34900,
+      "image": "/media/plato-burguer.webp",
+      "categoryId": "para-compartir",
+      "available": true,
+      "specialDays": [],
+      "plantainChoice": false
+    }
+  ]
 }
