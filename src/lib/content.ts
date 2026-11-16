@@ -14,4 +14,4 @@ export const pages = pagesSchema.parse(pagesJson);
 export const content = { business, menu, pages };
 
 export const SITE_DESCRIPTION =
-    'DON PATACÓN, cocina colombiana en el Centro Comercial Plaza Central, Bogotá. Pide para recoger o a domicilio.';
+    'Don Patacón, cocina colombiana en el Centro Comercial Plaza Central, Bogotá. Pide para recoger o a domicilio.';

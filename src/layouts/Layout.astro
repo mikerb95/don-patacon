@@ -36,12 +36,12 @@ const ogImageUrl = '/thumbnail.jpg';
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="generator" content={Astro.generator} />
-        <meta property="og:title" content="DON PATACÓN" />
+        <meta property="og:title" content="Don Patacón" />
         <meta property="og:description" content={description} />
         <meta property="og:locale" content="es_CO" />
         <meta property="og:image" content={ogImageUrl} />
         <meta property="og:image:secure_url" content={ogImageUrl} />
-        <meta property="twitter:title" content="DON PATACÓN" />
+        <meta property="twitter:title" content="Don Patacón" />
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:image" content={ogImageUrl} />
         <title>{title}</title>
@@ -54,14 +54,14 @@ const ogImageUrl = '/thumbnail.jpg';
             </script>
         )}
     </head>
-    <body class="font-sans overflow-x-hidden bg-appBody text-appText">
+    <body class="font-sans font-medium text-lg leading-normal overflow-x-clip bg-pulpa text-monte">
         <a
             href="#main-content"
-            class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-appAccent focus:text-white focus:px-4 focus:py-2 focus:rounded"
+            class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-sol focus:text-monte focus:font-extrabold focus:px-4 focus:py-2 focus:rounded-xl focus:border-3 focus:border-monte"
         >
             Saltar al contenido
         </a>
-        <div class="overflow-hidden flex flex-col min-h-screen">
+        <div class="overflow-x-clip flex flex-col min-h-screen">
             <Header client:load />
             <main id="main-content" class="flex flex-col flex-1"><slot /></main>
             <Footer business={business} hasTerms={pages.legal.sections.length > 0} />
@@ -79,6 +79,17 @@ const ogImageUrl = '/thumbnail.jpg';
 *::before,
 *::after {
     @apply box-border m-0 p-0;
+}
+
+:focus-visible {
+    outline: 3px solid #0e3b1f;
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+::selection {
+    background: #f5b41f;
+    color: #0e3b1f;
 }
 
 .homeAmbience--gridItem:nth-of-type(5n + 1) {
@@ -152,15 +163,4 @@ const ogImageUrl = '/thumbnail.jpg';
     opacity: 0;
 }
 
-.scaleBtnArrow-entering,
-.scaleBtnArrow-exiting {
-    transition:
-        opacity 0.2s ease,
-        width 0.2s ease;
-}
-.scaleBtnArrow-entering,
-.scaleBtnArrow-exiting {
-    opacity: 0;
-    width: 0;
-}
 </style>
