@@ -140,16 +140,12 @@ export function iniciarEscena() {
     // Escritorio: la portada se fija y el scroll recorre la receta.
     mm.add('(min-width: 901px)', () => {
         listaPasos.classList.add('vivo');
-        const tl = gsap.timeline({
+        // El paso se marca desde la línea (no desde el scroll): con scrub la
+        // animación va un poco detrás del scroll y los pasos deben seguirla a ella.
+        const tl: gsap.core.Timeline = gsap.timeline({
             defaults: { ease: 'power1.inOut' },
-            scrollTrigger: {
-                trigger: portada,
-                start: 'top top',
-                end: '+=2400',
-                pin: true,
-                scrub: 0.6,
-                onUpdate: (st) => marcarPaso(st.animation ? st.animation.time() : 0),
-            },
+            onUpdate: () => marcarPaso(tl.time()),
+            scrollTrigger: { trigger: portada, start: 'top top', end: '+=2400', pin: true, scrub: 0.6 },
         });
         armarLinea(tl);
         marcarPaso(0);
