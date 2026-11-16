@@ -3,20 +3,25 @@ import MenuIcon from '../../assets/icons/menu.svg?raw';
 import XIcon from '../../assets/icons/x.svg?raw';
 import classNames from 'classnames';
 import Btn from '../Btn';
+import Logo from '../Logo';
+
+const NAV = [
+    { label: 'Carta', href: '/carta' },
+    { label: 'Pedidos', href: '/pedidos' },
+    { label: 'Nosotros', href: '/nosotros' },
+    { label: 'Contacto', href: '/contacto' },
+];
+
+/** La acción principal del sitio es llegar al local. */
+const LLEGAR = '/#como-llegar';
 
 const Header: React.FC = () => {
-    const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
-
-    const nav = [
-        { label: 'Inicio', href: '/' },
-        { label: 'Carta', href: '/menu' },
-        { label: 'Pedidos', href: '/pedidos' },
-    ];
+    const [abierto, setAbierto] = useState(false);
 
     useEffect(() => {
-        if (!showMobileMenu) return;
+        if (!abierto) return;
         const onKey = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') setShowMobileMenu(false);
+            if (e.key === 'Escape') setAbierto(false);
         };
         document.addEventListener('keydown', onKey);
         document.body.style.overflow = 'hidden';
@@ -24,95 +29,71 @@ const Header: React.FC = () => {
             document.removeEventListener('keydown', onKey);
             document.body.style.overflow = '';
         };
-    }, [showMobileMenu]);
+    }, [abierto]);
 
-    const closeMenu = () => setShowMobileMenu(false);
+    const cerrar = () => setAbierto(false);
 
     return (
         <header className="relative z-50">
-            <div className="relative z-10 container">
-                <nav className="relative flex items-center justify-between pt-6 lg:pt-8">
-                    <a
-                        href="/"
-                        className="flex md:flex-1"
-                        aria-label="Página principal"
-                    >
-                        <span
-                            className={classNames(
-                                'font-display text-lg leading-none whitespace-nowrap md:text-2xl md:leading-none',
-                                { 'max-md:text-white': showMobileMenu },
-                            )}
-                        >
-                            Don Patacón
-                        </span>
+            <div className="container">
+                <nav className="flex items-center justify-between gap-4 py-4 lg:py-5" aria-label="Principal">
+                    <a href="/" aria-label="Don Patacón, inicio" className="rounded-xl">
+                        <Logo />
                     </a>
-                    <ul
-                        className={classNames(
-                            'flex flex-col gap-4 max-md:absolute max-md:left-0 max-md:-bottom-9 max-md:translate-y-full max-md:w-full max-md:px-4 md:flex-row md:flex-1 md:justify-center lg:gap-8',
-                            {
-                                'max-md:hidden': !showMobileMenu,
-                            },
-                        )}
-                    >
-                        {nav.map((item, index) => (
-                            <li key={index}>
+
+                    <ul className="flex items-center gap-7 font-bold text-lg max-md:hidden">
+                        {NAV.map((item) => (
+                            <li key={item.href}>
                                 <a
                                     href={item.href}
-                                    onClick={closeMenu}
-                                    className="text-lg leading-none tracking-[-0.41px] md:text-sm"
+                                    className="underline-offset-[6px] decoration-sol decoration-[3px] hover:underline focus-visible:underline"
                                 >
                                     {item.label}
                                 </a>
                             </li>
                         ))}
-                        <li>
-                            <a
-                                href="/contact"
-                                onClick={closeMenu}
-                                className="text-lg leading-none tracking-[-0.41px] md:hidden"
-                            >
-                                Contacto
-                            </a>
-                        </li>
                     </ul>
-                    <div className="flex justify-end max-md:hidden md:flex-1">
-                        <Btn to="/contact" className="">
-                            <span>Contacto</span>
+
+                    <div className="flex items-center gap-3">
+                        <Btn to={LLEGAR} theme="accent" size="sm" className="max-[380px]:hidden">
+                            Cómo llegar
                         </Btn>
+                        <button
+                            type="button"
+                            className="grid place-items-center w-11 h-11 rounded-xl border-3 border-monte bg-papel shadow-dura-sm md:hidden"
+                            aria-label={abierto ? 'Cerrar menú' : 'Abrir menú'}
+                            aria-expanded={abierto}
+                            aria-controls="menu-movil"
+                            onClick={() => setAbierto((v) => !v)}
+                        >
+                            <span
+                                dangerouslySetInnerHTML={{ __html: abierto ? XIcon : MenuIcon }}
+                                className="w-6 h-6"
+                                aria-hidden="true"
+                            />
+                        </button>
                     </div>
-                    <button
-                        type="button"
-                        className="flex md:hidden"
-                        aria-label={
-                            showMobileMenu ? 'Cerrar menú' : 'Abrir menú'
-                        }
-                        aria-expanded={showMobileMenu}
-                        onClick={() => setShowMobileMenu((prev) => !prev)}
-                    >
-                        {showMobileMenu ? (
-                            <div
-                                dangerouslySetInnerHTML={{ __html: XIcon }}
-                                className="w-6 h-6"
-                                aria-hidden="true"
-                            />
-                        ) : (
-                            <div
-                                dangerouslySetInnerHTML={{ __html: MenuIcon }}
-                                className="w-6 h-6"
-                                aria-hidden="true"
-                            />
-                        )}
-                    </button>
                 </nav>
             </div>
-            {showMobileMenu && (
-                <button
-                    type="button"
-                    aria-label="Cerrar menú"
-                    onClick={closeMenu}
-                    className="fixed top-0 left-0 w-screen h-screen bg-appAccent md:hidden -z-0"
-                />
-            )}
+
+            {/* Menú del celular: lámina amarilla con los enlaces grandes. */}
+            <div
+                id="menu-movil"
+                className={classNames(
+                    'fixed inset-x-0 top-[76px] bottom-0 bg-sol border-t-3 border-monte md:hidden',
+                    { hidden: !abierto },
+                )}
+            >
+                <ul className="container grid gap-2 pt-8">
+                    {[{ label: 'Inicio', href: '/' }, ...NAV, { label: 'Cómo llegar', href: LLEGAR }].map((item) => (
+                        <li key={item.href}>
+                            <a href={item.href} onClick={cerrar} className="block py-2 font-display text-4xl">
+                                {item.label}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </header>
     );
 };

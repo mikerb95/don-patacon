@@ -1,6 +1,8 @@
 import React from 'react';
 import type { Business } from '../../lib/schema';
 import { summarizeHours } from '../../lib/hours';
+import { bordeMordido } from '../../lib/crocante';
+import Logo from '../Logo';
 
 interface Props {
     business: Business;
@@ -52,49 +54,45 @@ const Footer: React.FC<Props> = ({ business, hasTerms }) => {
     ].filter(Boolean);
 
     return (
-        <footer className="bg-appText pt-10 pb-24 md:py-12">
+        <footer
+            className="relative bg-hoja text-pulpa pt-16 pb-28 md:pb-14"
+            style={{ clipPath: bordeMordido(11) }}
+        >
             <div className="container">
-                <div className="md:grid md:grid-cols-[auto,1fr]">
-                    <address className="not-italic text-sm leading-[1.3] tracking-[-0.41px] text-appGray-500 text-center mb-8 md:text-base md:leading-[1.3] md:text-left">
-                        {addressLines.map((line, i) => (
-                            <React.Fragment key={i}>
-                                {line}
-                                {i < addressLines.length - 1 && <br />}
-                            </React.Fragment>
-                        ))}
-                        {hours.length > 0 && (
-                            <span className="block mt-2">
-                                {hours.map((line) => (
-                                    <span key={line} className="block">{line}</span>
-                                ))}
-                            </span>
-                        )}
-                    </address>
-                    <nav className="grid grid-cols-[repeat(2,auto)] justify-between gap-x-12 gap-y-8 mx-auto mb-10 max-md:max-w-[225px] md:mb-20 lg:grid-cols-[repeat(3,auto)] lg:gap-20 xl:gap-[128px]">
+                <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_auto] md:gap-16">
+                    <div className="grid gap-4 justify-items-center text-center md:justify-items-start md:text-left">
+                        <a href="/" aria-label="Don Patacón, inicio" className="rounded-xl">
+                            <Logo claro size="md" />
+                        </a>
+                        <p className="font-display text-2xl text-sol">Más crujiente y sabrosón</p>
+                        <address className="not-italic font-semibold leading-snug">
+                            {addressLines.map((line, i) => (
+                                <React.Fragment key={i}>
+                                    {line}
+                                    {i < addressLines.length - 1 && <br />}
+                                </React.Fragment>
+                            ))}
+                            {hours.length > 0 && (
+                                <span className="block mt-2">
+                                    {hours.map((line) => (
+                                        <span key={line} className="block">{line}</span>
+                                    ))}
+                                </span>
+                            )}
+                        </address>
+                    </div>
+                    <nav className="grid grid-cols-2 gap-x-12 gap-y-8 justify-self-center md:justify-self-end lg:grid-cols-[repeat(3,auto)]" aria-label="Pie de página">
                         {nav.map((col, index) => (
                             <div key={index} className="footer--nav-col">
-                                <div className="text-sm leading-none text-white mb-3.5 md:text-lg md:leading-none">
-                                    {col.title}
-                                </div>
-                                <ul className="grid grid-cols-1 gap-3">
+                                <p className="font-extrabold text-sol mb-2">{col.title}</p>
+                                <ul className="grid gap-1.5">
                                     {col.items.map((item, itemIndex) => (
-                                        <li
-                                            key={itemIndex}
-                                            className="relative leading-none text-[#9c9090] max-w-max"
-                                        >
+                                        <li key={itemIndex}>
                                             <a
                                                 href={item.href}
-                                                target={
-                                                    item.href.startsWith('http')
-                                                        ? '_blank'
-                                                        : '_self'
-                                                }
-                                                rel={
-                                                    item.href.startsWith('http')
-                                                        ? 'noopener noreferrer'
-                                                        : undefined
-                                                }
-                                                className="hover:underline focus-visible:underline"
+                                                target={item.href.startsWith('http') ? '_blank' : undefined}
+                                                rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                                                className="font-semibold underline-offset-4 decoration-sol decoration-2 hover:underline focus-visible:underline"
                                             >
                                                 {item.label}
                                             </a>
@@ -105,8 +103,8 @@ const Footer: React.FC<Props> = ({ business, hasTerms }) => {
                         ))}
                     </nav>
                 </div>
-                <div className="flex flex-col items-center gap-4 text-center md:flex-row md:justify-between">
-                    <div className="footer--origin flex items-center gap-2 text-xs leading-none tracking-[-0.41px] text-appGray-500 md:order-last md:text-sm md:leading-none">
+                <div className="flex flex-col items-center gap-3 mt-12 pt-6 border-t-2 border-pulpa/25 text-sm font-semibold md:flex-row md:justify-between">
+                    <div className="footer--origin flex items-center gap-2 md:order-last">
                         <svg aria-hidden="true" viewBox="0 0 6 4" className="w-[18px] h-3 rounded-[2px] overflow-hidden">
                             <rect width="6" height="2" fill="#FCD116" />
                             <rect y="2" width="6" height="1" fill="#003893" />
@@ -114,9 +112,8 @@ const Footer: React.FC<Props> = ({ business, hasTerms }) => {
                         </svg>
                         Producto 100% colombiano
                     </div>
-                    <div className="text-xs leading-none text-appGray-500 md:text-base md:leading-none md:text-appBody">
-                        &copy; {new Date().getFullYear()} {business.name}. Todos
-                        los derechos reservados.
+                    <div>
+                        &copy; {new Date().getFullYear()} {business.name}. Todos los derechos reservados.
                     </div>
                 </div>
             </div>
