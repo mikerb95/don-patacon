@@ -23,7 +23,8 @@
       "categoryId": "patacones",
       "available": true,
       "specialDays": [],
-      "plantainChoice": true
+      "plantainChoice": true,
+      "featured": true
     },
     {
       "id": "paisa",
@@ -34,7 +35,8 @@
       "categoryId": "patacones",
       "available": true,
       "specialDays": [],
-      "plantainChoice": true
+      "plantainChoice": true,
+      "featured": true
     },
     {
       "id": "mexicano",
@@ -45,7 +47,8 @@
       "categoryId": "patacones",
       "available": true,
       "specialDays": [],
-      "plantainChoice": true
+      "plantainChoice": true,
+      "featured": true
     },
     {
       "id": "carne",
@@ -56,7 +59,8 @@
       "categoryId": "patacones",
       "available": true,
       "specialDays": [],
-      "plantainChoice": true
+      "plantainChoice": true,
+      "featured": false
     },
     {
       "id": "pollo",
@@ -67,7 +71,8 @@
       "categoryId": "patacones",
       "available": true,
       "specialDays": [],
-      "plantainChoice": true
+      "plantainChoice": true,
+      "featured": false
     },
     {
       "id": "vegetales",
@@ -78,7 +83,8 @@
       "categoryId": "patacones",
       "available": true,
       "specialDays": [],
-      "plantainChoice": true
+      "plantainChoice": true,
+      "featured": false
     },
     {
       "id": "combo-mixto",
@@ -89,7 +95,8 @@
       "categoryId": "para-compartir",
       "available": true,
       "specialDays": [],
-      "plantainChoice": true
+      "plantainChoice": true,
+      "featured": true
     },
     {
       "id": "burguer",
@@ -100,7 +107,8 @@
       "categoryId": "para-compartir",
       "available": true,
       "specialDays": [],
-      "plantainChoice": false
+      "plantainChoice": false,
+      "featured": false
     }
   ]
 }

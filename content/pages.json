@@ -1,13 +1,13 @@
 {
   "home": {
-    "heroTitle": "Don Patacón",
-    "heroImage": "/media/home-cover.jpg",
-    "heroDescription": "Cocina colombiana en el Centro Comercial Plaza Central, Bogotá. Pide por WhatsApp y recoge tu pedido listo en el local.",
+    "heroTitle": "Más crujiente y sabrosón",
+    "heroImage": "/media/plato-don-patacon.webp",
+    "heroDescription": "Patacones grandes, con todo encima, en la plazoleta de comidas del Centro Comercial Plaza Central. En verde crocante o maduro dulce.",
     "processTitle": "Cómo lo hacemos",
     "processDescription": "Cada patacón se aplasta a mano y se fríe al momento. Lo pides en verde, crocante, o en maduro, dulce.",
     "processSteps": [],
-    "menuTitle": "Nuestra carta",
-    "menuDescription": "Elige una categoría para ver los platos y sus precios.",
+    "menuTitle": "Los que más piden",
+    "menuDescription": "Verde crocante o maduro dulce: todos los patacones vienen como prefieras.",
     "ambienceTitle": "El lugar",
     "ambienceDescription": "",
     "ambienceItems": [],
@@ -15,7 +15,33 @@
     "specialsDescription": "Cada día de la semana tiene sus platos especiales.",
     "testimonialsTitle": "Lo que dicen de nosotros",
     "testimonialsDescription": "",
-    "testimonials": []
+    "testimonials": [],
+    "takeHomeTitle": "Llévalos a casa",
+    "takeHomeDescription": "Patacones listos para freír. Cada bandeja trae 5 unidades (250 g), sin conservantes.",
+    "takeHomeImage": "/media/empacados.webp",
+    "takeHomeSteps": [
+      "Calienta el aceite a 180 °C.",
+      "Fríelos 1 minuto por cada lado, hasta que doren.",
+      "Escúrrelos en papel de cocina. No necesitan sal."
+    ],
+    "takeHomeNote": "Los consigues en el local 3-48.",
+    "visitTitle": "Cómo llegar",
+    "visitImage": "/media/local.webp",
+    "visitImageCaption": "Así se ve el local desde la plazoleta.",
+    "visitSteps": [
+      {
+        "title": "Entra al Centro Comercial Plaza Central",
+        "detail": "Bogotá"
+      },
+      {
+        "title": "Busca la plazoleta de comidas",
+        "detail": "Somos el local 3-48"
+      },
+      {
+        "title": "Mira el aviso verde de neón",
+        "detail": "Ahí te esperamos"
+      }
+    ]
   },
   "about": {
     "titleTop": "Don Patacón",

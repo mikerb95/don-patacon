@@ -67,8 +67,8 @@ const PagesTab: React.FC<Props> = ({ pages, onChange, onError }) => {
                         <p className="rounded-2xl bg-[#EADFC9] p-4 leading-snug">Esta foto es de ejemplo y no muestra un plato de Don Patacón. Cámbiala por una tuya antes de abrir el sitio al público.</p>
                     )}
                     <Field name="pages.home.heroDescription" label="Presentación" multiline value={home.heroDescription} maxLength={500} onChange={(heroDescription) => setHome({ heroDescription })} />
-                    <Field name="pages.home.menuTitle" label="Título de la carta" value={home.menuTitle} onChange={(menuTitle) => setHome({ menuTitle })} />
-                    <Field name="pages.home.menuDescription" label="Texto de la carta" multiline value={home.menuDescription} onChange={(menuDescription) => setHome({ menuDescription })} />
+                    <Field name="pages.home.menuTitle" label="Título de los destacados" value={home.menuTitle} onChange={(menuTitle) => setHome({ menuTitle })} />
+                    <Field name="pages.home.menuDescription" label="Texto de los destacados" hint="Los platos se marcan como destacados en la pestaña Carta." multiline value={home.menuDescription} onChange={(menuDescription) => setHome({ menuDescription })} />
                     <Field name="pages.home.specialsTitle" label="Título de los especiales" value={home.specialsTitle} onChange={(specialsTitle) => setHome({ specialsTitle })} />
                     <Field name="pages.home.specialsDescription" label="Texto de los especiales" multiline value={home.specialsDescription} onChange={(specialsDescription) => setHome({ specialsDescription })} />
                 </Disclosure>
@@ -82,6 +82,35 @@ const PagesTab: React.FC<Props> = ({ pages, onChange, onError }) => {
                             <ImageField label="Foto" value={item.image} onChange={(image) => update({ image })} onError={onError} />
                             <Field name={`${prefix}.text`} label="Qué se hace en este paso" multiline value={item.text} maxLength={800} onChange={(text) => update({ text })} />
                         </>)} />
+                </Disclosure>
+                <Disclosure title="Llévalos a casa">
+                    <p className="text-appGray-300">Los patacones empacados. Sin título ni texto, esta sección no aparece.</p>
+                    <Field name="pages.home.takeHomeTitle" label="Título" value={home.takeHomeTitle} maxLength={80} onChange={(takeHomeTitle) => setHome({ takeHomeTitle })} />
+                    <Field name="pages.home.takeHomeDescription" label="Texto" multiline value={home.takeHomeDescription} maxLength={400} onChange={(takeHomeDescription) => setHome({ takeHomeDescription })} />
+                    <ImageField label="Foto del producto" value={home.takeHomeImage} onChange={(takeHomeImage) => setHome({ takeHomeImage })} onError={onError} />
+                    <ListEditor name="pages.home.takeHomeSteps" items={home.takeHomeSteps} addLabel="Agregar paso" empty="Sin pasos de preparación." blank=""
+                        label={(_, i) => `Paso ${i + 1}`} onChange={(takeHomeSteps) => setHome({ takeHomeSteps })}
+                        render={(item, _update, prefix) => (
+                            <Field name={prefix} label="Qué hacer" value={item} maxLength={200}
+                                onChange={(text) => {
+                                    // Lista de textos simples: el índice sale del prefijo "pages.home.takeHomeSteps.N".
+                                    const i = Number(prefix.split('.').pop());
+                                    setHome({ takeHomeSteps: home.takeHomeSteps.map((s, j) => (j === i ? text : s)) });
+                                }} />
+                        )} />
+                    <Field name="pages.home.takeHomeNote" label="Dónde se consiguen" value={home.takeHomeNote} maxLength={160} onChange={(takeHomeNote) => setHome({ takeHomeNote })} />
+                </Disclosure>
+                <Disclosure title="Cómo llegar">
+                    <p className="text-appGray-300">Pasos para encontrar el local dentro del centro comercial. Sin pasos, esta sección no aparece.</p>
+                    <Field name="pages.home.visitTitle" label="Título" value={home.visitTitle} maxLength={80} onChange={(visitTitle) => setHome({ visitTitle })} />
+                    <ListEditor name="pages.home.visitSteps" items={home.visitSteps} addLabel="Agregar paso" empty="Sin pasos, esta sección no aparece." blank={{ title: '', detail: '' }}
+                        label={(_, i) => `Paso ${i + 1}`} onChange={(visitSteps) => setHome({ visitSteps })}
+                        render={(item, update, prefix) => (<>
+                            <Field name={`${prefix}.title`} label="Indicación" value={item.title} maxLength={100} onChange={(title) => update({ title })} />
+                            <Field name={`${prefix}.detail`} label="Detalle" value={item.detail} maxLength={160} onChange={(detail) => update({ detail })} />
+                        </>)} />
+                    <ImageField label="Foto del local" value={home.visitImage} onChange={(visitImage) => setHome({ visitImage })} onError={onError} />
+                    <Field name="pages.home.visitImageCaption" label="Pie de foto" value={home.visitImageCaption} maxLength={160} onChange={(visitImageCaption) => setHome({ visitImageCaption })} />
                 </Disclosure>
                 <Disclosure title="El lugar (fotos del inicio)">
                     <Field name="pages.home.ambienceTitle" label="Título" value={home.ambienceTitle} onChange={(ambienceTitle) => setHome({ ambienceTitle })} />

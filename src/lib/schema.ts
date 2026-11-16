@@ -93,6 +93,8 @@ const dish = z.object({
     specialDays: z.array(z.enum(DAYS)).max(7),
     /** El plato se puede pedir con patacón verde o maduro. */
     plantainChoice: z.boolean().default(false),
+    /** Aparece en "Los que más piden" del inicio (máximo 4 se muestran). */
+    featured: z.boolean().default(false),
 });
 
 export const menuSchema = z
@@ -131,6 +133,17 @@ export const pagesSchema = z.object({
         processTitle: text(80).default('Cómo lo hacemos'),
         processDescription: text(400).default(''),
         processSteps: z.array(textImage).max(8).default([]),
+        /** "Llévalos a casa": patacones empacados para freír en casa. */
+        takeHomeTitle: text(80).default(''),
+        takeHomeDescription: text(400).default(''),
+        takeHomeImage: imagePath.default(''),
+        takeHomeSteps: z.array(text(200)).max(6).default([]),
+        takeHomeNote: text(160).default(''),
+        /** "Cómo llegar": pasos para encontrar el local dentro del centro comercial. */
+        visitTitle: text(80).default('Cómo llegar'),
+        visitImage: imagePath.default(''),
+        visitImageCaption: text(160).default(''),
+        visitSteps: z.array(z.object({ title: text(100), detail: text(160) })).max(6).default([]),
         menuTitle: text(80),
         menuDescription: text(400),
         ambienceTitle: text(80),
