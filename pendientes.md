@@ -31,7 +31,7 @@ El panel muestra en "Negocio" lo que falta.
 - [ ] **Foto principal.** La actual es un salmón de la plantilla de origen, no un
       plato de Don Patacón.
 - [ ] **Horario por día**, WhatsApp, teléfono y correo.
-- [ ] Número de local y piso en Plaza Central.
+- [x] Número de local y piso en Plaza Central (Local 3-48, Plazoleta de comidas).
 - [ ] Enlaces de Rappi y DiDi Food, si existen.
 - [ ] **Razón social y NIT**: los usa `/privacidad` como responsable del
       tratamiento.
@@ -39,6 +39,12 @@ El panel muestra en "Negocio" lo que falta.
       "cocina colombiana".
 - [ ] Contacto: parqueadero y cómo llegar (TransMilenio).
 - [ ] Testimonios reales y fotos del lugar. Sin ellos, esas secciones no aparecen.
+- [ ] **Cómo lo hacemos:** 3 o 4 pasos con foto real del proceso (pelar,
+      aplastar a mano, freír). Sin pasos, la sección no aparece.
+- [ ] **Verde o maduro:** marcar en cada plato de la carta si se pide en verde o
+      maduro. Si ninguno lo tiene marcado, el selector no sale en `/pedidos`.
+- [ ] **Enlace de reseñas de Google** (Negocio > Reseñas). Sale en el pie y en
+      contacto; vacío, no se muestra.
 - [ ] Que el dueño (idealmente con asesoría legal) valide `/privacidad` y los
       términos.
 
@@ -67,6 +73,10 @@ El panel muestra en "Negocio" lo que falta.
       imágenes reemplazadas.
 
 ## 5. Opcional
+
+- [ ] **Bebida de la casa:** preguntar al dueño si tiene una bebida propia
+      (estilo limonada de coco) para destacarla y subir el valor del pedido.
+      Idea tomada de patacones.com.
 
 - [ ] Analítica (Vercel Analytics o GA4) para medir cuánta gente llega a
       `/pedidos` y envía el WhatsApp. Si usa cookies, hace falta aviso de

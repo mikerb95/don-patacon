@@ -52,7 +52,7 @@ const Footer: React.FC<Props> = ({ business, hasTerms }) => {
     ].filter(Boolean);
 
     return (
-        <footer className="bg-appText py-10 md:py-12">
+        <footer className="bg-appText pt-10 pb-24 md:py-12">
             <div className="container">
                 <div className="md:grid md:grid-cols-[auto,1fr]">
                     <address className="not-italic text-sm leading-[1.3] uppercase tracking-[-0.41px] text-appGray-500 text-center mb-8 md:text-base md:leading-[1.3] md:text-left">
