@@ -61,3 +61,13 @@ export function bordeMordido(semilla: number, paso = 2): string {
     for (let x = 0; x <= 100; x += paso) pts.push(`${x}% ${(0.6 + r() * 1.8).toFixed(2)}%`);
     return `polygon(${pts.join(',')},100% 100%,0 100%)`;
 }
+
+/**
+ * Polígono CSS en porcentajes para recortar una foto con borde crocante.
+ * Con porcentajes no hace falta un clipPath SVG por foto y se escala con la caja.
+ */
+export function poligonoCrocante(semilla: number, { puntos = 72, serrucho = 0.055, radio = 0.45 } = {}): string {
+    const pts = contorno(semilla, puntos, serrucho);
+    const pct = (v: number) => `${(50 + v * radio * 100).toFixed(2)}%`;
+    return `polygon(${pts.map(([x, y]) => `${pct(x)} ${pct(y)}`).join(',')})`;
+}
