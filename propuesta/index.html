@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Don Patacón: propuesta de portada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Chango&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<!-- Sprites compartidos: hoja de plátano en dos variantes. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="hoja" viewBox="0 0 100 240">
+      <path d="M50 4 C 92 52, 98 150, 52 236 C 6 150, 10 52, 50 4 Z" fill="currentColor" stroke="#0E3B1F" stroke-width="5" stroke-linejoin="round"/>
+      <g fill="none" stroke="#0E3B1F" stroke-width="3.5" stroke-linecap="round">
+        <path d="M50 14 C 52 90, 52 160, 52 228"/>
+        <path d="M51 60 C 64 52, 74 50, 82 52"/><path d="M51 96 C 66 86, 78 84, 88 88"/>
+        <path d="M51 134 C 66 124, 78 124, 88 128"/><path d="M52 172 C 64 164, 74 164, 80 168"/>
+        <path d="M51 70 C 38 62, 28 60, 18 64"/><path d="M51 108 C 36 98, 24 98, 14 104"/>
+        <path d="M52 146 C 38 138, 26 138, 16 144"/><path d="M52 184 C 42 178, 32 178, 24 182"/>
+      </g>
+    </symbol>
+  </defs>
+  <!-- Aquí escena.js inserta los clipPath de borde crocante. -->
+  <defs id="crocantes"></defs>
+</svg>
+
+<a class="saltar" href="#principal">Saltar al contenido</a>
+
+<header class="cabecera">
+  <a class="marca" href="#" aria-label="Don Patacón, inicio">
+    <span class="marca__disco" aria-hidden="true"></span>
+    <span class="marca__texto"><span class="marca__don">Don</span> Patacón</span>
+  </a>
+  <nav class="menu" aria-label="Principal">
+    <a href="#favoritos">Carta</a>
+    <a href="#casa">Llévalos a casa</a>
+    <a class="boton boton--sol" href="#llegar">Cómo llegar</a>
+  </nav>
+</header>
+
+<main id="principal">
+
+  <!-- ===== Portada: el titular a la izquierda, la escena de la pataconera a la derecha ===== -->
+  <section class="portada" aria-labelledby="titulo">
+    <div class="portada__hojas" aria-hidden="true">
+      <span class="hoja-deco" style="--x:-4%;--y:-6%;--r:-28deg;--s:1.15" data-prof="1.2"><svg><use href="#hoja"/></svg></span>
+      <span class="hoja-deco hoja-deco--biche" style="--x:6%;--y:58%;--r:-62deg;--s:.8" data-prof=".7"><svg><use href="#hoja"/></svg></span>
+      <span class="hoja-deco" style="--x:88%;--y:-10%;--r:34deg;--s:1.3" data-prof="1.4"><svg><use href="#hoja"/></svg></span>
+      <span class="hoja-deco hoja-deco--biche" style="--x:94%;--y:52%;--r:70deg;--s:.9" data-prof=".9"><svg><use href="#hoja"/></svg></span>
+    </div>
+
+    <div class="portada__texto">
+      <h1 id="titulo" class="titular">Más crujiente y sabrosón</h1>
+      <p class="portada__bajada">Patacones grandes, con todo encima, en la plazoleta de comidas del Centro Comercial Plaza Central.</p>
+
+      <dl class="datos">
+        <div><dt>Dónde</dt><dd>Local 3-48, plazoleta de comidas</dd></div>
+        <div><dt>Horario</dt><dd class="pendiente">Por confirmar</dd></div>
+      </dl>
+
+      <div class="acciones">
+        <a class="boton boton--sol boton--grande" href="#llegar">Cómo llegar</a>
+        <a class="boton boton--linea boton--grande" href="#favoritos">Ver la carta</a>
+      </div>
+
+      <ol class="pasos" aria-label="Cómo hacemos el patacón">
+        <li data-paso="0">Cortamos el plátano verde</li>
+        <li data-paso="1">Lo freímos una vez</li>
+        <li data-paso="2">Lo aplastamos en la pataconera</li>
+        <li data-paso="3">Lo freímos otra vez hasta que cruja</li>
+      </ol>
+    </div>
+
+    <div class="portada__escena">
+      <p class="globo" aria-live="polite"><span id="globo-texto">Así de crujiente te espera en el 3-48.</span></p>
+
+      <svg class="escena" viewBox="0 0 600 560" aria-hidden="true">
+        <path id="e-aura" fill="#FFE07A"/>
+
+        <!-- 0. plátano entero y cuchillo -->
+        <g id="e-platano">
+          <path d="M140 200 C 215 120, 390 110, 462 176 C 470 184, 462 196, 452 192 C 388 156, 240 164, 156 216 C 144 222, 132 210, 140 200 Z" fill="#A8D13B" stroke="#0E3B1F" stroke-width="6" stroke-linejoin="round"/>
+          <path d="M184 186 C 250 142, 360 136, 420 160" fill="none" stroke="#D3EC86" stroke-width="8" stroke-linecap="round"/>
+          <path d="M452 176 L 478 166" stroke="#0E3B1F" stroke-width="10" stroke-linecap="round"/>
+        </g>
+        <g id="e-cuchillo">
+          <path d="M300 60 L 318 190 C 306 196, 292 192, 286 186 Z" fill="#EEF0E4" stroke="#0E3B1F" stroke-width="5" stroke-linejoin="round"/>
+          <rect x="290" y="16" width="20" height="50" rx="8" fill="#0E3B1F"/>
+        </g>
+
+        <!-- 1. tajada y burbujas del aceite -->
+        <g id="e-tajada">
+          <ellipse cx="300" cy="330" rx="74" ry="32" fill="#7DB82E" stroke="#0E3B1F" stroke-width="6"/>
+          <ellipse id="e-tajada-pulpa" cx="300" cy="326" rx="62" ry="24" fill="#F6EBB5"/>
+        </g>
+        <g id="e-burbujas" fill="#FFFDF2" stroke="#0E3B1F" stroke-width="3">
+          <circle cx="214" cy="356" r="7"/><circle cx="246" cy="380" r="5"/><circle cx="380" cy="364" r="8"/>
+          <circle cx="352" cy="388" r="5"/><circle cx="196" cy="320" r="4"/><circle cx="404" cy="326" r="5"/>
+          <circle cx="300" cy="394" r="6"/><circle cx="268" cy="300" r="4"/>
+        </g>
+
+        <!-- 2. pataconera: tabla de abajo fija, tabla de arriba con bisagra a la izquierda -->
+        <g id="e-prensa">
+          <rect x="150" y="364" width="300" height="30" rx="12" fill="#C9711A" stroke="#0E3B1F" stroke-width="6"/>
+          <g id="e-tapa">
+            <rect x="150" y="296" width="300" height="30" rx="12" fill="#E08A2C" stroke="#0E3B1F" stroke-width="6"/>
+            <rect x="440" y="302" width="64" height="18" rx="9" fill="#C9711A" stroke="#0E3B1F" stroke-width="5"/>
+          </g>
+        </g>
+
+        <!-- 3. patacón aplastado: borde crocante, cambia de color al freírse -->
+        <g id="e-patacon">
+          <path id="e-disco" fill="#F2D27A" stroke="#0E3B1F" stroke-width="6" stroke-linejoin="round"/>
+          <g id="e-vetas" fill="none" stroke="#C9711A" stroke-width="4" stroke-linecap="round" opacity=".55">
+            <path d="M228 312 C 250 300, 270 302, 286 312"/><path d="M314 300 C 340 292, 360 298, 372 310"/>
+            <path d="M246 352 C 270 340, 296 344, 310 356"/><path d="M330 348 C 350 340, 368 344, 380 354"/>
+            <path d="M264 378 C 284 372, 300 374, 312 382"/>
+          </g>
+        </g>
+        <g id="e-migas" fill="#F5B41F" stroke="#0E3B1F" stroke-width="3" stroke-linejoin="round"></g>
+        <text id="e-crunch" x="300" y="200" text-anchor="middle">¡Crunch!</text>
+
+        <!-- 4. el plato real: estado final que pinta el servidor -->
+        <g id="e-plato">
+          <clipPath id="clip-plato"><path id="e-plato-borde"/></clipPath>
+          <image href="img/don-patacon.webp" x="70" y="170" width="460" height="300" preserveAspectRatio="xMidYMid slice" clip-path="url(#clip-plato)"/>
+          <path id="e-plato-contorno" fill="none" stroke="#0E3B1F" stroke-width="6" stroke-linejoin="round"/>
+        </g>
+      </svg>
+
+      <div class="mascota mascota--escena" data-mascota aria-hidden="true">
+        <img src="mascota.svg" alt="">
+      </div>
+      <p class="pista" aria-hidden="true">Baja y mira cómo lo hacemos</p>
+      <button class="repetir" type="button" hidden>Ver otra vez</button>
+    </div>
+  </section>
+
+  <!-- ===== Favoritos ===== -->
+  <section class="favoritos" id="favoritos" aria-labelledby="fav-titulo">
+    <div class="favoritos__cabeza">
+      <h2 id="fav-titulo" class="titulo-seccion">Los que más piden</h2>
+      <a class="enlace" href="#">Ver la carta completa</a>
+    </div>
+
+    <ul class="platos">
+      <li class="plato plato--grande">
+        <div class="plato__foto crocante" data-crocante="1"><img src="img/don-patacon.webp" alt="Patacón Don Patacón con carne, pollo, chorizo, maíz, guacamole y huevos de codorniz" loading="lazy"></div>
+        <div class="plato__texto">
+          <h3>Don Patacón</h3>
+          <p>El de la casa: carne en salsa, pollo desmechado, chorizo, maíz, guacamole, queso y huevos de codorniz.</p>
+          <span class="precio">$31.900</span>
+        </div>
+      </li>
+      <li class="plato">
+        <div class="plato__foto crocante" data-crocante="2"><img src="img/paisa.webp" alt="Patacón paisa con fríjoles, huevo frito, arroz y chicharrón" loading="lazy"></div>
+        <div class="plato__texto">
+          <h3>Paisa</h3>
+          <p>Fríjoles, arroz, huevo frito, chicharrón, chorizo y guacamole.</p>
+          <span class="precio">$32.900</span>
+        </div>
+      </li>
+      <li class="plato">
+        <div class="plato__foto crocante" data-crocante="3"><img src="img/mexicano.webp" alt="Patacón mexicano con carne molida, chorizo, nachos y pico de gallo" loading="lazy"></div>
+        <div class="plato__texto">
+          <h3>Mexicano</h3>
+          <p>Carne molida, chorizo, nachos, pico de gallo y queso cheddar.</p>
+          <span class="precio">$28.900</span>
+        </div>
+      </li>
+      <li class="plato">
+        <div class="plato__foto crocante" data-crocante="4"><img src="img/combo-mixto.webp" alt="Combo mixto para dos con carne, pollo y chorizo" loading="lazy"></div>
+        <div class="plato__texto">
+          <h3>Combo Mixto x2</h3>
+          <p>Patacón mixto para compartir, con papas a la francesa y dos gaseosas.</p>
+          <span class="precio">$49.900</span>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ===== Llévalos a casa ===== -->
+  <section class="casa" id="casa" aria-labelledby="casa-titulo">
+    <div class="casa__foto crocante" data-crocante="5"><img src="img/empacados.webp" alt="Bandeja de patacones empacados Don Patacón, 250 gramos" loading="lazy"></div>
+    <div class="casa__texto">
+      <h2 id="casa-titulo" class="titulo-seccion">Llévalos a casa</h2>
+      <p>Patacones listos para freír. Cada bandeja trae 5 unidades (250 g), sin conservantes.</p>
+      <ol class="receta">
+        <li>Calienta el aceite a 180 °C.</li>
+        <li>Fríelos 1 minuto por cada lado, hasta que doren.</li>
+        <li>Escúrrelos en papel de cocina. No necesitan sal.</li>
+      </ol>
+      <p class="casa__donde">Los consigues en el local 3-48.</p>
+    </div>
+    <span class="hoja-deco hoja-deco--casa" aria-hidden="true"><svg><use href="#hoja"/></svg></span>
+  </section>
+
+  <!-- ===== Cómo llegar ===== -->
+  <section class="llegar" id="llegar" aria-labelledby="llegar-titulo">
+    <div class="llegar__texto">
+      <h2 id="llegar-titulo" class="titulo-seccion">Cómo llegar</h2>
+      <div class="ruta">
+        <span class="ruta__linea" aria-hidden="true"><span class="ruta__avance"></span></span>
+        <span class="ruta__cabeza" aria-hidden="true"><img src="mascota.svg" alt=""></span>
+        <ol>
+          <li><strong>Entra al Centro Comercial Plaza Central</strong><span>Bogotá</span></li>
+          <li><strong>Sube al piso 3</strong><span>Escaleras eléctricas o ascensor</span></li>
+          <li><strong>Busca la plazoleta de comidas</strong><span>Somos el local 3-48</span></li>
+          <li><strong>Mira el aviso verde de neón</strong><span>Ahí te esperamos</span></li>
+        </ol>
+      </div>
+      <div class="acciones">
+        <a class="boton boton--sol boton--grande" href="https://www.google.com/maps/search/?api=1&amp;query=Centro+Comercial+Plaza+Central+Bogot%C3%A1" target="_blank" rel="noopener">Abrir en Google Maps</a>
+      </div>
+    </div>
+    <figure class="llegar__foto">
+      <div class="crocante" data-crocante="6"><img src="img/local.webp" alt="El local de Don Patacón en la plazoleta: mostrador, mural de bananos y aviso de neón verde" loading="lazy"></div>
+      <figcaption>Así se ve el local desde la plazoleta.</figcaption>
+    </figure>
+  </section>
+</main>
+
+<footer class="pie">
+  <p class="pie__marca">Don Patacón</p>
+  <p class="pie__lema">Más crujiente y sabrosón</p>
+  <p>Local 3-48, plazoleta de comidas, Centro Comercial Plaza Central, Bogotá.</p>
+</footer>
+
+<p class="etiqueta-propuesta">Propuesta de diseño, no es el sitio publicado</p>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="escena.js"></script>
+</body>
+</html>
