@@ -2,6 +2,7 @@
 import HomeAmbience from '../components/home-page/Ambience';
 import HomeHero from '../components/home-page/Hero';
 import HomeMenu from '../components/home-page/Menu';
+import HomeProcess from '../components/home-page/Process';
 import HomeSpecials from '../components/home-page/Specials';
 import HomeTestimonials from '../components/home-page/Testimonials';
 import 'swiper/css';
@@ -52,6 +53,14 @@ const next = () => ++section;
                 title={home.menuTitle}
                 description={home.menuDescription}
                 categories={menu.categories}
+            />
+        )}
+        {home.processSteps.length > 0 && (
+            <HomeProcess
+                index={next()}
+                title={home.processTitle}
+                description={home.processDescription}
+                steps={home.processSteps}
             />
         )}
         {home.ambienceItems.length > 0 && (

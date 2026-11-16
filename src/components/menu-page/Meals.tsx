@@ -79,6 +79,11 @@ const MenuMeals: React.FC<Props> = ({ title, categories, dishes }) => {
                                     text={item.description}
                                     className="text-sm leading-[1.3] tracking-[-0.41px] uppercase text-appGray-100 max-w-[480px] mb-4 lg:text-base lg:leading-[1.3] lg:mb-6"
                                 />
+                                {item.plantainChoice && item.available && (
+                                    <div className="meals--plantain text-xs leading-none tracking-[-0.41px] uppercase text-appGray-100 mb-3 lg:text-sm lg:leading-none">
+                                        Verde o maduro, como prefieras
+                                    </div>
+                                )}
                                 <div
                                     className={classNames(
                                         'px-6 py-[13px] flex max-w-max rounded-[32px] text-sm leading-none text-white tracking-[-0.41px] lg:px-[18px] lg:py-3 lg:text-sm lg:leading-none',
