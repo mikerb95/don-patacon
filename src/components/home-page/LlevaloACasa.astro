@@ -1,0 +1,43 @@
+---
+/** "Llévalos a casa": los patacones empacados para freír en casa. */
+import CrocanteImg from '../CrocanteImg';
+import { bordeMordido } from '../../lib/crocante';
+
+interface Props {
+    title: string;
+    description: string;
+    image: string;
+    steps: string[];
+    note: string;
+}
+
+const { title, description, image, steps, note } = Astro.props;
+---
+
+<section
+    class="relative overflow-clip bg-monte text-pulpa pt-24 pb-20"
+    style={{ clipPath: bordeMordido(7) }}
+    aria-labelledby="casa-titulo"
+>
+    <div class:list={['container grid items-center gap-12', image && 'md:grid-cols-[minmax(0,.9fr)_minmax(0,1fr)]']}>
+        {image && (
+            <CrocanteImg src={image} alt={title} semilla="empacados" className="aspect-[4/5] w-full max-w-[300px] md:max-w-[420px] justify-self-center" />
+        )}
+        <div class="relative z-[1] grid gap-5">
+            <h2 id="casa-titulo" class="font-display text-[clamp(2.2rem,1.6rem+2.6vw,3.6rem)] leading-none text-sol">{title}</h2>
+            <p class="text-xl max-w-[36ch]">{description}</p>
+            {steps.length > 0 && (
+                <ol class="grid gap-2.5">
+                    {steps.map((step, i) => (
+                        <li class="flex items-baseline gap-3">
+                            <span aria-hidden="true" class="grid place-items-center shrink-0 w-8 h-8 rounded-full bg-sol text-monte font-extrabold leading-none">{i + 1}</span>
+                            {step}
+                        </li>
+                    ))}
+                </ol>
+            )}
+            {note && <p class="font-extrabold text-biche text-xl">{note}</p>}
+        </div>
+    </div>
+    <svg aria-hidden="true" class="absolute -right-10 -bottom-20 w-40 h-96 text-hoja opacity-50 -rotate-[20deg]"><use href="#hoja-platano"></use></svg>
+</section>

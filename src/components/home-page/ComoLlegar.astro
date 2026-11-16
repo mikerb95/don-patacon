@@ -1,0 +1,60 @@
+---
+/**
+ * "Cómo llegar": pasos dentro del centro comercial con una ruta punteada por la
+ * que baja Don Patacón al hacer scroll, más la foto real del local.
+ */
+import CrocanteImg from '../CrocanteImg';
+import Btn from '../Btn';
+
+interface Props {
+    title: string;
+    steps: { title: string; detail: string }[];
+    image: string;
+    caption: string;
+    mapsUrl: string;
+}
+
+const { title, steps, image, caption, mapsUrl } = Astro.props;
+---
+
+<section id="como-llegar" class="container scroll-mt-6 py-20 lg:py-28 grid gap-12 items-center md:grid-cols-2" aria-labelledby="llegar-titulo">
+    <div class="grid gap-8">
+        <h2 id="llegar-titulo" class="font-display text-[clamp(2.2rem,1.6rem+2.6vw,3.6rem)] leading-none">{title}</h2>
+        <div class="ruta relative">
+            <span class="ruta__linea absolute left-[18px] top-[.9rem] bottom-[1.6rem] w-1" aria-hidden="true">
+                <span class="ruta__avance absolute inset-0 bg-hoja origin-top"></span>
+            </span>
+            <img src="/mascota.svg" alt="" aria-hidden="true" class="ruta__cabeza absolute -left-2.5 -top-1.5 w-[60px] z-[1] hidden" width="60" height="85" />
+            <ol class="grid gap-6">
+                {steps.map((step) => (
+                    <li class="relative pl-14 grid">
+                        <span aria-hidden="true" class="absolute left-2.5 top-2 w-5 h-5 rounded-full bg-sol border-3 border-monte"></span>
+                        <strong class="text-xl font-extrabold">{step.title}</strong>
+                        {step.detail && <span class="text-appGray-400">{step.detail}</span>}
+                    </li>
+                ))}
+            </ol>
+        </div>
+        {mapsUrl && (
+            <Btn to={mapsUrl} theme="accent" size="lg" external className="justify-self-start">Abrir en Google Maps</Btn>
+        )}
+    </div>
+    {image && (
+        <figure class="grid gap-3">
+            <CrocanteImg src={image} alt={caption || 'El local de Don Patacón'} semilla="local" className="aspect-square" />
+            {caption && <figcaption class="font-bold text-appGray-400">{caption}</figcaption>}
+        </figure>
+    )}
+</section>
+
+<style>
+    .ruta__linea {
+        background: repeating-linear-gradient(to bottom, #0e3b1f 0 8px, transparent 8px 16px);
+    }
+    :global(.js-ruta) .ruta__cabeza { display: block; }
+</style>
+
+<script>
+    import { recorrerRuta } from './revelar';
+    recorrerRuta();
+</script>

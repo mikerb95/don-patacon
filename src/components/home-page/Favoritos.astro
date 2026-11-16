@@ -1,0 +1,55 @@
+---
+/**
+ * "Los que más piden": hasta 4 platos destacados desde el panel. El primero va
+ * grande; los otros, en columna. Cada foto lleva el borde crocante.
+ */
+import CrocanteImg from '../CrocanteImg';
+import Prose from '../Prose';
+import { formatPrice } from '../../utils/format';
+import type { Menu } from '../../lib/schema';
+
+interface Props {
+    title: string;
+    description: string;
+    dishes: Menu['dishes'];
+}
+
+const { title, description, dishes } = Astro.props;
+---
+
+<section class="container py-20 lg:py-28" aria-labelledby="favoritos-titulo" data-favoritos>
+    <div class="flex flex-wrap items-end justify-between gap-4 mb-10">
+        <div class="grid gap-3 max-w-[46ch]">
+            <h2 id="favoritos-titulo" class="font-display text-[clamp(2.2rem,1.6rem+2.6vw,3.6rem)] leading-none text-balance">{title}</h2>
+            {description && <Prose text={description} className="text-xl font-bold" />}
+        </div>
+        <a href="/carta" class="font-extrabold text-xl underline underline-offset-[6px] decoration-sol decoration-[3px]">Ver la carta completa</a>
+    </div>
+
+    <ul class="grid gap-x-12 gap-y-10 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]">
+        {dishes.map((dish, i) => (
+            <li class:list={[
+                'plato grid items-center gap-5',
+                i === 0 ? 'lg:row-span-3 content-start' : 'sm:grid-cols-[minmax(0,42%)_minmax(0,1fr)]',
+            ]}>
+                <CrocanteImg
+                    src={dish.image}
+                    alt={dish.title}
+                    semilla={dish.id}
+                    className={i === 0 ? 'plato__foto aspect-[16/11]' : 'plato__foto aspect-[4/3]'}
+                />
+                <div class="grid gap-1.5 justify-items-start">
+                    <h3 class:list={['font-display leading-[1.05]', i === 0 ? 'text-[clamp(2.2rem,1.6rem+2.6vw,3.6rem)]' : 'text-[clamp(1.5rem,1.2rem+1vw,2rem)]']}>{dish.title}</h3>
+                    {dish.description && <p class="max-w-[42ch]">{dish.description}</p>}
+                    {dish.plantainChoice && <p class="font-bold text-hoja">Verde o maduro, como prefieras</p>}
+                    <span class="precio mt-1 inline-block font-display text-2xl bg-sol border-3 border-monte rounded-[10px] px-3 py-0.5 shadow-dura-sm -rotate-3">{formatPrice(dish.price)}</span>
+                </div>
+            </li>
+        ))}
+    </ul>
+</section>
+
+<script>
+    import { revelarPlatos } from './revelar';
+    revelarPlatos();
+</script>
