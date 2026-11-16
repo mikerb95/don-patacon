@@ -68,12 +68,22 @@ const mapEmbedUrl = MALL_EMBED_URL;
                             <Prose text={contact.howToArrive} className="text-sm leading-[1.4] text-center text-appGray-700 lg:text-base" />
                         </div>
                     )}
-                    <Btn
-                        to={business.mapsUrl}
-                        className="uppercase max-w-max mx-auto"
-                    >
-                        <span>Abrir mapa</span>
-                    </Btn>
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <Btn
+                            to={business.mapsUrl}
+                            className="uppercase max-w-max"
+                        >
+                            <span>Abrir mapa</span>
+                        </Btn>
+                        {business.reviewsUrl && (
+                            <Btn
+                                to={business.reviewsUrl}
+                                className="uppercase max-w-max"
+                            >
+                                <span>Reseñas en Google</span>
+                            </Btn>
+                        )}
+                    </div>
                 </div>
             </div>
         </section>

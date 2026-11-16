@@ -16,6 +16,10 @@ const Footer: React.FC<Props> = ({ business, hasTerms }) => {
         { label: 'X', href: business.social.x },
     ].filter((item) => !!item.href);
 
+    const reviews = business.reviewsUrl
+        ? [{ label: 'Reseñas en Google', href: business.reviewsUrl }]
+        : [];
+
     const contact = [
         business.phone && {
             label: business.phone,
@@ -33,7 +37,7 @@ const Footer: React.FC<Props> = ({ business, hasTerms }) => {
     ];
 
     const nav = [
-        social.length > 0 && { title: 'Síguenos', items: social },
+        social.length + reviews.length > 0 && { title: 'Síguenos', items: [...social, ...reviews] },
         contact.length > 0 && { title: 'Contacto', items: contact },
         { title: 'Legal', items: legal },
     ].filter(Boolean) as { title: string; items: { label: string; href: string }[] }[];
@@ -101,7 +105,15 @@ const Footer: React.FC<Props> = ({ business, hasTerms }) => {
                         ))}
                     </nav>
                 </div>
-                <div className="flex flex-col items-center text-center md:flex-row md:justify-between">
+                <div className="flex flex-col items-center gap-4 text-center md:flex-row md:justify-between">
+                    <div className="footer--origin flex items-center gap-2 text-xs leading-none uppercase tracking-[-0.41px] text-appGray-500 md:order-last md:text-sm md:leading-none">
+                        <svg aria-hidden="true" viewBox="0 0 6 4" className="w-[18px] h-3 rounded-[2px] overflow-hidden">
+                            <rect width="6" height="2" fill="#FCD116" />
+                            <rect y="2" width="6" height="1" fill="#003893" />
+                            <rect y="3" width="6" height="1" fill="#CE1126" />
+                        </svg>
+                        Producto 100% colombiano
+                    </div>
                     <div className="text-xs leading-none text-appGray-500 md:text-base md:leading-none md:text-appBody">
                         &copy; {new Date().getFullYear()} {business.name}. Todos
                         los derechos reservados.

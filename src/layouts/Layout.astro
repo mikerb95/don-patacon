@@ -1,6 +1,7 @@
 ---
 import Footer from '../components/layout/Footer';
 import Header from '../components/layout/Header';
+import WhatsAppButton from '../components/layout/WhatsAppButton.astro';
 import { content as publishedContent, SITE_DESCRIPTION } from '../lib/content';
 import type { Docs } from '../lib/schema';
 // Fuentes autoalojadas (sin Google Fonts): Inter variable para el texto,
@@ -17,9 +18,11 @@ interface Props {
     content?: Docs;
     /** En la vista previa del panel, los enlaces no navegan. */
     preview?: boolean;
+    /** Botón flotante de WhatsApp; se apaga donde ya hay un formulario de pedido. */
+    whatsappButton?: boolean;
 }
 
-const { title, description = SITE_DESCRIPTION, content = publishedContent, preview = false } = Astro.props;
+const { title, description = SITE_DESCRIPTION, content = publishedContent, preview = false, whatsappButton = true } = Astro.props;
 const { business, pages } = content;
 const ogImageUrl = '/thumbnail.jpg';
 ---
@@ -62,6 +65,7 @@ const ogImageUrl = '/thumbnail.jpg';
             <main id="main-content" class="flex flex-col flex-1"><slot /></main>
             <Footer business={business} hasTerms={pages.legal.sections.length > 0} />
         </div>
+        {whatsappButton && <WhatsAppButton number={business.whatsapp} businessName={business.name} />}
     </body>
 </html>
 
