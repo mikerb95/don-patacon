@@ -9,12 +9,14 @@ interface Props {
 }
 
 const { content, preview } = Astro.props;
-const { business } = content;
+const { business, menu } = content;
+const plantainChoice = menu.dishes.some((d) => d.plantainChoice && d.available);
 ---
 
 <Layout
     content={content}
     preview={preview}
+    whatsappButton={false}
     title={`Pedidos - DON PATACÓN`}
     description="Pide en DON PATACÓN por WhatsApp y recoge en el Centro Comercial Plaza Central, Bogotá, o pide a domicilio."
 >
@@ -24,6 +26,7 @@ const { business } = content;
             whatsappNumber={business.whatsapp}
             mallLocation={business.mallLocation}
             delivery={business.delivery}
+            plantainChoice={plantainChoice}
             client:load
         />
     </div>

@@ -12,13 +12,23 @@ interface Props {
     mallLocation: string;
     /** Apps de domicilios; las URLs vacías no se muestran. */
     delivery: { rappi: string; didi: string };
+    /** Hay platos que se piden en verde o maduro: se muestra el selector. */
+    plantainChoice: boolean;
 }
+
+type Plantain = '' | 'verde' | 'maduro';
+
+const PLANTAIN_OPTIONS: { value: Exclude<Plantain, ''>; label: string; hint: string }[] = [
+    { value: 'verde', label: 'Verde', hint: 'Crocante' },
+    { value: 'maduro', label: 'Maduro', hint: 'Dulce' },
+];
 
 interface OrderForm {
     name: string;
     phone: string;
     order: string;
     pickupTime: string;
+    plantain: Plantain;
     notes: string;
     acceptTerms: boolean;
 }
@@ -32,12 +42,14 @@ const OrderForm: React.FC<Props> = ({
     whatsappNumber,
     mallLocation,
     delivery,
+    plantainChoice,
 }) => {
     const [form, setForm] = useState<OrderForm>({
         name: '',
         phone: '',
         order: '',
         pickupTime: '',
+        plantain: '',
         notes: '',
         acceptTerms: false,
     });
@@ -78,6 +90,9 @@ const OrderForm: React.FC<Props> = ({
             'Pedido:',
             form.order.trim(),
         ];
+        if (plantainChoice && form.plantain) {
+            lines.push('', `Patacón: ${form.plantain}`);
+        }
         if (form.notes.trim()) {
             lines.push('', 'Notas:', form.notes.trim());
         }
@@ -172,6 +187,49 @@ const OrderForm: React.FC<Props> = ({
                             className="col-span-2"
                             onChange={(v) => update('order', v)}
                         />
+                        {plantainChoice && (
+                            <fieldset className="order--plantain col-span-2">
+                                <legend className="text-xs leading-none tracking-[-0.41px] uppercase text-appGray-700 mb-3 lg:text-sm lg:leading-none">
+                                    ¿Tu patacón verde o maduro? (opcional)
+                                </legend>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {PLANTAIN_OPTIONS.map((option) => {
+                                        const checked = form.plantain === option.value;
+                                        return (
+                                            <label key={option.value} className="cursor-pointer">
+                                                <input
+                                                    type="radio"
+                                                    name="plantain"
+                                                    value={option.value}
+                                                    checked={checked}
+                                                    className="sr-only peer"
+                                                    onChange={() => update('plantain', option.value)}
+                                                    onClick={() => checked && update('plantain', '')}
+                                                />
+                                                <span
+                                                    className={classNames(
+                                                        'flex flex-col items-center justify-center gap-1 min-h-14 px-4 py-3 rounded-2xl border transition-colors duration-300 peer-focus-visible:ring-2 peer-focus-visible:ring-appAccent peer-focus-visible:ring-offset-2',
+                                                        checked
+                                                            ? 'border-appAccent bg-appAccent text-appBody'
+                                                            : 'border-[#A8A7A0]',
+                                                    )}
+                                                >
+                                                    <span className="text-sm leading-none font-medium uppercase lg:text-base lg:leading-none">
+                                                        {option.label}
+                                                    </span>
+                                                    <span className="text-xs leading-none opacity-80">
+                                                        {option.hint}
+                                                    </span>
+                                                </span>
+                                            </label>
+                                        );
+                                    })}
+                                </div>
+                                <p className="text-xs leading-snug text-appGray-400 mt-2">
+                                    Si pides varios y los quieres distintos, indícalo en tu pedido.
+                                </p>
+                            </fieldset>
+                        )}
                         <FormText
                             value={form.notes}
                             label="Notas (opcional)"
