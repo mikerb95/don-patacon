@@ -27,12 +27,12 @@ const HomeTestimonials: React.FC<Props> = ({
                     <div className="text-xs leading-none mb-2.5 lg:text-base lg:leading-none lg:mb-[14px]">
                         [ {index} ]
                     </div>
-                    <h2 className="text-lg leading-none uppercase font-Gloock mb-4 lg:text-5xl lg:leading-none lg:mb-6">
+                    <h2 className="text-lg leading-none font-display mb-4 lg:text-5xl lg:leading-none lg:mb-6">
                         {title}
                     </h2>
                     <Prose
                         text={description}
-                        className="text-sm leading-[1.3] tracking-[-0.41px] text-appGray-700 uppercase max-w-[745px] mx-auto mb-10 lg:text-base lg:leading-[1.3] lg:mb-[45px]"
+                        className="text-sm leading-[1.3] tracking-[-0.41px] text-appGray-700 max-w-[745px] mx-auto mb-10 lg:text-base lg:leading-[1.3] lg:mb-[45px]"
                     />
                     <div className="grid grid-cols-[auto,1fr,auto] gap-5 w-full lg:gap-24">
                         <button
@@ -82,14 +82,14 @@ const HomeTestimonials: React.FC<Props> = ({
                                 >
                                     <Prose
                                         text={testimonial.quote}
-                                        className="text-sm leading-[1.4] font-Gloock text-appGray-700 mb-4 lg:text-[32px] lg:leading-[1.4] lg:mb-12"
+                                        className="text-sm leading-[1.4] font-display text-appGray-700 mb-4 lg:text-[32px] lg:leading-[1.4] lg:mb-12"
                                     />
                                     <MediaImage
                                         src={testimonial.avatar}
                                         alt={testimonial.author}
                                         className="w-10 h-10 rounded-full overflow-hidden object-cover mb-3 mx-auto lg:w-16 lg:h-16 lg:mb-6"
                                     />
-                                    <div className="text-xs leading-none tracking-[-0.41px] text-appGray-700 uppercase lg:text-xl lg:leading-none">
+                                    <div className="text-xs leading-none tracking-[-0.41px] text-appGray-700 lg:text-xl lg:leading-none">
                                         {testimonial.author}
                                     </div>
                                 </SwiperSlide>

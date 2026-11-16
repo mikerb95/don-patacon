@@ -24,7 +24,7 @@ interface Props {
 
 /** Precio editable en la fila: se escribe "32000" y se lee "32.000". */
 const PriceInput: React.FC<{ value: number; label: string; onChange: (v: number) => void }> = ({ value, label, onChange }) => (
-    <label className="flex items-baseline gap-0.5 font-Gloock text-xl">
+    <label className="flex items-baseline gap-0.5 font-display text-xl">
         <span aria-hidden="true">$</span>
         <span className="sr-only">{label}</span>
         <input
@@ -98,7 +98,7 @@ const MenuTab: React.FC<Props> = ({ menu, onChange, onError, category: routeCate
     return (
         <section aria-label="Carta">
             <div className="flex items-end justify-between gap-3 mb-4">
-                <h1 className="font-Gloock text-4xl leading-none">Carta</h1>
+                <h1 className="font-display text-4xl leading-none">Carta</h1>
                 <Button kind="primary" onClick={addDish} disabled={menu.categories.length === 0}>Agregar plato</Button>
             </div>
 
@@ -128,7 +128,7 @@ const MenuTab: React.FC<Props> = ({ menu, onChange, onError, category: routeCate
 
             {visible.length === 0 ? (
                 <div className="py-12 text-center">
-                    <p className="font-Gloock text-2xl mb-2">{q ? 'Ningún plato con ese nombre' : 'Aún no hay platos aquí'}</p>
+                    <p className="font-display text-2xl mb-2">{q ? 'Ningún plato con ese nombre' : 'Aún no hay platos aquí'}</p>
                     {!q && <p className="text-appGray-300 mb-5">Agrega el primero con su nombre y su precio. La foto es opcional.</p>}
                     {!q && menu.categories.length > 0 && <Button kind="primary" onClick={addDish}>Agregar plato</Button>}
                 </div>

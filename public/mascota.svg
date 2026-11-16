@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 310" role="img" aria-label="Don Patacón, la mascota: un plátano verde con sombrero de paja, gafas y bigote">
+  <!-- Boceto de la mascota redibujada: cartoon plano, contorno grueso en verde monte,
+       una sola luz por pieza. Los id permiten animar brazo, ojos y sombrero. -->
+  <g stroke="#0E3B1F" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <!-- brazo izquierdo -->
+    <path d="M60 196 C 42 204, 34 220, 40 236" fill="none"/>
+    <circle cx="42" cy="242" r="10" fill="#A8D13B"/>
+
+    <!-- cuerpo: plátano verde -->
+    <path id="m-cuerpo" d="M97 64 C 55 88, 44 172, 62 228 C 76 270, 114 296, 150 287 C 164 284, 166 270, 155 262 C 131 241, 124 201, 130 151 C 135 110, 142 82, 132 64 C 124 52, 108 56, 97 64 Z" fill="#A8D13B"/>
+    <!-- luz del cuerpo -->
+    <path d="M78 104 C 64 138, 62 190, 74 226" fill="none" stroke="#D3EC86" stroke-width="9"/>
+    <!-- punta oscura -->
+    <path d="M146 268 C 152 272, 156 276, 154 282" fill="none" stroke-width="9"/>
+
+    <!-- brazo derecho (saluda) -->
+    <g id="m-brazo">
+      <path d="M128 182 C 148 176, 160 158, 165 136" fill="none"/>
+      <circle cx="167" cy="128" r="11" fill="#A8D13B"/>
+      <path d="M163 117 C 162 108, 170 104, 173 112" fill="#A8D13B"/>
+    </g>
+
+    <!-- mejillas -->
+    <ellipse cx="70" cy="166" rx="8" ry="5" fill="#F5B41F" stroke="none" opacity=".7"/>
+    <ellipse cx="124" cy="166" rx="8" ry="5" fill="#F5B41F" stroke="none" opacity=".7"/>
+
+    <!-- gafas y ojos -->
+    <path d="M94 140 C 96 136, 100 136, 102 140" fill="none" stroke-width="5"/>
+    <circle cx="80" cy="142" r="15" fill="#FFFDF2" stroke-width="5"/>
+    <circle cx="116" cy="142" r="15" fill="#FFFDF2" stroke-width="5"/>
+    <g id="m-ojos" stroke="none" fill="#0E3B1F">
+      <circle cx="83" cy="144" r="5.5"/>
+      <circle cx="119" cy="144" r="5.5"/>
+    </g>
+
+    <!-- bigote -->
+    <path d="M98 166 C 88 157, 70 158, 64 170 C 76 167, 86 174, 98 171 C 110 174, 120 167, 132 170 C 126 158, 108 157, 98 166 Z" fill="#0E3B1F" stroke-width="3"/>
+    <!-- boca -->
+    <path d="M84 178 C 90 198, 108 198, 114 178 C 104 184, 94 184, 84 178 Z" fill="#0E3B1F" stroke-width="3"/>
+    <path d="M92 189 C 96 186, 102 186, 106 189 C 102 194, 96 194, 92 189 Z" fill="#E8862A" stroke="none"/>
+
+    <!-- sombrero de paja con cinta -->
+    <g id="m-sombrero">
+      <ellipse cx="98" cy="74" rx="66" ry="15" fill="#EBC56C"/>
+      <path d="M64 72 C 62 42, 80 26, 98 26 C 118 26, 134 42, 132 72 Z" fill="#EBC56C"/>
+      <path d="M64 58 C 82 63, 114 63, 132 58 L 132 70 C 114 75, 82 75, 64 70 Z" fill="#2E8B2E" stroke-width="5"/>
+      <g fill="none" stroke="#B88A2E" stroke-width="2.5">
+        <path d="M80 38 L 84 50"/><path d="M98 32 L 98 46"/><path d="M116 38 L 112 50"/>
+        <path d="M44 74 L 54 76"/><path d="M146 74 L 156 76"/><path d="M98 84 L 98 88"/>
+        <path d="M70 82 L 72 86"/><path d="M126 82 L 124 86"/>
+      </g>
+    </g>
+  </g>
+</svg>

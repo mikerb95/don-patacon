@@ -55,7 +55,7 @@ const Preview: React.FC<Props> = ({ page, category, docs, dirty, publishing, onP
             <div className="text-white px-3 pt-3 pb-2 grid grid-cols-1 gap-2.5 min-w-0" style={{ paddingTop: 'max(0.75rem, env(safe-area-inset-top))' }}>
                 <div className="flex items-center justify-between gap-2">
                     <div className="min-w-0 pl-1">
-                        <h2 className="font-Gloock text-xl leading-tight">Vista previa</h2>
+                        <h2 className="font-display text-xl leading-tight">Vista previa</h2>
                         <p className="text-sm leading-snug text-[#CFCCBF]">{dirty ? 'Aún no está publicada' : 'Sin cambios pendientes'}</p>
                     </div>
                     <div className="flex shrink-0 items-center gap-1.5">

@@ -32,7 +32,7 @@ const MenuMeals: React.FC<Props> = ({ title, categories, dishes }) => {
             <div className="container max-w-[1198px]">
                 <ArchWithStar />
                 <div className="relative px-4 max-w-[400px] mx-auto lg:max-w-[745px] xl:px-0">
-                    <h1 className="text-xl leading-none font-Gloock uppercase text-center mb-8 lg:text-5xl lg:leading-none">
+                    <h1 className="text-xl leading-none font-display text-center mb-8 lg:text-5xl lg:leading-none">
                         {title}
                     </h1>
                     <div className="mb-10 lg:mb-20">
@@ -59,7 +59,7 @@ const MenuMeals: React.FC<Props> = ({ title, categories, dishes }) => {
                         </div>
                         <Prose
                             text={active?.description ?? ''}
-                            className="text-sm leading-[1.3] tracking-[-0.41px] uppercase text-appGray-700 lg:text-base lg:leading-[1.3]"
+                            className="text-sm leading-[1.3] tracking-[-0.41px] text-appGray-700 lg:text-base lg:leading-[1.3]"
                         />
                     </div>
                 </div>
@@ -72,15 +72,15 @@ const MenuMeals: React.FC<Props> = ({ title, categories, dishes }) => {
                             className="relative px-6 py-[42px] bg-appText md:py-20 lg:py-[130px]"
                         >
                             <div className="relative z-10 flex flex-col items-center justify-center text-center h-full">
-                                <h3 className="text-sm leading-none uppercase text-white font-Gloock max-w-[480px] mb-[14px] lg:text-[32px] lg:leading-none lg:mb-[18px]">
+                                <h3 className="text-sm leading-none text-white font-display max-w-[480px] mb-[14px] lg:text-[32px] lg:leading-none lg:mb-[18px]">
                                     {item.title}
                                 </h3>
                                 <Prose
                                     text={item.description}
-                                    className="text-sm leading-[1.3] tracking-[-0.41px] uppercase text-appGray-100 max-w-[480px] mb-4 lg:text-base lg:leading-[1.3] lg:mb-6"
+                                    className="text-sm leading-[1.3] tracking-[-0.41px] text-appGray-100 max-w-[480px] mb-4 lg:text-base lg:leading-[1.3] lg:mb-6"
                                 />
                                 {item.plantainChoice && item.available && (
-                                    <div className="meals--plantain text-xs leading-none tracking-[-0.41px] uppercase text-appGray-100 mb-3 lg:text-sm lg:leading-none">
+                                    <div className="meals--plantain text-xs leading-none tracking-[-0.41px] text-appGray-100 mb-3 lg:text-sm lg:leading-none">
                                         Verde o maduro, como prefieras
                                     </div>
                                 )}

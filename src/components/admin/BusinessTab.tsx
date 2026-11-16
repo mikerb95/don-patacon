@@ -19,7 +19,7 @@ export function missingBusiness(b: Business): string[] {
 
 const Group: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
     <section className="grid gap-5 pt-7 first:pt-0">
-        <h2 className="font-Gloock text-2xl leading-tight">{title}</h2>
+        <h2 className="font-display text-2xl leading-tight">{title}</h2>
         {children}
     </section>
 );
@@ -36,7 +36,7 @@ const BusinessTab: React.FC<{ business: Business; onChange: (b: Business) => voi
 
     return (
         <div>
-            <h1 className="font-Gloock text-4xl leading-none mb-5">Negocio</h1>
+            <h1 className="font-display text-4xl leading-none mb-5">Negocio</h1>
             {missing.length > 0 && (
                 <div className="rounded-2xl bg-[#EADFC9] p-4 mb-7">
                     <p className="font-medium mb-2">Falta completar para que el sitio quede listo:</p>

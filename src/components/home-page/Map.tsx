@@ -72,7 +72,7 @@ const HomeMap: React.FC<Props> = ({ embedUrl, mapsUrl }) => {
                                 <Btn
                                     theme="fill"
                                     hideArrow
-                                    className="justify-center uppercase"
+                                    className="justify-center"
                                     onClick={() => setShowMap(false)}
                                 >
                                     <span className="text-appText">Cerrar</span>
@@ -80,7 +80,7 @@ const HomeMap: React.FC<Props> = ({ embedUrl, mapsUrl }) => {
                                 <Btn
                                     hideArrow
                                     to={mapsUrl}
-                                    className="justify-center uppercase"
+                                    className="justify-center"
                                 >
                                     <span>Abrir mapa</span>
                                 </Btn>

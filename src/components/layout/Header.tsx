@@ -39,7 +39,7 @@ const Header: React.FC = () => {
                     >
                         <span
                             className={classNames(
-                                'font-Gloock text-lg leading-none whitespace-nowrap md:text-2xl md:leading-none',
+                                'font-display text-lg leading-none whitespace-nowrap md:text-2xl md:leading-none',
                                 { 'max-md:text-white': showMobileMenu },
                             )}
                         >
@@ -59,7 +59,7 @@ const Header: React.FC = () => {
                                 <a
                                     href={item.href}
                                     onClick={closeMenu}
-                                    className="text-lg leading-none tracking-[-0.41px] uppercase md:text-sm"
+                                    className="text-lg leading-none tracking-[-0.41px] md:text-sm"
                                 >
                                     {item.label}
                                 </a>
@@ -69,14 +69,14 @@ const Header: React.FC = () => {
                             <a
                                 href="/contact"
                                 onClick={closeMenu}
-                                className="text-lg leading-none tracking-[-0.41px] uppercase md:hidden"
+                                className="text-lg leading-none tracking-[-0.41px] md:hidden"
                             >
                                 Contacto
                             </a>
                         </li>
                     </ul>
                     <div className="flex justify-end max-md:hidden md:flex-1">
-                        <Btn to="/contact" className="uppercase">
+                        <Btn to="/contact" className="">
                             <span>Contacto</span>
                         </Btn>
                     </div>

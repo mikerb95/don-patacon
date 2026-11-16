@@ -111,7 +111,7 @@ export const Sheet: React.FC<{ title: string; onClose: () => void; children: Rea
             onClick={(e) => { if (e.target === ref.current) onClose(); }}
             className="m-0 mt-auto w-full max-w-none max-h-[92dvh] rounded-t-3xl bg-appBody text-appText p-0 backdrop:bg-[#272424]/60 md:m-auto md:max-w-xl md:rounded-3xl">
             <div className="sticky top-0 z-10 flex items-center justify-between gap-4 bg-appBody px-5 pt-5 pb-3">
-                <h2 className="font-Gloock text-2xl leading-tight">{title}</h2>
+                <h2 className="font-display text-2xl leading-tight">{title}</h2>
                 <Button onClick={onClose}>Listo</Button>
             </div>
             <div className="grid gap-5 px-5 pb-8">{children}</div>

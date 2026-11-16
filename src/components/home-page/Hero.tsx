@@ -72,7 +72,7 @@ const HomeHero: React.FC<Props> = ({
                                     }}
                                     className="w-2 h-2 lg:w-12 lg:h-12"
                                 />
-                                <h1 className="text-xl leading-none whitespace-nowrap font-Gloock mx-2.5 lg:text-[80px] lg:leading-none lg:mx-12 2xl:text-[112px] 2xl:leading-none">
+                                <h1 className="text-xl leading-none whitespace-nowrap font-display mx-2.5 lg:text-[80px] lg:leading-none lg:mx-12 2xl:text-[112px] 2xl:leading-none">
                                     {title}
                                 </h1>
                                 <div
@@ -98,9 +98,9 @@ const HomeHero: React.FC<Props> = ({
                 </div>
                 <Prose
                     text={description}
-                    className="text-sm leading-[1.3] tracking-[-0.41px] uppercase text-appGray-700 mb-6 lg:text-[40px] lg:leading-none lg:mb-14"
+                    className="text-sm leading-[1.3] tracking-[-0.41px] text-appGray-700 mb-6 lg:text-[40px] lg:leading-none lg:mb-14"
                 />
-                <Btn to="/about-us" className="uppercase max-w-max mx-auto">
+                <Btn to="/about-us" className="max-w-max mx-auto">
                     <span>
                         Conócenos
                     </span>

@@ -10,7 +10,7 @@ interface Props {
 
 const Disclosure: React.FC<{ title: string; open?: boolean; children: React.ReactNode }> = ({ title, open, children }) => (
     <details open={open} className="group py-2">
-        <summary className="flex items-center justify-between min-h-12 cursor-pointer font-Gloock text-2xl leading-tight list-none [&::-webkit-details-marker]:hidden">
+        <summary className="flex items-center justify-between min-h-12 cursor-pointer font-display text-2xl leading-tight list-none [&::-webkit-details-marker]:hidden">
             {title}
             <span aria-hidden="true" className="text-3xl leading-none font-sans font-light transition-transform group-open:rotate-45">+</span>
         </summary>
@@ -57,7 +57,7 @@ const PagesTab: React.FC<Props> = ({ pages, onChange, onError }) => {
 
     return (
         <div>
-            <h1 className="font-Gloock text-4xl leading-none mb-3">Páginas</h1>
+            <h1 className="font-display text-4xl leading-none mb-3">Páginas</h1>
             <p className="text-appGray-300 mb-4">Las secciones vacías no aparecen en el sitio. Deja una línea en blanco para separar párrafos.</p>
             <div className="divide-y divide-[#DAD7C8]">
                 <Disclosure title="Inicio" open>

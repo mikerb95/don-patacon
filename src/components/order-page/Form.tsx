@@ -113,17 +113,17 @@ const OrderForm: React.FC<Props> = ({
             <div className="container max-w-[1198px]">
                 <ArchWithStar />
                 <div className="relative px-4 max-w-[400px] mx-auto lg:max-w-[808px] xl:px-0">
-                    <h1 className="text-xl leading-none font-Gloock uppercase text-center mb-6 lg:text-5xl lg:leading-none lg:mb-10">
+                    <h1 className="text-xl leading-none font-display text-center mb-6 lg:text-5xl lg:leading-none lg:mb-10">
                         Haz tu pedido
                     </h1>
-                    <p className="text-sm leading-[1.3] tracking-[-0.41px] uppercase text-center text-appGray-700 mb-8 lg:text-base lg:leading-[1.3] lg:mb-12">
+                    <p className="text-sm leading-[1.3] tracking-[-0.41px] text-center text-appGray-700 mb-8 lg:text-base lg:leading-[1.3] lg:mb-12">
                         Pide por WhatsApp y recógelo listo en nuestro local
                         {mallLocation ? ` (${mallLocation})` : ''} del Centro
                         Comercial Plaza Central.
                     </p>
                     {deliveryApps.length > 0 && (
                         <div className="flex flex-col items-center gap-4 mb-10 lg:mb-14">
-                            <div className="text-xs leading-none tracking-[-0.41px] uppercase text-appGray-400 lg:text-sm lg:leading-none">
+                            <div className="text-xs leading-none tracking-[-0.41px] text-appGray-400 lg:text-sm lg:leading-none">
                                 ¿Prefieres domicilio?
                             </div>
                             <div className="flex flex-wrap justify-center gap-3">
@@ -131,7 +131,7 @@ const OrderForm: React.FC<Props> = ({
                                     <Btn
                                         key={app.href}
                                         to={app.href}
-                                        className="uppercase"
+                                        className=""
                                     >
                                         <span>{app.label}</span>
                                     </Btn>
@@ -189,7 +189,7 @@ const OrderForm: React.FC<Props> = ({
                         />
                         {plantainChoice && (
                             <fieldset className="order--plantain col-span-2">
-                                <legend className="text-xs leading-none tracking-[-0.41px] uppercase text-appGray-700 mb-3 lg:text-sm lg:leading-none">
+                                <legend className="text-xs leading-none tracking-[-0.41px] text-appGray-700 mb-3 lg:text-sm lg:leading-none">
                                     ¿Tu patacón verde o maduro? (opcional)
                                 </legend>
                                 <div className="grid grid-cols-2 gap-3">
@@ -214,7 +214,7 @@ const OrderForm: React.FC<Props> = ({
                                                             : 'border-[#A8A7A0]',
                                                     )}
                                                 >
-                                                    <span className="text-sm leading-none font-medium uppercase lg:text-base lg:leading-none">
+                                                    <span className="text-sm leading-none font-medium lg:text-base lg:leading-none">
                                                         {option.label}
                                                     </span>
                                                     <span className="text-xs leading-none opacity-80">

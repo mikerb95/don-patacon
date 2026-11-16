@@ -22,7 +22,7 @@ const HomeProcess: React.FC<Props> = ({ index, title, description, steps }) => {
                     <div className="text-xs leading-none mb-2.5 lg:text-base lg:leading-none lg:mb-[14px]">
                         [ {index} ]
                     </div>
-                    <h2 className="text-lg leading-none uppercase font-Gloock mb-4 lg:text-5xl lg:leading-none lg:mb-6">
+                    <h2 className="text-lg leading-none font-display mb-4 lg:text-5xl lg:leading-none lg:mb-6">
                         {title}
                     </h2>
                     <Prose

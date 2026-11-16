@@ -4,11 +4,12 @@ import Header from '../components/layout/Header';
 import WhatsAppButton from '../components/layout/WhatsAppButton.astro';
 import { content as publishedContent, SITE_DESCRIPTION } from '../lib/content';
 import type { Docs } from '../lib/schema';
-// Fuentes autoalojadas (sin Google Fonts): Inter variable para el texto,
-// Gloock para los títulos. Solo se descarga el subset latino que se use.
-import '@fontsource-variable/inter/wght.css';
-import '@fontsource-variable/inter/wght-italic.css';
-import '@fontsource/gloock/400.css';
+// Fuentes autoalojadas (sin Google Fonts): Baloo 2 para el texto y Chango
+// para titulares y precios. Solo el subset latino.
+import '@fontsource/baloo-2/latin-500.css';
+import '@fontsource/baloo-2/latin-700.css';
+import '@fontsource/baloo-2/latin-800.css';
+import '@fontsource/chango/latin-400.css';
 
 interface Props {
     title: string;

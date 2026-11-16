@@ -1,108 +1,64 @@
-import React, { type PropsWithChildren, useRef, useState } from 'react';
-import { Transition } from 'react-transition-group';
-import ArrowIcon from '../assets/icons/arrow.svg?raw';
+import React, { type PropsWithChildren } from 'react';
 import classnames from 'classnames';
 
 interface ButtonLinkProps {
     to?: string;
+    /** fill y accent: amarillo patacón; outline: solo contorno. */
     theme?: 'fill' | 'outline' | 'accent';
+    /** Se conserva por compatibilidad: el botón ya no lleva flecha. */
     hideArrow?: boolean;
     size?: 'sm' | 'regular' | 'lg';
     className?: string;
     onClick?: () => void;
     type?: 'button' | 'submit';
+    /** Abre en otra pestaña (enlaces externos). */
+    external?: boolean;
 }
 
+/**
+ * Botón tipo calcomanía: borde grueso verde monte y sombra dura que se
+ * hunde al presionar. La clase `className` va en el envoltorio para que
+ * quien lo usa controle el ancho y la posición.
+ */
 const Btn: React.FC<PropsWithChildren<ButtonLinkProps>> = ({
     to,
     theme = 'outline',
-    hideArrow,
     size = 'regular',
     children,
     className,
     onClick,
     type = 'button',
+    external,
 }) => {
-    const [isArrowVisible, setIsArrowVisible] = useState(false);
-    const transitionRef = useRef(null);
-    const handleMouseOver = () => {
-        setIsArrowVisible(true);
-    };
-
-    const handleMouseLeave = () => {
-        setIsArrowVisible(false);
-    };
-
-    const linkClasses = classnames(
-        'group relative flex items-center text-sm leading-none rounded-[32px] border transition-all duration-300 focus:outline-none lg:text-base lg:leading-none',
+    const classes = classnames(
+        'btn inline-flex items-center justify-center gap-2 whitespace-nowrap font-extrabold leading-none text-monte',
+        'border-3 border-monte rounded-[14px] shadow-dura transition-[transform,box-shadow] duration-150',
+        'hover:-translate-y-0.5 hover:shadow-dura-lg active:translate-y-1 active:shadow-none',
+        'focus-visible:outline focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-monte',
+        'motion-reduce:transition-none',
         {
-            'bg-[#D1D0C7] text-white border-transparent': theme === 'fill',
-            'bg-appAccent text-white border-transparent': theme === 'accent',
-            'border-appText': theme !== 'fill' && theme !== 'accent',
-            'px-4 py-[17px] lg:p-6': size === 'lg',
-            'px-4 py-[13px] md:px-6 md:py-4': size === 'regular',
+            'bg-sol': theme === 'fill' || theme === 'accent',
+            'bg-transparent': theme === 'outline',
+            'min-h-[40px] px-3.5 text-base': size === 'sm',
+            'min-h-[48px] px-5 text-lg': size === 'regular',
+            'min-h-[56px] px-7 text-xl': size === 'lg',
         },
-        className,
     );
 
     return (
-        <div
-            className={className}
-            onMouseOver={handleMouseOver}
-            onMouseLeave={handleMouseLeave}
-        >
+        <div className={className}>
             {to ? (
-                <a href={to} className={linkClasses}>
-                    {children}
-                    {isArrowVisible && (
-                        <Transition
-                            nodeRef={transitionRef}
-                            in={isArrowVisible && !hideArrow}
-                            timeout={1000}
-                            appear={true}
-                        >
-                            {(state) => (
-                                <div
-                                    dangerouslySetInnerHTML={{
-                                        __html: ArrowIcon,
-                                    }}
-                                    ref={transitionRef}
-                                    className={classnames(
-                                        'w-[14px] h-[14px] opacity-0 ml-2 transition-all duration-300 group-hover:opacity-100',
-                                        `scaleBtnArrow-${state}`,
-                                    )}
-                                />
-                            )}
-                        </Transition>
-                    )}
-                </a>
-            ) : (
-                <button
-                    type={type}
-                    className={classnames(
-                        linkClasses,
-                        'flex justify-center w-full',
-                    )}
-                    onClick={onClick}
+                <a
+                    href={to}
+                    className={classes}
+                    target={external ? '_blank' : undefined}
+                    rel={external ? 'noopener noreferrer' : undefined}
                 >
                     {children}
-                    <Transition
-                        nodeRef={transitionRef}
-                        in={isArrowVisible && !hideArrow}
-                        timeout={1000}
-                        appear={true}
-                    >
-                        {(state) => (
-                            <div
-                                dangerouslySetInnerHTML={{ __html: ArrowIcon }}
-                                ref={transitionRef}
-                                className={classnames(
-                                    'w-[14px] h-[14px] opacity-0 ml-2 transition-all duration-300 group-hover:opacity-100',
-                                    `scaleBtnArrow-${state}`,
-                                )}
-                            />
-                        )}
-                    </Transition>
+                </a>
+            ) : (
+                <button type={type} className={classnames(classes, 'w-full')} onClick={onClick}>
+                    {children}
                 </button>
             )}
         </div>

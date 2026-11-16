@@ -266,13 +266,13 @@ const AdminApp: React.FC = () => {
     if (loadError) {
         return (
             <main className="min-h-dvh grid place-content-center gap-4 p-6 text-center">
-                <p className="font-Gloock text-2xl">{loadError}</p>
+                <p className="font-display text-2xl">{loadError}</p>
                 <Button kind="primary" className="justify-self-center" onClick={load}>Volver a intentar</Button>
             </main>
         );
     }
     if (!draft) {
-        return <main className="min-h-dvh grid place-content-center font-Gloock text-2xl">Cargando la carta…</main>;
+        return <main className="min-h-dvh grid place-content-center font-display text-2xl">Cargando la carta…</main>;
     }
 
     const missing = missingBusiness(draft.business).length;
@@ -282,7 +282,7 @@ const AdminApp: React.FC = () => {
         <div className="min-h-dvh pb-52 md:pb-36">
             <header className="sticky top-0 z-20 bg-appBody/95 backdrop-blur border-b border-[#DAD7C8]">
                 <div className="max-w-3xl mx-auto px-4 flex items-center justify-between gap-3 h-14">
-                    <a href="/" target="_blank" rel="noopener" className="font-Gloock text-xl leading-none">Don Patacón</a>
+                    <a href="/" target="_blank" rel="noopener" className="font-display text-xl leading-none">Don Patacón</a>
                     <nav aria-label="Secciones del panel" className="hidden md:flex gap-1">
                         {TABS.map((t) => (
                             <button key={t.id} type="button" aria-current={tab === t.id ? 'page' : undefined} onClick={() => goToTab(t.id)}

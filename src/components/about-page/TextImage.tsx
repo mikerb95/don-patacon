@@ -27,7 +27,7 @@ const AboutTextImage: React.FC<Props> = ({ data }) => {
                                 )}
                                 <Prose
                                     text={col.text}
-                                    className="text-xs leading-[1.3] tracking-[-0.41px] uppercase text-appGray-700 md:flex-1 lg:text-[22px] lg:leading-[1.3]"
+                                    className="text-xs leading-[1.3] tracking-[-0.41px] text-appGray-700 md:flex-1 lg:text-[22px] lg:leading-[1.3]"
                                 />
                             </div>
                         ))}

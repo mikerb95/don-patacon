@@ -58,12 +58,12 @@ const HomeSpecials: React.FC<Props> = ({ index, title, description, items }) => 
                     <div className="text-xs leading-none mb-2.5 lg:text-base lg:leading-none lg:mb-[14px]">
                         [ {index} ]
                     </div>
-                    <h2 className="text-lg leading-none uppercase font-Gloock mb-4 lg:text-5xl lg:leading-none lg:mb-6">
+                    <h2 className="text-lg leading-none font-display mb-4 lg:text-5xl lg:leading-none lg:mb-6">
                         {title}
                     </h2>
                     <Prose
                         text={description}
-                        className="text-sm leading-[1.3] tracking-[-0.41px] text-appGray-700 uppercase max-w-[745px] mx-auto mb-8 lg:text-base lg:leading-[1.3] lg:mb-[45px]"
+                        className="text-sm leading-[1.3] tracking-[-0.41px] text-appGray-700 max-w-[745px] mx-auto mb-8 lg:text-base lg:leading-[1.3] lg:mb-[45px]"
                     />
                     <Swiper
                         slidesPerView={'auto'}
@@ -113,12 +113,12 @@ const HomeSpecials: React.FC<Props> = ({ index, title, description, items }) => 
                                 className="homeSpecials--gridItem w-full h-full relative bg-appText lg:min-h-[360px]"
                             >
                                 <div className="relative z-10 flex flex-col items-center justify-center h-full p-2 lg:items-start lg:justify-between lg:p-10">
-                                    <h3 className="text-xs leading-none uppercase text-white font-Gloock text-center lg:text-[32px] lg:leading-none lg:mb-[18px]">
+                                    <h3 className="text-xs leading-none text-white font-display text-center lg:text-[32px] lg:leading-none lg:mb-[18px]">
                                         {item.title}
                                     </h3>
                                     <Prose
                                         text={item.description}
-                                        className="leading-[1.3] tracking-[-0.41px] uppercase text-appGray-100 max-w-[475px] max-lg:hidden"
+                                        className="leading-[1.3] tracking-[-0.41px] text-appGray-100 max-w-[475px] max-lg:hidden"
                                     />
                                 </div>
                                 <MediaImage

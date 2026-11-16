@@ -44,7 +44,7 @@ const HistoryTab: React.FC<Props> = ({ enabled, hasDraft, onRestored, onError })
 
     return (
         <div>
-            <h1 className="font-Gloock text-4xl leading-none mb-3">Historial</h1>
+            <h1 className="font-display text-4xl leading-none mb-3">Historial</h1>
             <p className="text-appGray-300 mb-5">Cada publicación queda guardada. Si algo salió mal, vuelve a una versión anterior.</p>
             {!enabled && <p className="rounded-2xl bg-[#ECE9DB] p-4">El historial solo está disponible en el sitio publicado.</p>}
             {enabled && hasDraft && <p className="rounded-2xl bg-[#EADFC9] p-4 mb-4">Publica o descarta tus cambios antes de restaurar una versión.</p>}
