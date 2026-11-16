@@ -278,7 +278,7 @@ const OrderForm: React.FC<Props> = ({
                                     </svg>
                                 )}
                             </div>
-                            <div className="text-xs leading-[1.2] tracking-[-0.41px] text-[#665E5E] lg:text-base lg:leading-[1.2]">
+                            <div className="text-base leading-snug">
                                 Al enviar este formulario autorizas a{' '}
                                 {businessName} a usar tus datos para gestionar
                                 tu pedido, según nuestra{' '}
