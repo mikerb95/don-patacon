@@ -71,6 +71,8 @@ export const businessSchema = z.object({
     delivery: z.object({ rappi: httpUrl, didi: httpUrl }),
     social: z.object({ instagram: httpUrl, facebook: httpUrl, x: httpUrl }),
     mapsUrl: httpUrl,
+    /** Enlace a las reseñas del negocio en Google (vacío = no se muestra). */
+    reviewsUrl: httpUrl.default(''),
 });
 
 const category = z.object({
@@ -89,6 +91,8 @@ const dish = z.object({
     categoryId: id,
     available: z.boolean(),
     specialDays: z.array(z.enum(DAYS)).max(7),
+    /** El plato se puede pedir con patacón verde o maduro. */
+    plantainChoice: z.boolean().default(false),
 });
 
 export const menuSchema = z
@@ -124,6 +128,9 @@ export const pagesSchema = z.object({
         heroTitle: text(60),
         heroImage: imagePath,
         heroDescription: text(500),
+        processTitle: text(80).default('Cómo lo hacemos'),
+        processDescription: text(400).default(''),
+        processSteps: z.array(textImage).max(8).default([]),
         menuTitle: text(80),
         menuDescription: text(400),
         ambienceTitle: text(80),

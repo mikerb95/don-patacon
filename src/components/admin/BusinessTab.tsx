@@ -95,6 +95,11 @@ const BusinessTab: React.FC<{ business: Business; onChange: (b: Business) => voi
                     <Field name="business.address.city" label="Ciudad" value={b.address.city} onChange={(city) => set({ address: { ...b.address, city } })} />
                     <Field name="business.mapsUrl" label="Enlace de Google Maps" type="url" value={b.mapsUrl} onChange={(mapsUrl) => set({ mapsUrl })} />
                 </Group>
+                <Group title="Reseñas">
+                    <Field name="business.reviewsUrl" label="Enlace a las reseñas de Google" type="url" value={b.reviewsUrl}
+                        hint={'En tu Perfil de Negocio de Google, toca "Pedir reseñas" y copia el enlace. Vacío: no se muestra el botón.'}
+                        onChange={(reviewsUrl) => set({ reviewsUrl })} />
+                </Group>
                 <Group title="Domicilios">
                     <Field name="business.delivery.rappi" label="Enlace de Rappi" type="url" value={b.delivery.rappi} hint="Vacío: no se muestra el botón." onChange={(rappi) => set({ delivery: { ...b.delivery, rappi } })} />
                     <Field name="business.delivery.didi" label="Enlace de DiDi Food" type="url" value={b.delivery.didi} onChange={(didi) => set({ delivery: { ...b.delivery, didi } })} />

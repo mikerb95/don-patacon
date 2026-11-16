@@ -72,6 +72,17 @@ const PagesTab: React.FC<Props> = ({ pages, onChange, onError }) => {
                     <Field name="pages.home.specialsTitle" label="Título de los especiales" value={home.specialsTitle} onChange={(specialsTitle) => setHome({ specialsTitle })} />
                     <Field name="pages.home.specialsDescription" label="Texto de los especiales" multiline value={home.specialsDescription} onChange={(specialsDescription) => setHome({ specialsDescription })} />
                 </Disclosure>
+                <Disclosure title="Cómo lo hacemos">
+                    <p className="text-appGray-300">Cuenta en pocos pasos cómo se prepara el patacón, con una foto real de cada paso.</p>
+                    <Field name="pages.home.processTitle" label="Título" value={home.processTitle} maxLength={80} onChange={(processTitle) => setHome({ processTitle })} />
+                    <Field name="pages.home.processDescription" label="Texto" multiline value={home.processDescription} maxLength={400} onChange={(processDescription) => setHome({ processDescription })} />
+                    <ListEditor name="pages.home.processSteps" items={home.processSteps} addLabel="Agregar paso" empty="Sin pasos, esta sección no aparece." blank={{ text: '', image: '' }}
+                        label={(_, i) => `Paso ${i + 1}`} onChange={(processSteps) => setHome({ processSteps })}
+                        render={(item, update, prefix) => (<>
+                            <ImageField label="Foto" value={item.image} onChange={(image) => update({ image })} onError={onError} />
+                            <Field name={`${prefix}.text`} label="Qué se hace en este paso" multiline value={item.text} maxLength={800} onChange={(text) => update({ text })} />
+                        </>)} />
+                </Disclosure>
                 <Disclosure title="El lugar (fotos del inicio)">
                     <Field name="pages.home.ambienceTitle" label="Título" value={home.ambienceTitle} onChange={(ambienceTitle) => setHome({ ambienceTitle })} />
                     <Field name="pages.home.ambienceDescription" label="Texto" multiline value={home.ambienceDescription} onChange={(ambienceDescription) => setHome({ ambienceDescription })} />

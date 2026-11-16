@@ -2,7 +2,7 @@
   "name": "DON PATACÓN",
   "legalName": "",
   "nit": "",
-  "mallLocation": "",
+  "mallLocation": "Local 3-48, Plazoleta de comidas",
   "address": {
     "line1": "Centro Comercial Plaza Central",
     "line2": "",
@@ -58,5 +58,6 @@
     "facebook": "",
     "x": ""
   },
-  "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Centro+Comercial+Plaza+Central+Bogot%C3%A1"
+  "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Centro+Comercial+Plaza+Central+Bogot%C3%A1",
+  "reviewsUrl": ""
 }

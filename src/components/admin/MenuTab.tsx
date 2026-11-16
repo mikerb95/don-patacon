@@ -64,7 +64,7 @@ const MenuTab: React.FC<Props> = ({ menu, onChange, onError, category: routeCate
         onChange({
             ...menu,
             dishes: [...menu.dishes, {
-                id, title: '', description: '', price: 0, image: '', categoryId: activeId, available: true, specialDays: [],
+                id, title: '', description: '', price: 0, image: '', categoryId: activeId, available: true, specialDays: [], plantainChoice: false,
             }],
         });
         setQuery('');
@@ -170,6 +170,7 @@ const MenuTab: React.FC<Props> = ({ menu, onChange, onError, category: routeCate
                         <FieldError name={`${dishKey}.categoryId`} />
                     </div>
                     <Toggle checked={dish.available} label="Disponible hoy" showLabel onChange={(available) => patchDish(dish.id, { available })} />
+                    <Toggle checked={dish.plantainChoice} label="Se pide en verde o maduro" showLabel onChange={(plantainChoice) => patchDish(dish.id, { plantainChoice })} />
                     <fieldset className="grid gap-2">
                         <legend className="font-medium mb-2">Especial del día</legend>
                         <div className="flex flex-wrap gap-2">
