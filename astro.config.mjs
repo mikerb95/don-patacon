@@ -7,7 +7,7 @@ import vercel from '@astrojs/vercel';
 //
 // El sitio público es estático; solo /admin y /api/admin corren en servidor
 // (declaran `prerender = false`).
-// Las fuentes (Inter y Gloock) se autoalojan con @fontsource, ver src/layouts/Layout.astro.
+// Las fuentes (Baloo 2 y Chango) se autoalojan con @fontsource, ver src/layouts/Layout.astro.
 // CSP del sitio público pendiente: va en `security.csp`. Activarlo
 // con un build de prueba: puede bloquear los estilos inline de Swiper.
 export default defineConfig({
@@ -19,6 +19,10 @@ export default defineConfig({
         // El local usa las mesas comunes de la plazoleta: no hay reservas ni eventos.
         '/reservation': '/pedidos',
         '/events': '/',
-        '/seasonal-menu': '/menu',
+        '/seasonal-menu': '/carta',
+        // Rutas en español; las viejas redirigen para no romper enlaces guardados.
+        '/menu': '/carta',
+        '/about-us': '/nosotros',
+        '/contact': '/contacto',
     },
 });

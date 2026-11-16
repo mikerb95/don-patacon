@@ -1,7 +1,9 @@
 ---
 import HomeAmbience from '../components/home-page/Ambience';
-import HomeHero from '../components/home-page/Hero';
-import HomeMenu from '../components/home-page/Menu';
+import HeroEscena from '../components/home-page/HeroEscena.astro';
+import Favoritos from '../components/home-page/Favoritos.astro';
+import LlevaloACasa from '../components/home-page/LlevaloACasa.astro';
+import ComoLlegar from '../components/home-page/ComoLlegar.astro';
 import HomeProcess from '../components/home-page/Process';
 import HomeSpecials from '../components/home-page/Specials';
 import HomeTestimonials from '../components/home-page/Testimonials';
@@ -10,7 +12,6 @@ import 'swiper/css';
 import Layout from '../layouts/Layout.astro';
 import RestaurantJsonLd from '../components/RestaurantJsonLd.astro';
 import type { Docs } from '../lib/schema';
-import { MALL_EMBED_URL } from '../lib/maps';
 
 interface Props {
     content: Docs;
@@ -21,7 +22,12 @@ const { content, preview } = Astro.props;
 const { business, menu, pages } = content;
 
 const home = pages.home;
-const address = [business.mallLocation, business.address.line1].filter(Boolean).join(', ');
+const available = menu.dishes.filter((d) => d.available);
+// Destacados desde el panel; sin ninguno marcado, los primeros de la carta.
+const featured = (available.some((d) => d.featured) ? available.filter((d) => d.featured) : available).slice(0, 4);
+const mapsUrl =
+    business.mapsUrl ||
+    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([business.address.line1 || 'Centro Comercial Plaza Central', business.address.city || 'Bogotá'].join(', '))}`;
 const specials = menu.dishes.filter((d) => d.specialDays.length > 0);
 
 // Numeración de secciones: se saltan las que aún no tienen contenido.
@@ -32,28 +38,20 @@ const next = () => ++section;
 <Layout
     content={content}
     preview={preview}
-    title="Don Patacón: cocina colombiana en Plaza Central, Bogotá"
-    description="Don Patacón, cocina colombiana en el Centro Comercial Plaza Central, Bogotá. Carta, especiales del día y pedidos para recoger o a domicilio."
+    title="Don Patacón: patacones en la plazoleta de Plaza Central, Bogotá"
+    description="Don Patacón: patacones crujientes en verde o maduro, en el local 3-48 de la plazoleta de comidas del Centro Comercial Plaza Central, Bogotá."
 >
     <RestaurantJsonLd slot="head" business={business} />
     <div>
-        <HomeHero
+        <HeroEscena
             title={home.heroTitle}
-            image={home.heroImage}
-            hours={business.hours}
-            address={address}
             description={home.heroDescription}
-            mapsUrl={business.mapsUrl}
-            mapEmbedUrl={MALL_EMBED_URL}
-            client:load
+            image={home.heroImage}
+            mallLocation={business.mallLocation}
+            hours={business.hours}
         />
-        {menu.categories.length > 0 && (
-            <HomeMenu
-                index={next()}
-                title={home.menuTitle}
-                description={home.menuDescription}
-                categories={menu.categories}
-            />
+        {featured.length > 0 && (
+            <Favoritos title={home.menuTitle} description={home.menuDescription} dishes={featured} />
         )}
         {home.processSteps.length > 0 && (
             <HomeProcess
@@ -61,6 +59,15 @@ const next = () => ++section;
                 title={home.processTitle}
                 description={home.processDescription}
                 steps={home.processSteps}
+            />
+        )}
+        {home.takeHomeTitle && home.takeHomeDescription && (
+            <LlevaloACasa
+                title={home.takeHomeTitle}
+                description={home.takeHomeDescription}
+                image={home.takeHomeImage}
+                steps={home.takeHomeSteps.filter(Boolean)}
+                note={home.takeHomeNote}
             />
         )}
         {home.ambienceItems.length > 0 && (
@@ -87,6 +94,15 @@ const next = () => ++section;
                 description={home.testimonialsDescription}
                 testimonials={home.testimonials}
                 client:visible
+            />
+        )}
+        {home.visitSteps.length > 0 && (
+            <ComoLlegar
+                title={home.visitTitle}
+                steps={home.visitSteps}
+                image={home.visitImage}
+                caption={home.visitImageCaption}
+                mapsUrl={mapsUrl}
             />
         )}
     </div>

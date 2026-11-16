@@ -41,7 +41,7 @@ const AboutHero: React.FC<Props> = ({
                     text={description}
                     className="text-sm leading-[1.3] tracking-[-0.41px] text-appGray-700 mb-6 lg:text-[32px] lg:leading-[1.3] lg:mb-14"
                 />
-                <Btn to="/menu" className="max-w-max mx-auto">
+                <Btn to="/carta" className="max-w-max mx-auto">
                     <span>Ver la carta</span>
                 </Btn>
             </div>

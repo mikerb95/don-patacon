@@ -23,8 +23,8 @@ Todo el contenido vive en este repositorio y se edita desde un panel propio en
 | `/` | Inicio: presentación, carta, el lugar, especiales del día, testimonios |
 | `/menu` | Carta con precios en COP (filtro por categoría con `?s=`) |
 | `/pedidos` | Formulario que arma el pedido y lo abre en WhatsApp |
-| `/contact` | Ubicación dentro de Plaza Central y mapa |
-| `/about-us` | Nosotros |
+| `/contacto` | Ubicación dentro de Plaza Central y mapa |
+| `/nosotros` | Nosotros |
 | `/legal` | Términos (se enlaza solo si tiene secciones) |
 | `/privacidad` | Política de tratamiento de datos (Ley 1581 de 2012) |
 | `/admin` | Panel privado |

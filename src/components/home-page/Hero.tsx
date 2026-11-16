@@ -100,7 +100,7 @@ const HomeHero: React.FC<Props> = ({
                     text={description}
                     className="text-sm leading-[1.3] tracking-[-0.41px] text-appGray-700 mb-6 lg:text-[40px] lg:leading-none lg:mb-14"
                 />
-                <Btn to="/about-us" className="max-w-max mx-auto">
+                <Btn to="/nosotros" className="max-w-max mx-auto">
                     <span>
                         Conócenos
                     </span>
