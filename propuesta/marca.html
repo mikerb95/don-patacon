@@ -17,6 +17,9 @@
   /* Logo: la mascota se asoma por detrás del patacón; la palabra va al lado. */
   .logos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
   .lienzo { border: var(--borde); border-radius: 20px; padding: 2rem; display: grid; place-items: center; min-height: 260px; }
+  .logos > .lienzo:first-child { grid-column: 1 / -1; }
+  .logos > .lienzo:first-child .logo__sello { width: 150px; }
+  .logos > .lienzo:first-child .logo__patacon { font-size: clamp(2.4rem, 1.4rem + 3vw, 4rem); }
   .lienzo--oscuro { background: var(--monte); }
   .lienzo--hoja { background: var(--hoja); }
   .logo { display: flex; align-items: center; gap: .9rem; }
