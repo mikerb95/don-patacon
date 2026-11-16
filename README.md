@@ -21,7 +21,7 @@ Todo el contenido vive en este repositorio y se edita desde un panel propio en
 | Ruta | Contenido |
 | --- | --- |
 | `/` | Inicio: presentación, carta, el lugar, especiales del día, testimonios |
-| `/menu` | Carta con precios en COP (filtro por categoría con `?s=`) |
+| `/carta` | Carta con precios en COP (filtro por categoría con `?s=`) |
 | `/pedidos` | Formulario que arma el pedido y lo abre en WhatsApp |
 | `/contacto` | Ubicación dentro de Plaza Central y mapa |
 | `/nosotros` | Nosotros |
@@ -29,7 +29,7 @@ Todo el contenido vive en este repositorio y se edita desde un panel propio en
 | `/privacidad` | Política de tratamiento de datos (Ley 1581 de 2012) |
 | `/admin` | Panel privado |
 
-`/reservation` redirige a `/pedidos`, `/events` a `/` y `/seasonal-menu` a `/menu`.
+`/reservation` redirige a `/pedidos`, `/events` a `/` y `/seasonal-menu` a `/carta`. Las rutas viejas en inglés (`/menu`, `/about-us`, `/contact`) redirigen a `/carta`, `/nosotros` y `/contacto`.
 
 Las secciones del inicio sin contenido no se muestran.
 

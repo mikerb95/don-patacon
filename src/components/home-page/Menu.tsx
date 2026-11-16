@@ -30,7 +30,7 @@ const HomeMenu: React.FC<Props> = ({ index, title, description, categories }) =>
             {categories.map((category) => (
                 <a
                     key={category.id}
-                    href={`/menu?s=${category.id}`}
+                    href={`/carta?s=${category.id}`}
                     className="flex relative bg-appText"
                 >
                     <div className="container">

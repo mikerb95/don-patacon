@@ -15,7 +15,7 @@ interface Props {
 const MenuMeals: React.FC<Props> = ({ title, categories, dishes }) => {
     const [activeId, setActiveId] = useState(categories[0]?.id ?? '');
 
-    // El home enlaza a /menu?s=<categoría>: abrir esa categoría si existe.
+    // El home enlaza a /carta?s=<categoría>: abrir esa categoría si existe.
     useEffect(() => {
         const s = new URLSearchParams(window.location.search).get('s');
         if (s && categories.some((c) => c.id === s)) setActiveId(s);
