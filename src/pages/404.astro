@@ -5,14 +5,14 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title={'Página no encontrada - Don Patacón'}>
     <div class="flex flex-col items-center gap-6 justify-center my-auto min-h-[400px] lg:gap-10">
-        <h1 class="text-3xl font-semibold text-center md:text-4xl lg:text-5xl">
-            Página no encontrada
+        <h1 class="font-display text-[clamp(2.4rem,1.8rem+2.6vw,3.8rem)] leading-none text-center text-balance [text-shadow:.05em_.05em_0_#F5B41F]">
+            Esta página no existe
         </h1>
+        <p class="text-xl text-center">Puede que el enlace esté viejo. La carta y el local siguen donde siempre.</p>
         <Btn
             theme="accent"
-            size="sm"
+            size="lg"
             to="/"
-            className="px-4 py-[13px] md:px-6 md:py-4"
         >
             Volver al inicio
         </Btn>

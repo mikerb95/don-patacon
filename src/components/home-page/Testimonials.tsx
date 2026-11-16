@@ -24,10 +24,7 @@ const HomeTestimonials: React.FC<Props> = ({
         <section className="overflow-hidden pb-14 md:pb-20 lg:pb-[120px]">
             <div className="container">
                 <div className="flex flex-col items-center">
-                    <div className="text-xs leading-none mb-2.5 lg:text-base lg:leading-none lg:mb-[14px]">
-                        [ {index} ]
-                    </div>
-                    <h2 className="text-lg leading-none font-display mb-4 lg:text-5xl lg:leading-none lg:mb-6">
+                    <h2 className="font-display text-[clamp(2.2rem,1.6rem+2.6vw,3.6rem)] leading-none text-balance mb-4 lg:mb-6">
                         {title}
                     </h2>
                     <Prose

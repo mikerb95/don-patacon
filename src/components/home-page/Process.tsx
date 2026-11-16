@@ -19,10 +19,7 @@ const HomeProcess: React.FC<Props> = ({ index, title, description, steps }) => {
         <section className="process">
             <div className="container">
                 <div className="flex flex-col items-center text-center">
-                    <div className="text-xs leading-none mb-2.5 lg:text-base lg:leading-none lg:mb-[14px]">
-                        [ {index} ]
-                    </div>
-                    <h2 className="text-lg leading-none font-display mb-4 lg:text-5xl lg:leading-none lg:mb-6">
+                    <h2 className="font-display text-[clamp(2.2rem,1.6rem+2.6vw,3.6rem)] leading-none text-balance mb-4 lg:mb-6">
                         {title}
                     </h2>
                     <Prose
@@ -45,7 +42,7 @@ const HomeProcess: React.FC<Props> = ({ index, title, description, steps }) => {
                             <div className="flex items-start gap-3">
                                 <span
                                     aria-hidden="true"
-                                    className="process--number flex shrink-0 items-center justify-center w-8 h-8 rounded-full bg-appAccent text-appBody text-sm font-medium"
+                                    className="process--number flex shrink-0 items-center justify-center w-8 h-8 rounded-full bg-sol text-monte border-2 border-monte font-extrabold text-sm font-medium"
                                 >
                                     {i + 1}
                                 </span>

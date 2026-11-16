@@ -1,4 +1,5 @@
 ---
+import Logo from '../../components/Logo';
 import AdminLayout from '../../layouts/AdminLayout.astro';
 import { authConfig, COOKIE_NAME } from '../../lib/admin/config';
 import { createSession, LoginThrottle, SESSION_HOURS, verifyPassword, verifyTotp } from '../../lib/admin/crypto';
@@ -49,7 +50,7 @@ if (Astro.request.method === 'POST' && cfg) {
 
 <AdminLayout title="Entrar al panel - Don Patacón">
     <main class="min-h-dvh flex flex-col justify-center px-6 py-10 max-w-sm mx-auto">
-        <h1 class="font-display text-4xl leading-tight mb-2">Don Patacón</h1>
+        <h1 class="mb-2"><span class="sr-only">Don Patacón</span><Logo size="md" /></h1>
         <p class="text-appGray-700 mb-8">Entra para editar la carta y los datos del local.</p>
         {!cfg ? (
             <p role="alert" class="bg-white rounded-xl p-4 leading-snug">

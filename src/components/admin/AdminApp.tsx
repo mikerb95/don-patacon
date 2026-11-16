@@ -1,3 +1,4 @@
+import Logo from '../Logo';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Docs } from '../../lib/schema';
 import { ApiError, checkLive, loadContent, publish, validateDraft, type Issue, type Revs } from './api';
@@ -282,7 +283,7 @@ const AdminApp: React.FC = () => {
         <div className="min-h-dvh pb-52 md:pb-36">
             <header className="sticky top-0 z-20 bg-appBody/95 backdrop-blur border-b border-[#DAD7C8]">
                 <div className="max-w-3xl mx-auto px-4 flex items-center justify-between gap-3 h-14">
-                    <a href="/" target="_blank" rel="noopener" className="font-display text-xl leading-none">Don Patacón</a>
+                    <a href="/" target="_blank" rel="noopener" aria-label="Ver el sitio de Don Patacón" className="rounded-xl"><Logo /></a>
                     <nav aria-label="Secciones del panel" className="hidden md:flex gap-1">
                         {TABS.map((t) => (
                             <button key={t.id} type="button" aria-current={tab === t.id ? 'page' : undefined} onClick={() => goToTab(t.id)}

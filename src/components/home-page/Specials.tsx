@@ -55,10 +55,7 @@ const HomeSpecials: React.FC<Props> = ({ index, title, description, items }) => 
         <section className="overflow-hidden">
             <div className="container">
                 <div className="flex flex-col items-center mb-8 lg:mb-20">
-                    <div className="text-xs leading-none mb-2.5 lg:text-base lg:leading-none lg:mb-[14px]">
-                        [ {index} ]
-                    </div>
-                    <h2 className="text-lg leading-none font-display mb-4 lg:text-5xl lg:leading-none lg:mb-6">
+                    <h2 className="font-display text-[clamp(2.2rem,1.6rem+2.6vw,3.6rem)] leading-none text-balance mb-4 lg:mb-6">
                         {title}
                     </h2>
                     <Prose
@@ -87,7 +84,7 @@ const HomeSpecials: React.FC<Props> = ({ index, title, description, items }) => 
                                         className={classnames(
                                             'flex justify-center w-full py-2.5 border rounded-[32px] transition-colors duration-300',
                                             {
-                                                'border-appAccent bg-appAccent text-appBody':
+                                                'border-appAccent bg-sol text-monte border-2 border-monte font-extrabold':
                                                     day.value === activeDay,
                                                 'border-appText':
                                                     day.value !== activeDay,
