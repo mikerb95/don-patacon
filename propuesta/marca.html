@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es-CO">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Don Patacón: propuesta de marca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Chango&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+<style>
+  .hoja-marca { max-width: 1120px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; display: grid; gap: 4rem; }
+  .hoja-marca h1 { font-family: "Chango", sans-serif; font-weight: 400; font-size: clamp(2rem, 1.4rem + 2.4vw, 3.2rem); line-height: 1; }
+  .hoja-marca h2 { font-family: "Chango", sans-serif; font-weight: 400; font-size: 1.6rem; margin-bottom: 1.25rem; }
+  .nota { max-width: 62ch; margin-top: .6rem; }
+
+  /* Logo: la mascota se asoma por detrás del patacón; la palabra va al lado. */
+  .logos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+  .lienzo { border: var(--borde); border-radius: 20px; padding: 2rem; display: grid; place-items: center; min-height: 260px; }
+  .lienzo--oscuro { background: var(--monte); }
+  .lienzo--hoja { background: var(--hoja); }
+  .logo { display: flex; align-items: center; gap: .9rem; }
+  .logo--apilado { flex-direction: column; text-align: center; gap: .3rem; }
+  .logo__sello { position: relative; width: 120px; aspect-ratio: 1; flex: none; }
+  .logo__sello svg.disco { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .logo__sello img { position: absolute; width: 58%; left: 22%; top: -14%; }
+  .logo__palabra { display: grid; line-height: .9; }
+  .logo__don { font-weight: 800; font-size: 1.5rem; color: var(--hoja); }
+  .logo__patacon { font-family: "Chango", sans-serif; font-size: 3rem; color: var(--monte); text-shadow: .06em .06em 0 var(--sol); }
+  .lienzo--oscuro .logo__don { color: var(--biche); }
+  .lienzo--oscuro .logo__patacon { color: var(--sol); text-shadow: .06em .06em 0 var(--hoja); }
+  .lienzo--hoja .logo__don { color: var(--pulpa); }
+  .lienzo--hoja .logo__patacon { color: var(--pulpa); text-shadow: .06em .06em 0 var(--monte); }
+  .icono { width: 64px; }
+  .icono .logo__sello { width: 64px; }
+
+  .paleta { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
+  .color { border: var(--borde); border-radius: 16px; overflow: hidden; background: #FFFDF2; }
+  .color__muestra { height: 110px; border-bottom: var(--borde); }
+  .color__datos { padding: .7rem .9rem; display: grid; gap: .1rem; }
+  .color__datos strong { font-weight: 800; font-size: 1.1rem; }
+  .color__datos code { font: 700 .95rem "Baloo 2", sans-serif; opacity: .7; }
+
+  .tipos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+  .tipo { border: var(--borde); border-radius: 20px; padding: 1.5rem; background: #FFFDF2; display: grid; gap: .6rem; }
+  .tipo__muestra-chango { font-family: "Chango", sans-serif; font-size: 2.6rem; line-height: 1; }
+  .tipo__muestra-baloo { font-size: 1.25rem; }
+
+  .mascotas { display: flex; flex-wrap: wrap; align-items: end; gap: 2.5rem; }
+  .mascotas figure { margin: 0; display: grid; justify-items: center; gap: .5rem; font-weight: 700; }
+  .reglas { display: grid; gap: .6rem; padding-left: 1.2rem; max-width: 70ch; }
+</style>
+</head>
+<body>
+<main class="hoja-marca">
+  <header>
+    <h1>Don Patacón: propuesta de marca</h1>
+    <p class="nota">Boceto para revisar, no es el arte final. La palabra está escrita con la fuente; en la versión final se convierte a trazos para que el logo funcione sin depender de ella.</p>
+  </header>
+
+  <section>
+    <h2>Logo</h2>
+    <div class="logos">
+      <div class="lienzo">
+        <div class="logo">
+          <div class="logo__sello"><svg class="disco" viewBox="0 0 100 100" aria-hidden="true"><path data-disco fill="#F5B41F" stroke="#0E3B1F" stroke-width="4" stroke-linejoin="round"/></svg><img src="mascota.svg" alt=""></div>
+          <div class="logo__palabra"><span class="logo__don">Don</span><span class="logo__patacon">Patacón</span></div>
+        </div>
+      </div>
+      <div class="lienzo lienzo--oscuro">
+        <div class="logo logo--apilado">
+          <div class="logo__sello"><svg class="disco" viewBox="0 0 100 100" aria-hidden="true"><path data-disco fill="#F5B41F" stroke="#FFF3C4" stroke-width="4" stroke-linejoin="round"/></svg><img src="mascota.svg" alt=""></div>
+          <div class="logo__palabra"><span class="logo__don">Don</span><span class="logo__patacon">Patacón</span></div>
+        </div>
+      </div>
+      <div class="lienzo lienzo--hoja">
+        <div class="logo">
+          <div class="icono"><div class="logo__sello"><svg class="disco" viewBox="0 0 100 100" aria-hidden="true"><path data-disco fill="#F5B41F" stroke="#0E3B1F" stroke-width="5" stroke-linejoin="round"/></svg><img src="mascota.svg" alt=""></div></div>
+          <div class="logo__palabra"><span class="logo__don">Don</span><span class="logo__patacon" style="font-size:2.2rem">Patacón</span></div>
+        </div>
+      </div>
+    </div>
+    <p class="nota">El patacón crocante es el sello y Don Patacón se asoma por detrás. El sello solo, sin la palabra, sirve como ícono del sitio y foto de perfil en redes. El eslogan "Más crujiente y sabrosón" queda fuera del logo y se usa como titular.</p>
+  </section>
+
+  <section>
+    <h2>Colores</h2>
+    <div class="paleta">
+      <div class="color"><div class="color__muestra" style="background:#0E3B1F"></div><div class="color__datos"><strong>Monte</strong><code>#0E3B1F</code><span>Texto, contornos, fondos oscuros</span></div></div>
+      <div class="color"><div class="color__muestra" style="background:#2E8B2E"></div><div class="color__datos"><strong>Hoja</strong><code>#2E8B2E</code><span>Hojas, pie de página</span></div></div>
+      <div class="color"><div class="color__muestra" style="background:#A8D13B"></div><div class="color__datos"><strong>Biche</strong><code>#A8D13B</code><span>Mascota, resaltes</span></div></div>
+      <div class="color"><div class="color__muestra" style="background:#F5B41F"></div><div class="color__datos"><strong>Patacón</strong><code>#F5B41F</code><span>Botones, precios</span></div></div>
+      <div class="color"><div class="color__muestra" style="background:#C9711A"></div><div class="color__datos"><strong>Tostado</strong><code>#C9711A</code><span>Detalles mínimos, nunca texto</span></div></div>
+      <div class="color"><div class="color__muestra" style="background:#FFF3C4"></div><div class="color__datos"><strong>Pulpa</strong><code>#FFF3C4</code><span>Fondo de página</span></div></div>
+    </div>
+    <p class="nota">Solo verdes y amarillos, como se pidió: el vinotinto del local y del empaque queda fuera del sitio. El fondo es el color de la pulpa del plátano, no un crema genérico.</p>
+  </section>
+
+  <section>
+    <h2>Tipografía</h2>
+    <div class="tipos">
+      <div class="tipo">
+        <span class="tipo__muestra-chango">Más crujiente y sabrosón</span>
+        <span><strong>Chango</strong>: titulares, nombres de platos y precios. Gruesa y redonda, como un letrero pintado.</span>
+      </div>
+      <div class="tipo">
+        <span class="tipo__muestra-baloo">Fríjoles, arroz, huevo frito, chicharrón, chorizo y guacamole. Verde crocante o maduro dulce.</span>
+        <span><strong>Baloo 2</strong>: todo lo demás. Redondeada y muy legible en el celular, con tildes y eñes completas.</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Mascota</h2>
+    <div class="mascotas">
+      <figure><img src="mascota.svg" alt="Don Patacón, la mascota" width="200"><figcaption>Tamaño grande</figcaption></figure>
+      <figure><img src="mascota.svg" alt="" width="110"><figcaption>Mediano</figcaption></figure>
+      <figure><img src="mascota.svg" alt="" width="48"><figcaption>Ícono</figcaption></figure>
+    </div>
+    <p class="nota">Cartoon plano con contorno grueso, sombrero de paja con cinta, gafas y bigote, como la original. Se puede animar por partes: parpadea, saluda y el sombrero brinca.</p>
+  </section>
+
+  <section>
+    <h2>Reglas</h2>
+    <ul class="reglas">
+      <li>El borde crocante del patacón es el recurso de la marca: fotos, sello y bordes de secciones. Nada de tarjetas rectangulares iguales.</li>
+      <li>Contornos gruesos en verde monte y sombras duras, sin desenfoque, como una calcomanía.</li>
+      <li>Las fotos van sin el texto de las publicaciones de redes: solo la comida.</li>
+      <li>Una sola animación protagonista por página. El resto, quieto o con respuestas cortas a lo que hace la persona.</li>
+    </ul>
+  </section>
+</main>
+<script>
+  // Mismo contorno crocante que la portada, para el sello del logo.
+  (() => {
+    const r = ((s) => () => { s = (s + 0x6d2b79f5) | 0; let t = Math.imul(s ^ (s >>> 15), 1 | s); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; })(21);
+    const f = [r() * 6.28, r() * 6.28, r() * 6.28], n = 44, pts = [];
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2;
+      const m = 1 + 0.05 * Math.sin(2 * a + f[0]) + 0.035 * Math.sin(3 * a + f[1]) - 0.08 * (i % 2 ? r() : 0.3 * r());
+      pts.push(`${(50 + Math.cos(a) * m * 44).toFixed(1)} ${(54 + Math.sin(a) * m * 38).toFixed(1)}`);
+    }
+    document.querySelectorAll('[data-disco]').forEach((p) => p.setAttribute('d', 'M' + pts.join('L') + 'Z'));
+  })();
+</script>
+</body>
+</html>
