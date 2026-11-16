@@ -21,12 +21,12 @@
   .lienzo--hoja { background: var(--hoja); }
   .logo { display: flex; align-items: center; gap: .9rem; }
   .logo--apilado { flex-direction: column; text-align: center; gap: .3rem; }
-  .logo__sello { position: relative; width: 120px; aspect-ratio: 1; flex: none; }
+  .logo__sello { position: relative; width: 104px; aspect-ratio: 1; flex: none; }
   .logo__sello svg.disco { position: absolute; inset: 0; width: 100%; height: 100%; }
   .logo__sello img { position: absolute; width: 58%; left: 22%; top: -14%; }
   .logo__palabra { display: grid; line-height: .9; }
   .logo__don { font-weight: 800; font-size: 1.5rem; color: var(--hoja); }
-  .logo__patacon { font-family: "Chango", sans-serif; font-size: 3rem; color: var(--monte); text-shadow: .06em .06em 0 var(--sol); }
+  .logo__patacon { font-family: "Chango", sans-serif; font-size: clamp(2rem, 1.2rem + 1.6vw, 2.5rem); color: var(--monte); text-shadow: .06em .06em 0 var(--sol); }
   .lienzo--oscuro .logo__don { color: var(--biche); }
   .lienzo--oscuro .logo__patacon { color: var(--sol); text-shadow: .06em .06em 0 var(--hoja); }
   .lienzo--hoja .logo__don { color: var(--pulpa); }
