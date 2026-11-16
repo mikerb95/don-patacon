@@ -21,6 +21,22 @@ test('esquema: bloquea enlaces peligrosos, rutas de imagen y categorías inexist
     assert.equal(menuSchema.safeParse({ categories: [category], dishes: [] }).success, false);
 });
 
+test('esquema: el contenido anterior a los campos nuevos sigue siendo válido', () => {
+    const { reviewsUrl: _r, ...business } = load('business');
+    assert.equal(businessSchema.parse(business).reviewsUrl, '');
+    assert.equal(businessSchema.safeParse({ ...business, reviewsUrl: 'javascript:alert(1)' }).success, false);
+
+    const category = { id: 'c', title: 'C', description: '', image: '' };
+    const dish = { id: 'a', title: 'A', description: '', price: 1000, image: '', categoryId: 'c', available: true, specialDays: [] };
+    assert.equal(menuSchema.parse({ categories: [category], dishes: [dish] }).dishes[0].plantainChoice, false);
+
+    const pages = load('pages');
+    const { processTitle: _t, processDescription: _d, processSteps: _s, ...home } = pages.home;
+    const parsed = pagesSchema.parse({ ...pages, home });
+    assert.equal(parsed.home.processTitle, 'Cómo lo hacemos');
+    assert.deepEqual(parsed.home.processSteps, []);
+});
+
 test('esquema: normaliza el WhatsApp colombiano', () => {
     const parsed = businessSchema.parse({ ...load('business'), whatsapp: '300 123 4567' });
     assert.equal(parsed.whatsapp, '573001234567');
