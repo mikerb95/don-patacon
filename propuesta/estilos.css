@@ -180,6 +180,7 @@ a { color: inherit; }
   .portada { grid-template-columns: minmax(0, 1fr); min-height: 0; padding-top: .5rem; }
   .portada__escena { max-width: 520px; width: 100%; margin: 0 auto; }
   .hoja-deco { width: 80px; height: 192px; }
+  .portada__hojas .hoja-deco:first-child { left: -16%; top: 8%; }
   .pista { display: none; }
 }
 
@@ -216,6 +217,12 @@ a { color: inherit; }
 @media (max-width: 480px) {
   .plato { grid-template-columns: minmax(0, 1fr); }
 }
+
+.favoritos__titulo { display: grid; gap: .6rem; }
+.eleccion { font-size: 1.2rem; font-weight: 700; max-width: 46ch; }
+.eleccion span { font-weight: 800; padding: 0 .35rem; border-radius: 8px; border: 2px solid var(--monte); }
+.eleccion__verde { background: var(--biche); }
+.eleccion__maduro { background: var(--sol); }
 
 /* ---------- Llévalos a casa ---------- */
 .casa {
