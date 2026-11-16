@@ -31,8 +31,11 @@
     }
     return pts;
   }
-  const absoluto = (pts, cx, cy, rx, ry) =>
-    'M' + pts.map(([x, y]) => `${(cx + x * rx).toFixed(1)} ${(cy + y * ry).toFixed(1)}`).join('L') + 'Z';
+  // Decimales según la escala: 4 en unidades de caja (0 a 1), 1 en la escena (600 px).
+  const absoluto = (pts, cx, cy, rx, ry) => {
+    const d = rx < 2 ? 4 : 1;
+    return 'M' + pts.map(([x, y]) => `${(cx + x * rx).toFixed(d)} ${(cy + y * ry).toFixed(d)}`).join('L') + 'Z';
+  };
 
   // Fotos: clipPath en unidades de la caja, una semilla por foto.
   const defs = document.getElementById('crocantes');
