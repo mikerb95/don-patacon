@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import ArchWithStar from '../ArchWithStar';
+import HojasDecor from '../HojasDecor';
 import classNames from 'classnames';
-import MediaImage from '../MediaImage';
+import CrocanteImg from '../CrocanteImg';
 import Prose from '../Prose';
 import { formatPrice } from '../../utils/format';
 import type { Category, Dish } from '../../lib/schema';
@@ -28,88 +28,66 @@ const MenuMeals: React.FC<Props> = ({ title, categories, dishes }) => {
     );
 
     return (
-        <section className="pt-[108px] pb-10 overflow-hidden md:pb-20 lg:pt-[218px] lg:pb-[120px]">
-            <div className="container max-w-[1198px]">
-                <ArchWithStar />
-                <div className="relative px-4 max-w-[400px] mx-auto lg:max-w-[745px] xl:px-0">
-                    <h1 className="text-xl leading-none font-display text-center mb-8 lg:text-5xl lg:leading-none">
+        <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-28">
+            <HojasDecor />
+            <div className="container relative">
+                <div className="grid justify-items-center gap-6 text-center mb-12 lg:mb-16">
+                    <h1 className="font-display text-[clamp(2.6rem,1.8rem+3vw,4.2rem)] leading-none [text-shadow:.05em_.05em_0_#F5B41F]">
                         {title}
                     </h1>
-                    <div className="mb-10 lg:mb-20">
-                        <div className="grid grid-cols-2 gap-x-3 gap-y-4 mb-8 md:flex md:items-center md:justify-center lg:gap-4 lg:mb-10">
-                            {categories.map((category) => (
-                                <button
-                                    key={category.id}
-                                    aria-pressed={category.id === activeId}
-                                    className={classNames(
-                                        'flex justify-center w-full px-[18px] py-3 border rounded-[32px] transition-colors duration-300 lg:max-w-max',
-                                        {
-                                            'border-appAccent bg-appAccent text-appBody':
-                                                category.id === activeId,
-                                            'border-appText': category.id !== activeId,
-                                        },
-                                    )}
-                                    onClick={() => setActiveId(category.id)}
-                                >
-                                    <span className="text-xs leading-none tracking-[-0.41px] lg:text-base lg:leading-none">
-                                        {category.title}
-                                    </span>
-                                </button>
-                            ))}
-                        </div>
-                        <Prose
-                            text={active?.description ?? ''}
-                            className="text-sm leading-[1.3] tracking-[-0.41px] text-appGray-700 lg:text-base lg:leading-[1.3]"
-                        />
-                    </div>
-                </div>
-            </div>
-            {filtered.length > 0 ? (
-                <div className="grid grid-cols-1">
-                    {filtered.map((item) => (
-                        <div
-                            key={item.id}
-                            className="relative px-6 py-[42px] bg-appText md:py-20 lg:py-[130px]"
-                        >
-                            <div className="relative z-10 flex flex-col items-center justify-center text-center h-full">
-                                <h3 className="text-sm leading-none text-white font-display max-w-[480px] mb-[14px] lg:text-[32px] lg:leading-none lg:mb-[18px]">
-                                    {item.title}
-                                </h3>
-                                <Prose
-                                    text={item.description}
-                                    className="text-sm leading-[1.3] tracking-[-0.41px] text-appGray-100 max-w-[480px] mb-4 lg:text-base lg:leading-[1.3] lg:mb-6"
-                                />
-                                {item.plantainChoice && item.available && (
-                                    <div className="meals--plantain text-xs leading-none tracking-[-0.41px] text-appGray-100 mb-3 lg:text-sm lg:leading-none">
-                                        Verde o maduro, como prefieras
-                                    </div>
-                                )}
-                                <div
-                                    className={classNames(
-                                        'px-6 py-[13px] flex max-w-max rounded-[32px] text-sm leading-none text-white tracking-[-0.41px] lg:px-[18px] lg:py-3 lg:text-sm lg:leading-none',
-                                        item.available ? 'bg-[#6C7661]' : 'bg-[#8E3B2A]',
-                                    )}
-                                >
-                                    {item.available ? formatPrice(item.price) : 'Agotado por hoy'}
-                                </div>
-                            </div>
-                            <MediaImage
-                                src={item.image}
-                                alt={item.title}
+                    <div className="flex flex-wrap justify-center gap-3" role="group" aria-label="Categorías">
+                        {categories.map((category) => (
+                            <button
+                                key={category.id}
+                                type="button"
+                                aria-pressed={category.id === activeId}
                                 className={classNames(
-                                    'absolute top-0 left-0 w-full h-full object-cover',
-                                    { grayscale: !item.available },
+                                    'min-h-[44px] px-5 rounded-[14px] border-3 border-monte font-extrabold text-lg shadow-dura-sm transition-colors',
+                                    category.id === activeId ? 'bg-sol' : 'bg-transparent hover:bg-papel',
                                 )}
-                            />
-                            <div className="absolute top-0 left-0 w-full h-full bg-black/50" />
-                        </div>
-                    ))}
+                                onClick={() => setActiveId(category.id)}
+                            >
+                                {category.title}
+                            </button>
+                        ))}
+                    </div>
+                    <Prose text={active?.description ?? ''} className="text-xl font-bold max-w-[46ch]" />
                 </div>
-            ) : (
-                <div className="text-sm leading-none tracking-[-0.41px] text-center text-appGray-700 my-20">
-                    Pronto publicaremos los platos de esta categoría
-                </div>
-            )}
+
+                {filtered.length > 0 ? (
+                    <ul className="grid gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+                        {filtered.map((item) => (
+                            <li key={item.id} className="grid content-start gap-3">
+                                {item.image && (
+                                    <CrocanteImg
+                                        src={item.image}
+                                        alt={item.title}
+                                        semilla={item.id}
+                                        className="aspect-[4/3]"
+                                        imgClassName={classNames({ grayscale: !item.available })}
+                                    />
+                                )}
+                                <h2 className="font-display text-[1.9rem] leading-[1.05]">{item.title}</h2>
+                                <Prose text={item.description} className="text-lg leading-snug" />
+                                {item.plantainChoice && item.available && (
+                                    <p className="meals--plantain font-bold text-hoja">Verde o maduro, como prefieras</p>
+                                )}
+                                {item.available ? (
+                                    <span className="justify-self-start mt-1 font-display text-2xl bg-sol border-3 border-monte rounded-[10px] px-3 py-0.5 shadow-dura-sm -rotate-3">
+                                        {formatPrice(item.price)}
+                                    </span>
+                                ) : (
+                                    <span className="justify-self-start mt-1 font-extrabold text-lg bg-appGray-100 border-3 border-monte rounded-[10px] px-3 py-1">
+                                        Agotado por hoy
+                                    </span>
+                                )}
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p className="text-center text-xl font-bold my-20">Pronto publicaremos los platos de esta categoría.</p>
+                )}
+            </div>
         </section>
     );
 };

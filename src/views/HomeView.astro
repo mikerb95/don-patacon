@@ -12,6 +12,7 @@ import 'swiper/css';
 import Layout from '../layouts/Layout.astro';
 import RestaurantJsonLd from '../components/RestaurantJsonLd.astro';
 import type { Docs } from '../lib/schema';
+import { mapsLink } from '../lib/maps';
 
 interface Props {
     content: Docs;
@@ -25,9 +26,7 @@ const home = pages.home;
 const available = menu.dishes.filter((d) => d.available);
 // Destacados desde el panel; sin ninguno marcado, los primeros de la carta.
 const featured = (available.some((d) => d.featured) ? available.filter((d) => d.featured) : available).slice(0, 4);
-const mapsUrl =
-    business.mapsUrl ||
-    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([business.address.line1 || 'Centro Comercial Plaza Central', business.address.city || 'Bogotá'].join(', '))}`;
+const mapsUrl = mapsLink(business);
 const specials = menu.dishes.filter((d) => d.specialDays.length > 0);
 
 // Numeración de secciones: se saltan las que aún no tienen contenido.

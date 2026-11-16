@@ -1,78 +1,29 @@
-import StarIcon from '../assets/icons/star.svg?raw';
+import React from 'react';
 
-const ArchWithStar: React.FC = () => {
-    return (
-        <div className="absolute top-24 left-1/2 -translate-x-1/2 pointer-events-none lg:top-[182px]">
-            <svg
-                width="328"
-                height="328"
-                viewBox="0 0 328 328"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="lg:hidden"
-            >
-                <circle
-                    cx="164"
-                    cy="164"
-                    r="163.5"
-                    stroke="url(#paint0_linear_613_1232)"
-                />
-                <defs>
-                    <linearGradient
-                        id="paint0_linear_613_1232"
-                        x1="164"
-                        y1="0"
-                        x2="164"
-                        y2="328"
-                        gradientUnits="userSpaceOnUse"
-                    >
-                        <stop stopColor="#C2C0B8" />
-                        <stop
-                            offset="0.273792"
-                            stopColor="#C2C0B8"
-                            stopOpacity="0"
-                        />
-                    </linearGradient>
-                </defs>
-            </svg>
-            <svg
-                width="1299"
-                height="1299"
-                viewBox="0 0 1299 1299"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="max-lg:hidden"
-            >
-                <circle
-                    cx="649.5"
-                    cy="649.5"
-                    r="649"
-                    stroke="url(#paint0_linear_564_372)"
-                />
-                <defs>
-                    <linearGradient
-                        id="paint0_linear_564_372"
-                        x1="649.5"
-                        y1="0"
-                        x2="649.5"
-                        y2="1299"
-                        gradientUnits="userSpaceOnUse"
-                    >
-                        <stop stopColor="#C2C0B8" />
-                        <stop
-                            offset="0.273792"
-                            stopColor="#C2C0B8"
-                            stopOpacity="0"
-                        />
-                    </linearGradient>
-                </defs>
-            </svg>
-            <div
-                dangerouslySetInnerHTML={{ __html: StarIcon }}
-                className="absolute z-10 top-1 right-24 w-4 h-4 lg:w-8 lg:h-8 lg:top-7 lg:right-[400px]"
-            />
-        </div>
-    );
-};
+/** Hoja de plátano ilustrada, en el mismo trazo que la mascota. */
+const Hoja: React.FC<{ className?: string; color: string }> = ({ className, color }) => (
+    <svg viewBox="0 0 100 240" className={className} aria-hidden="true">
+        <path d="M50 4 C 92 52, 98 150, 52 236 C 6 150, 10 52, 50 4 Z" fill={color} stroke="#0E3B1F" strokeWidth="5" strokeLinejoin="round" />
+        <g fill="none" stroke="#0E3B1F" strokeWidth="3.5" strokeLinecap="round">
+            <path d="M50 14 C 52 90, 52 160, 52 228" />
+            <path d="M51 60 C 64 52, 74 50, 82 52" /><path d="M51 96 C 66 86, 78 84, 88 88" />
+            <path d="M51 134 C 66 124, 78 124, 88 128" /><path d="M52 172 C 64 164, 74 164, 80 168" />
+            <path d="M51 70 C 38 62, 28 60, 18 64" /><path d="M51 108 C 36 98, 24 98, 14 104" />
+            <path d="M52 146 C 38 138, 26 138, 16 144" /><path d="M52 184 C 42 178, 32 178, 24 182" />
+        </g>
+    </svg>
+);
 
-export default ArchWithStar;
+/**
+ * Decoración del encabezado de las páginas internas: dos hojas en las esquinas
+ * superiores, como si el título asomara entre la selva. Reemplaza el arco con
+ * estrella de la plantilla anterior.
+ */
+const HojasDecor: React.FC = () => (
+    <div className="absolute inset-x-0 top-0 h-[420px] overflow-hidden pointer-events-none -z-0" aria-hidden="true">
+        <Hoja color="#2E8B2E" className="absolute -left-10 -top-16 w-24 rotate-[-30deg] lg:w-36 lg:left-[4%]" />
+        <Hoja color="#A8D13B" className="absolute -right-8 top-6 w-20 rotate-[38deg] lg:w-28 lg:right-[5%]" />
+    </div>
+);
+
+export default HojasDecor;

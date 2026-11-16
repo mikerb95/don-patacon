@@ -1,6 +1,6 @@
 import React from 'react';
-import ArchWithStar from '../ArchWithStar';
-import MediaImage from '../MediaImage';
+import HojasDecor from '../HojasDecor';
+import CrocanteImg from '../CrocanteImg';
 import Prose from '../Prose';
 import Btn from '../Btn';
 
@@ -20,29 +20,20 @@ const AboutHero: React.FC<Props> = ({
     cover,
 }) => {
     return (
-        <section className="pt-[108px] pb-10 overflow-hidden md:pb-14 lg:pt-[218px]">
-            <div className="container max-w-[1198px]">
-                <ArchWithStar />
-                <div className="relative px-4 max-w-[400px] mx-auto lg:max-w-[962px] xl:px-0">
-                    <h1 className="relative z-10 flex flex-col gap-1.5 text-xl leading-none font-display mb-2 lg:gap-3 lg:text-[56px] lg:leading-none lg:mb-3">
-                        <span>{titleTop}</span>
-                        {titleBottom && <span className="text-right">{titleBottom}</span>}
+        <section className="relative pt-16 pb-16 lg:pt-24 lg:pb-20">
+            <HojasDecor />
+            <div className="container relative grid gap-10 max-w-[1100px]">
+                <div className="grid justify-items-center gap-3 text-center">
+                    <h1 className="font-display text-[clamp(2.6rem,1.8rem+3vw,4.2rem)] leading-[.95] text-balance [text-shadow:.05em_.05em_0_#F5B41F]">
+                        {titleTop}
+                        {titleBottom && <><br />{titleBottom}</>}
                     </h1>
-                    <Prose
-                        text={subtitle}
-                        className="relative z-10 text-[10px] leading-[1.2] max-w-max ml-auto mb-10 lg:text-base lg:leading-[1.2] lg:mb-[120px]"
-                    />
+                    {subtitle && <Prose text={subtitle} className="text-xl font-bold text-hoja" />}
                 </div>
-                <MediaImage
-                    src={cover}
-                    className="w-full object-cover aspect-[1.635] mb-4 lg:aspect-[2.67] lg:mb-10"
-                />
-                <Prose
-                    text={description}
-                    className="text-sm leading-[1.3] tracking-[-0.41px] text-appGray-700 mb-6 lg:text-[32px] lg:leading-[1.3] lg:mb-14"
-                />
-                <Btn to="/carta" className="max-w-max mx-auto">
-                    <span>Ver la carta</span>
+                {cover && <CrocanteImg src={cover} alt="" semilla="nosotros" className="aspect-[16/9] w-full" loading="eager" />}
+                <Prose text={description} className="text-2xl leading-snug max-w-[40ch] mx-auto text-center" />
+                <Btn to="/carta" theme="accent" size="lg" className="justify-self-center">
+                    Ver la carta
                 </Btn>
             </div>
         </section>

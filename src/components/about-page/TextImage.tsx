@@ -1,5 +1,5 @@
 import React from 'react';
-import MediaImage from '../MediaImage';
+import CrocanteImg from '../CrocanteImg';
 import Prose from '../Prose';
 
 interface Props {
@@ -19,21 +19,17 @@ const AboutTextImage: React.FC<Props> = ({ data }) => {
                             >
                                 {col.image && (
                                     <div className="max-md:mb-4 md:flex-1">
-                                        <MediaImage
-                                            src={col.image}
-                                            className="w-full object-cover aspect-[1.7] lg:aspect-[1.36]"
-                                        />
+                                        <CrocanteImg src={col.image} semilla={`bloque-${index}`} className="w-full aspect-[4/3]" />
                                     </div>
                                 )}
                                 <Prose
                                     text={col.text}
-                                    className="text-xs leading-[1.3] tracking-[-0.41px] text-appGray-700 md:flex-1 lg:text-[22px] lg:leading-[1.3]"
+                                    className="text-xl leading-snug md:flex-1 lg:text-2xl"
                                 />
                             </div>
                         ))}
                 </div>
             </div>
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-[#D9D9D9] max-md:hidden" />
         </section>
     );
 };

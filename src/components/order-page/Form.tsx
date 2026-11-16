@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import FormText from './Text';
 import classNames from 'classnames';
 import Btn from '../Btn';
-import ArchWithStar from '../ArchWithStar';
+import HojasDecor from '../HojasDecor';
 
 interface Props {
     businessName: string;
@@ -109,21 +109,21 @@ const OrderForm: React.FC<Props> = ({
     };
 
     return (
-        <section className="pt-[108px] pb-10 overflow-hidden md:pb-20 lg:pt-[218px] lg:pb-[120px]">
+        <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-28">
             <div className="container max-w-[1198px]">
-                <ArchWithStar />
+                <HojasDecor />
                 <div className="relative px-4 max-w-[400px] mx-auto lg:max-w-[808px] xl:px-0">
-                    <h1 className="text-xl leading-none font-display text-center mb-6 lg:text-5xl lg:leading-none lg:mb-10">
+                    <h1 className="font-display text-[clamp(2.6rem,1.8rem+3vw,4.2rem)] leading-none text-center text-balance [text-shadow:.05em_.05em_0_#F5B41F] mb-6 lg:mb-10">
                         Haz tu pedido
                     </h1>
-                    <p className="text-sm leading-[1.3] tracking-[-0.41px] text-center text-appGray-700 mb-8 lg:text-base lg:leading-[1.3] lg:mb-12">
+                    <p className="text-lg leading-snug text-center text-appGray-700 mb-8  lg:mb-12">
                         Pide por WhatsApp y recógelo listo en nuestro local
                         {mallLocation ? ` (${mallLocation})` : ''} del Centro
                         Comercial Plaza Central.
                     </p>
                     {deliveryApps.length > 0 && (
                         <div className="flex flex-col items-center gap-4 mb-10 lg:mb-14">
-                            <div className="text-xs leading-none tracking-[-0.41px] text-appGray-400 lg:text-sm lg:leading-none">
+                            <div className="font-bold text-hoja">
                                 ¿Prefieres domicilio?
                             </div>
                             <div className="flex flex-wrap justify-center gap-3">
@@ -208,10 +208,10 @@ const OrderForm: React.FC<Props> = ({
                                                 />
                                                 <span
                                                     className={classNames(
-                                                        'flex flex-col items-center justify-center gap-1 min-h-14 px-4 py-3 rounded-2xl border transition-colors duration-300 peer-focus-visible:ring-2 peer-focus-visible:ring-appAccent peer-focus-visible:ring-offset-2',
+                                                        'flex flex-col items-center justify-center gap-1 min-h-14 px-4 py-3 rounded-[14px] border-3 font-bold transition-colors duration-300 peer-focus-visible:ring-2 peer-focus-visible:ring-appAccent peer-focus-visible:ring-offset-2',
                                                         checked
-                                                            ? 'border-appAccent bg-appAccent text-appBody'
-                                                            : 'border-[#A8A7A0]',
+                                                            ? 'border-monte bg-sol shadow-dura-sm'
+                                                            : 'border-monte bg-papel',
                                                     )}
                                                 >
                                                     <span className="text-sm leading-none font-medium lg:text-base lg:leading-none">
@@ -257,7 +257,7 @@ const OrderForm: React.FC<Props> = ({
                                             form.acceptTerms,
                                         'border-red-500':
                                             !form.acceptTerms && errors.acceptTerms,
-                                        'border-[#A8A7A0]':
+                                        'border-monte':
                                             !form.acceptTerms && !errors.acceptTerms,
                                     },
                                 )}

@@ -1,5 +1,5 @@
 ---
-import ArchWithStar from "../components/ArchWithStar";
+import HojasDecor from "../components/HojasDecor";
 import Prose from "../components/Prose";
 import Layout from "../layouts/Layout.astro";
 import type { Docs } from '../lib/schema';
@@ -22,11 +22,11 @@ const sections = pages.legal.sections;
     description="Términos, condiciones y política de tratamiento de datos de Don Patacón."
 >
     <div>
-        <section class="pt-[108px] pb-10 overflow-hidden md:pb-20 lg:pt-[218px] lg:pb-[120px]">
+        <section class="relative pt-16 pb-20 lg:pt-24 lg:pb-28">
             <div class="container max-w-[1198px]">
-                <ArchWithStar />
+                <HojasDecor />
                 <div class="relative px-4 max-w-[400px] mx-auto lg:max-w-[850px] xl:px-0">
-                    <h1 class="text-xl leading-none font-display text-center mb-12 lg:text-5xl lg:leading-none lg:mb-20">
+                    <h1 class="font-display text-[clamp(2.6rem,1.8rem+3vw,4.2rem)] leading-none text-center text-balance [text-shadow:.05em_.05em_0_#F5B41F] mb-12 lg:mb-20">
                         Legal
                     </h1>
                     {sections.length === 0 && (

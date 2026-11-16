@@ -48,7 +48,7 @@
     "titleBottom": "Plaza Central",
     "subtitle": "Cocina colombiana en Bogotá",
     "description": "Estamos en el Centro Comercial Plaza Central. Comes en las mesas de la plazoleta, o pides para recoger.",
-    "cover": "",
+    "cover": "/media/local.webp",
     "blocks": []
   },
   "menu": {

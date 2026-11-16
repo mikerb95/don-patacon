@@ -43,7 +43,7 @@ const FormText: React.FC<FormTextProps> = ({
             {label && (
                 <label
                     htmlFor={id}
-                    className="absolute -top-2 left-[14px] px-[14px] bg-appBody text-xs leading-none tracking-[-0.41px] text-appGray-400 lg:left-7 lg:text-sm lg:leading-none"
+                    className="absolute -top-3 left-3 px-2 bg-pulpa text-base font-extrabold leading-none"
                 >
                     {label}
                     {required && <span aria-hidden="true"> *</span>}
@@ -58,8 +58,8 @@ const FormText: React.FC<FormTextProps> = ({
                     aria-describedby={showError ? errorId : undefined}
                     aria-required={required || undefined}
                     className={classnames(
-                        'border bg-transparent rounded-[32px] px-[14px] py-[17px] text-sm leading-none tracking-[-0.41px] placeholder:text-[#665E5E] resize-none h-[140px] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-appAccent lg:px-7 lg:py-6 lg:text-base lg:leading-none lg:h-[224px]',
-                        { 'border-red-500': error, 'border-[#A8A7A0]': !error },
+                        'border-3 bg-papel rounded-[14px] px-[14px] py-[17px] text-lg leading-snug placeholder:text-appGray-400 resize-none h-[140px] transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-appAccent lg:px-7 lg:py-6 lg:text-base lg:leading-none lg:h-[224px]',
+                        { 'border-red-500': error, 'border-monte': !error },
                     )}
                     onChange={handleChange}
                 />
@@ -75,8 +75,8 @@ const FormText: React.FC<FormTextProps> = ({
                     aria-describedby={showError ? errorId : undefined}
                     aria-required={required || undefined}
                     className={classnames(
-                        'border bg-transparent rounded-[48px] px-[14px] py-[17px] text-sm leading-none tracking-[-0.41px] transition-colors duration-300 placeholder:text-[#665E5E] focus:outline-none focus-visible:ring-2 focus-visible:ring-appAccent lg:px-7 lg:py-6 lg:text-base lg:leading-none',
-                        { 'border-red-500': error, 'border-[#A8A7A0]': !error },
+                        'border-3 bg-papel rounded-[14px] px-[14px] py-[15px] text-lg leading-none transition-colors duration-300 placeholder:text-appGray-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-appAccent lg:px-7 lg:py-6 lg:text-base lg:leading-none',
+                        { 'border-red-500': error, 'border-monte': !error },
                     )}
                     onChange={handleChange}
                 />
